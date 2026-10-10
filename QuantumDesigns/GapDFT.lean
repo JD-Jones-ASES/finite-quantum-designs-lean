@@ -6,11 +6,12 @@ public import QuantumDesigns.GapCore
 # Fourier inversion on the diagonal
 
 In a basis `U` with projectors `P_j`, the Hilbert–Schmidt inner product of `w_k = Σ_j ζ^{j(k+1)} P_j` with `X` is
-`Σ_j conj(ζ^{j(k+1)}) x_j`, `x_j = gp_diag U X j = ⟨P_j, X⟩` (`gp_diag_eq_inner`): the discrete Fourier transform of
-the diagonal `j ↦ x_j` at the frequency `k + 1 ∈ {1, …, d − 1}`. If every such transform vanishes, Fourier inversion
-`x_l = (1/d) Σ_{m<d} ζ^{lm} Σ_j conj(ζ^{jm}) x_j` (the inner sums are `Σ_j ζ^{(l−j)m}`, which is `d δ_{jl}` summed
-over `m`, `bd_geom_zero`) keeps only the frequency `m = 0`: `x_l = (1/d) Σ_j x_j = Tr(X)/d` (`gp_sum_diag`, or
-directly `Σ_j Tr(P_j X) = Tr X` from `Σ_j P_j = 1`).
+`Σ_j conj(ζ^{j(k+1)}) x_j`, `x_j = gp_diag U X j = ⟨P_j, X⟩` (`gp_dft_inner_w`, from the linearity of the flattening
+and `gp_diag_eq_inner`): the discrete Fourier transform of the diagonal `j ↦ x_j` at the frequency
+`k + 1 ∈ {1, …, d − 1}`. If every such transform vanishes, Fourier inversion
+`d x_l = Σ_{m<d} ζ^{lm} Σ_j conj(ζ^{jm}) x_j` (the character sums `Σ_{m<d} ζ^{lm} conj(ζ^{jm})` are `d δ_{jl}`,
+`gp_dft_orth`, from `bd_geom_zero` and `bd_not_dvd`) keeps only the frequency `m = 0`: `d x_l = Σ_j x_j = Tr X`
+(`gp_dft_sum_diag`: `Σ_j Tr(P_j X) = Tr X` from `Σ_j P_j = 1`, which is `U U^* = 1`).
 -/
 
 @[expose] public section
