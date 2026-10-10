@@ -1,6 +1,7 @@
 module
 
 public import QuantumDesigns.Defs
+public import QuantumDesigns.SICTables
 
 /-!
 # SIC-POVMs in dimensions 2, 3 and 8
@@ -27,10 +28,80 @@ Gaussian/Eisenstein-integer kernel route with the scale removed (the desk's repl
 
 namespace QuantumDesigns
 
+open Complex
+
+/-! ## Dimension 8 -/
+
+/-- The Gaussian integer `vr + vi i` as a complex number. -/
+def hg_z (i : ℕ) (x : Fin 8) : ℂ := (hg_vr i x.val : ℂ) + (hg_vi i x.val : ℂ) * I
+
+/-- The Hoggar family: `(√12)⁻¹ v_{i / 8, i % 8}`. -/
+noncomputable def hg_hoggar (i : Fin (8 ^ 2)) : StateVector 8 :=
+  WithLp.toLp 2 (fun x => (((Real.sqrt 12)⁻¹ : ℝ) : ℂ) * hg_z i.val x)
+
+theorem hg_term (r s r' s' : ℤ) :
+    star ((r : ℂ) + (s : ℂ) * I) * ((r' : ℂ) + (s' : ℂ) * I)
+      = ((r * r' + s * s' : ℤ) : ℂ) + ((r * s' - s * r' : ℤ) : ℂ) * I := by
+  apply Complex.ext
+  · simp
+  · simp; ring
+
+theorem hg_sum_z (i j : ℕ) :
+    ∑ x : Fin 8, star (hg_z i x) * hg_z j x
+      = (hg_ipRe i j : ℂ) + (hg_ipIm i j : ℂ) * I := by
+  simp only [hg_z, hg_term]
+  rw [Fin.sum_univ_eight]
+  simp only [hg_ipRe, hg_ipIm, hg_tr, hg_ti, Fin.val_zero, Fin.val_one, Fin.val_two]
+  push_cast
+  simp only [show ((3 : Fin 8) : ℕ) = 3 from rfl, show ((4 : Fin 8) : ℕ) = 4 from rfl,
+    show ((5 : Fin 8) : ℕ) = 5 from rfl, show ((6 : Fin 8) : ℕ) = 6 from rfl,
+    show ((7 : Fin 8) : ℕ) = 7 from rfl]
+  ring
+
+theorem hg_inner (i j : Fin (8 ^ 2)) :
+    ∑ x : Fin 8, star (hg_hoggar i x) * hg_hoggar j x
+      = ((1 / 12 : ℝ) : ℂ) * ((hg_ipRe i j : ℂ) + (hg_ipIm i j : ℂ) * I) := by
+  have h12 : (Real.sqrt 12)⁻¹ * (Real.sqrt 12)⁻¹ = 1 / 12 := by
+    rw [← mul_inv, Real.mul_self_sqrt (by norm_num)]; norm_num
+  have : ∀ x : Fin 8, star (hg_hoggar i x) * hg_hoggar j x
+      = ((1 / 12 : ℝ) : ℂ) * (star (hg_z i x) * hg_z j x) := by
+    intro x
+    simp only [hg_hoggar, PiLp.toLp_apply, star_mul', Complex.star_def, Complex.conj_ofReal]
+    rw [← h12]; push_cast; ring
+  rw [Finset.sum_congr rfl (fun x _ => this x), ← Finset.mul_sum, hg_sum_z]
+
+theorem hg_lt (i : Fin (8 ^ 2)) : i.val < 64 := i.isLt
+
+theorem hasSICPOVM_eight_internal : HasSICPOVM 8 := by
+  refine ⟨hg_hoggar, fun i => ?_, fun i j hij => ?_⟩
+  · have hd := hg_diag i.val (hg_lt i)
+    have hs : ∑ x : Fin 8, ((‖hg_hoggar i x‖ ^ 2 : ℝ) : ℂ) = 1 := by
+      have : ∀ x : Fin 8, ((‖hg_hoggar i x‖ ^ 2 : ℝ) : ℂ) = star (hg_hoggar i x) * hg_hoggar i x := by
+        intro x
+        rw [← Complex.normSq_eq_norm_sq, Complex.normSq_eq_conj_mul_self, Complex.star_def]
+      rw [Finset.sum_congr rfl (fun x _ => this x), hg_inner, hd.1, hd.2]
+      push_cast; ring
+    have hs' : ∑ x : Fin 8, ‖hg_hoggar i x‖ ^ 2 = 1 := by
+      exact_mod_cast hs
+    unfold IsNormalized
+    rw [EuclideanSpace.norm_eq, hs', Real.sqrt_one]
+  · have hne : i.val ≠ j.val := fun h => hij (Fin.ext h)
+    have ho := hg_overlaps i.val (hg_lt i) j.val (hg_lt j) hne
+    show overlapSq (hg_hoggar i) (hg_hoggar j) = sicOverlapSq 8
+    unfold overlapSq sicOverlapSq
+    rw [hg_inner]
+    have hc : ((1 / 12 : ℝ) : ℂ) * ((hg_ipRe i j : ℂ) + (hg_ipIm i j : ℂ) * I)
+        = (((1 / 12 : ℝ) * hg_ipRe i j : ℝ) : ℂ) + (((1 / 12 : ℝ) * hg_ipIm i j : ℝ) : ℂ) * I := by
+      push_cast; ring
+    rw [hc, Complex.normSq_add_mul_I]
+    have ho' : ((hg_ipRe i j : ℝ)) * hg_ipRe i j + (hg_ipIm i j : ℝ) * hg_ipIm i j = 16 := by
+      exact_mod_cast ho
+    push_cast
+    nlinarith [ho']
+
 theorem hasSICPOVM_two_internal : HasSICPOVM 2 := sorry
 
 theorem hasSICPOVM_three_internal : HasSICPOVM 3 := sorry
 
-theorem hasSICPOVM_eight_internal : HasSICPOVM 8 := sorry
 
 end QuantumDesigns
