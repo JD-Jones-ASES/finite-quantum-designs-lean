@@ -49,7 +49,7 @@ project:
     may be any length; for d >= 2, d^2 such vectors have c = 1/(d + 1) and resolve the identity, sum_i (1/d)
     |phi_i><phi_i| = 1, so every SIC family is a POVM (Renes-Blume-Kohout-Scott-Caves 2004), HasSICPOVM d holds
     iff C^d has d^2 equiangular unit vectors, and a family at the SIC angle has at most d^2 members; Welch's bound
-    (Welch 1974, the first bound, in the frame-potential form of Benedetto-Fickus 2003): N unit vectors of C^d
+    (Welch 1974, the bound for k = 1, in the frame-potential form of Benedetto-Fickus 2003): N unit vectors of C^d
     have sum_{i,j} |<phi_i, phi_j>|^2 >= N^2/d, by the Cauchy-Schwarz inequality for the identity and the frame
     operator in the matrix space; hence N >= 2 unit vectors with one squared overlap c on every pair have c >= (N
     - d)/(d (N - 1)), pairwise squared overlaps at most alpha with alpha d < 1 give N (1 - alpha d) <= d (1 -
@@ -181,8 +181,8 @@ sources:
     relationship: "formalizes"
     author_endorsement: "not-contacted"
     note: >-
-      The first Welch bound, sum_{i,j} |<x_i, x_j>|^2 >= N^2/d for N unit vectors of C^d (eq. (2) of the
-      restatement with k = 1), is welch_bound; its corollary for the largest cross correlation (eq. (1), k = 1)
+      The Welch bound for k = 1, sum_{i,j} |<x_i, x_j>|^2 >= N^2/d for N unit vectors of C^d (eq. (2) of the
+      restatement), is welch_bound; its corollary for the largest cross correlation (eq. (1), k = 1)
       is welch_bound_of_constantOverlap for a constant overlap; welch_card_bound and card_le_of_overlapSq_le_sic
       are its rearrangement for a bounded overlap. The proof here is the Cauchy-Schwarz inequality for the
       identity and the frame operator in the matrix space.
@@ -284,7 +284,7 @@ sources:
     authors: ["Man-Duen Choi"]
     id: "doi:10.1215/ijm/1256051007"
     type: "paper"
-    location: "Illinois Journal of Mathematics 18 (1974), no. 4, first page 565 (as Weiner's reference [27] gives it); Corollary 2.8 and Theorem 3.1, as Weiner cites them"
+    location: "Illinois Journal of Mathematics 18 (1974), no. 4, from p. 565 (as Weiner's reference [27] gives it); Corollary 2.8 and Theorem 3.1, as Weiner cites them"
     relationship: "background"
     author_endorsement: "not-contacted"
     note: >-
@@ -295,7 +295,7 @@ sources:
     authors: ["Richard V. Kadison"]
     id: "doi:10.2307/1969657"
     type: "paper"
-    location: "Annals of Mathematics 56 (1952), no. 3, first page 494"
+    location: "Annals of Mathematics 56 (1952), no. 3, from p. 494"
     relationship: "background"
     author_endorsement: "not-contacted"
     note: >-
@@ -695,6 +695,11 @@ status:
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.exists_isMUBFamily_extension"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
     - declaration: "QuantumDesigns.hasCompleteMUBs_of_le_hasMUBs"
       file: "Solution.lean"
       sorry_count: 0
@@ -1008,6 +1013,11 @@ alignment:
       module: "Solution"
       status: "proved"
       note: "Weiner's gap: if d mutually unbiased bases of C^d exist, so does a complete set of d + 1 (the existence form of Corollary 3.4; for every d, trivially for d <= 1)."
+    - source: "Weiner 2013, Corollary 3.4"
+      lean: "QuantumDesigns.exists_isMUBFamily_extension"
+      module: "Solution"
+      status: "proved"
+      note: "Weiner's gap in its extension form: any d mutually unbiased bases of C^d extend, by one more basis, to a complete set of d + 1, the given bases keeping their places."
     - source: "Weiner 2013, Corollary 3.4 (with restriction)"
       lean: "QuantumDesigns.hasCompleteMUBs_of_le_hasMUBs"
       module: "Solution"
@@ -1073,7 +1083,7 @@ alignment:
       module: "Solution"
       status: "proved"
       note: "A SIC family determines every matrix: X = sum_i ((d + 1) Tr(X P_i) - Tr X)/d P_i."
-    - source: "Welch 1974, the first bound (as restated by Datta-Howard-Cochran, eq. (2), k = 1); Benedetto-Fickus 2003 (the frame potential)"
+    - source: "Welch 1974, the bound for k = 1 (as restated by Datta-Howard-Cochran, eq. (2)); Benedetto-Fickus 2003 (the frame potential)"
       lean: "QuantumDesigns.welch_bound"
       module: "Solution"
       status: "proved"
@@ -1083,12 +1093,12 @@ alignment:
       module: "Solution"
       status: "proved"
       note: "N >= 2 unit vectors with one squared overlap c on every pair have c >= (N - d)/(d (N - 1))."
-    - source: "Roy 2005, Corollary 3.5.5 (the relative bound of Delsarte-Goethals-Seidel 1975, for equiangular lines); Welch 1974, the first bound, rearranged"
+    - source: "Roy 2005, Corollary 3.5.5 (the relative bound of Delsarte-Goethals-Seidel 1975, for equiangular lines); Welch 1974, the bound for k = 1, rearranged"
       lean: "QuantumDesigns.welch_card_bound"
       module: "Solution"
       status: "proved"
       note: "Every pairwise squared overlap at most alpha with alpha d < 1 gives N (1 - alpha d) <= d (1 - alpha), the relative bound."
-    - source: "Welch 1974, the first bound, at alpha = 1/(d + 1)"
+    - source: "Welch 1974, the bound for k = 1, at alpha = 1/(d + 1)"
       lean: "QuantumDesigns.card_le_of_overlapSq_le_sic"
       module: "Solution"
       status: "proved"

@@ -67,10 +67,10 @@ ALIGN = {
     "not_isMaxMUBCount_six_six": (WEINER + ", Corollary 3.4 at d = 6", "mu(6) != 6 (implied also by openai/math's N6_le_five, mu(6) <= 5)."),
     "mub_reconstruction": (SCOTT + ", for a complete set as a 2-design of weight 1/(d(d + 1)) (p. 11; after " + IVAN + " and " + WF + ")", "A complete set of d + 1 mutually unbiased bases determines every matrix from its diagonals: X = sum_{s,l} Tr(X P_{s,l}) P_{s,l} - Tr(X) 1."),
     "sic_reconstruction": (SCOTT + " with weight 1/d^2; " + RBSC + " (the projectors are linearly independent)", "A SIC family determines every matrix: X = sum_i ((d + 1) Tr(X P_i) - Tr X)/d P_i."),
-    "welch_bound": (WELCH + ", the first bound (" + RDHC + ", eq. (2), k = 1); " + BF + " (the frame potential)", "N unit vectors of C^d have sum_{i,j} |<phi_i, phi_j>|^2 >= N^2/d."),
+    "welch_bound": (WELCH + ", the bound for k = 1 (" + RDHC + ", eq. (2)); " + BF + " (the frame potential)", "N unit vectors of C^d have sum_{i,j} |<phi_i, phi_j>|^2 >= N^2/d."),
     "welch_bound_of_constantOverlap": (WELCH + " (" + RDHC + ", eq. (1), k = 1); Roy 2005, Corollary 6.0.4 (equiangular lines)", "N >= 2 unit vectors with one squared overlap c on every pair have c >= (N - d)/(d (N - 1))."),
-    "welch_card_bound": ("Roy 2005, Corollary 3.5.5 (the relative bound of Delsarte-Goethals-Seidel 1975, for equiangular lines); " + WELCH + ", the first bound, rearranged", "Every pairwise squared overlap at most alpha with alpha d < 1 gives N (1 - alpha d) <= d (1 - alpha), the relative bound."),
-    "card_le_of_overlapSq_le_sic": (WELCH + ", the first bound, at alpha = 1/(d + 1)", "At most d^2 unit vectors of C^d have every pairwise squared overlap at most 1/(d + 1)."),
+    "welch_card_bound": ("Roy 2005, Corollary 3.5.5 (the relative bound of Delsarte-Goethals-Seidel 1975, for equiangular lines); " + WELCH + ", the bound for k = 1, rearranged", "Every pairwise squared overlap at most alpha with alpha d < 1 gives N (1 - alpha d) <= d (1 - alpha), the relative bound."),
+    "card_le_of_overlapSq_le_sic": (WELCH + ", the bound for k = 1, at alpha = 1/(d + 1)", "At most d^2 unit vectors of C^d have every pairwise squared overlap at most 1/(d + 1)."),
     "hasSICPOVM_four": (SIC4SRC, "A SIC-POVM in dimension 4: the Weyl-Heisenberg orbit of Appleby's exact fiducial, the overlaps by exact trigonometric and radical identities."),
 }
 
