@@ -5,6 +5,7 @@ public import QuantumDesigns.Bound
 public import QuantumDesigns.Tensor
 public import QuantumDesigns.OddField
 public import QuantumDesigns.TwoPow
+public import QuantumDesigns.SmallTables
 public import QuantumDesigns.Small
 public import QuantumDesigns.Chirp
 public import QuantumDesigns.PrimePow

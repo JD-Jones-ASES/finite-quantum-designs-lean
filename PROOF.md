@@ -64,7 +64,18 @@ its primitivity at `1`), `e = Fintype.equivFin F`, and `of_M a` the matrix with 
 
 ## 5. Dimensions 2, 4, 8 by tables (`QuantumDesigns/Small.lean`, `SmallTables.lean`)
 
-(filled from the lane report)
+`SmallTables.lean` is a leaf importing only `Init`: the exponent tables `sm_tab2`, `sm_tab4`, `sm_tab8` (basis `a`,
+column `b`, row `x`; the entry of the basis matrix is `c · i^E`, with `E = xᵀS_a x + 2 b·x mod 4` from the trace form of
+`𝔽_{2ⁿ}` in the polynomial basis, as the desk's replay prints them) and a checker built from explicit `Nat.rec`
+definitions (`sm_re`, `sm_im`, `sm_sumRe`, `sm_sumIm`, `sm_all`, `sm_E`, `sm_pairOK`, `sm_check`): for every pair of
+columns `(a, b)`, `(a', b')` it sums `i^{3E + E'}` over the rows as integer real and imaginary parts and requires `(d, 0)`
+on the diagonal, `(0, 0)` for two columns of one basis, and `re² + im² = d` across bases. `sm_tab2_ok`, `sm_tab4_ok`,
+`sm_tab8_ok` are `decide +kernel` (nine seconds for all three). `Small.lean` turns the verdict into the statement over
+`ℂ`: `sm_I_pow` (`i^k = re k + im k · i`), `sm_star_I_pow` (`conj(i^e) = i^{3e}`), `sm_sum_I_pow`, the matrix `sm_M`
+with entries `c · i^{E_a(b, x)}`, `sm_relEntry` (an entry of `M_a† M_{a'}` is `‖c‖² (re + im · i)`), `sm_unitary`,
+`sm_cross` (`‖·‖² = ‖c‖⁴ (re² + im²) = 1/d`), `sm_entry_normSq` (against the standard basis), and the generic
+`sm_hasMUBs`: a table passing `sm_check` with `‖c‖² = 1/d` gives `HasMUBs d (d + 1)` through the family `Fin.cons 1 U`.
+The three pins are one application each, with `c = (√2)⁻¹`, `1/2` and `(1 + i)/4`.
 
 ## 6. Three bases in every dimension, directly (`QuantumDesigns/Chirp.lean`)
 
