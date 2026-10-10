@@ -3,7 +3,7 @@ module
 public import Mathlib
 
 /-!
-# Finite quantum designs: mutually unbiased bases in every prime-power dimension, the complex Gerzon bound, and SIC-POVMs in dimensions 2, 3 and 8
+# Finite quantum designs: mutually unbiased bases in every prime-power dimension, Weiner's gap, reconstruction from complete sets and SIC families, the Welch and Gerzon bounds, and SIC-POVMs in dimensions 2, 3, 4 and 8
 
 Two structures of finite-dimensional quantum information, stated in the vocabulary of the
 formal-conjectures repository (google-deepmind/formal-conjectures, Apache-2.0; its Open Quantum Problems 13 and
@@ -239,5 +239,100 @@ theorem hasSICPOVM_three : HasSICPOVM 3 := sorry
 `(X^a Z^b v)(x) = (−1)^{b·(x ⊕ a)} v(x ⊕ a)` for `a, b ∈ 𝔽₂³`, is a SIC-POVM in `ℂ⁸` (Hoggar 1981, 1998;
 Jedwab–Wiebe 2015, Example 4). -/
 theorem hasSICPOVM_eight : HasSICPOVM 8 := sorry
+
+/- ## Weiner's gap: `d` bases complete to `d + 1` -/
+
+/-- Weiner's gap (Weiner 2013, Corollary 3.4): `d` mutually unbiased bases of `ℂ^d` extend to a complete set of
+`d + 1`. The matrices with a constant diagonal in every one of the `d` bases form a commutative star-closed
+subspace (the orthogonal projection onto it has a Kraus form, whose Kadison–Schwarz defect is a sum of squares of
+commutators with zero trace), and the projectors of a common eigenbasis of that subspace give the missing basis. -/
+theorem hasCompleteMUBs_of_hasMUBs_self (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d := sorry
+
+/-- `k ≥ d` mutually unbiased bases of `ℂ^d` give a complete set of `d + 1`. -/
+theorem hasCompleteMUBs_of_le_hasMUBs {d k : ℕ} (hk : d ≤ k) (h : HasMUBs d k) : HasCompleteMUBs d := sorry
+
+/-- The gap: for `d ≥ 2`, `d` is never the maximal number of mutually unbiased bases. -/
+theorem isMaxMUBCount_ne_self (d : ℕ) (hd : 2 ≤ d) : ¬ IsMaxMUBCount d d := sorry
+
+/-- Weiner's dichotomy: for `d ≥ 2` the maximal number of mutually unbiased bases is `d + 1` or below `d`. -/
+theorem isMaxMUBCount_dichotomy (d : ℕ) (hd : 2 ≤ d) (k : ℕ) (h : IsMaxMUBCount d k) :
+    k = d + 1 ∨ k < d := sorry
+
+/- ## The maximal number: existence, uniqueness, bounds -/
+
+/-- Two mutually unbiased bases in every dimension (the standard basis and the Fourier basis). -/
+theorem hasMUBs_two (d : ℕ) : HasMUBs d 2 := sorry
+
+/-- In a prime-power dimension `q = pᵏ`, `m` mutually unbiased bases exist iff `m ≤ q + 1`. -/
+theorem hasMUBs_prime_pow_iff (p k : ℕ) (hp : p.Prime) (hk : 1 ≤ k) (m : ℕ) :
+    HasMUBs (p ^ k) m ↔ m ≤ p ^ k + 1 := sorry
+
+/-- The maximal number of mutually unbiased bases is unique. -/
+theorem isMaxMUBCount_unique {d k l : ℕ} (hk : IsMaxMUBCount d k) (hl : IsMaxMUBCount d l) : k = l := sorry
+
+/-- For `d ≥ 2` the maximal number exists: `μ(d)` is well defined. -/
+theorem exists_isMaxMUBCount (d : ℕ) (hd : 2 ≤ d) : ∃ k, IsMaxMUBCount d k := sorry
+
+/-- In dimension `1` there is no maximal number: every `k` is exceeded. -/
+theorem not_exists_isMaxMUBCount_one : ¬ ∃ k, IsMaxMUBCount 1 k := sorry
+
+/-- For `d ≥ 2`, the maximal number lies in `[3, d + 1]`. -/
+theorem isMaxMUBCount_bounds (d : ℕ) (hd : 2 ≤ d) (k : ℕ) (h : IsMaxMUBCount d k) :
+    3 ≤ k ∧ k ≤ d + 1 := sorry
+
+/-- formal-conjectures' `mutuallyUnbiasedBases_dim6_bounds` (left with `sorry` there): `3 ≤ μ(6) ≤ 7`. -/
+theorem mutuallyUnbiasedBases_dim6_bounds : HasMUBs 6 3 ∧ ∀ m : ℕ, HasMUBs 6 m → m ≤ 7 := sorry
+
+/-- The gap in dimension six: `μ(6) ≠ 6`. -/
+theorem not_isMaxMUBCount_six_six : ¬ IsMaxMUBCount 6 6 := sorry
+
+/- ## Reconstruction: complete sets and SIC families are informationally complete -/
+
+/-- A complete set of `d + 1` mutually unbiased bases determines every matrix from its diagonals (Ivanović 1981;
+Wootters–Fields 1989): `X = Σ_{s,l} Tr(X P_{s,l}) P_{s,l} − Tr(X)·1`, where `P_{s,l} = |e_{s,l}⟩⟨e_{s,l}|` is the
+projector onto column `l` of basis `s`. -/
+theorem mub_reconstruction {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (X : Matrix (Fin d) (Fin d) ℂ) :
+    X = ∑ s, ∑ l, Matrix.trace (X * Matrix.vecMulVec (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+          (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))) •
+        Matrix.vecMulVec (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+          (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l)) -
+      Matrix.trace X • (1 : Matrix (Fin d) (Fin d) ℂ) := sorry
+
+/-- A SIC family determines every matrix (Renes–Blume-Kohout–Scott–Caves 2004, §II):
+`X = Σ_i ((d + 1) Tr(X P_i) − Tr X)/d · P_i` with `P_i = |φ_i⟩⟨φ_i|`. -/
+theorem sic_reconstruction {d : ℕ} (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ)
+    (X : Matrix (Fin d) (Fin d) ℂ) :
+    X = ∑ i, ((((d : ℂ) + 1) * Matrix.trace (X * Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) -
+          Matrix.trace X) / (d : ℂ)) • Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l)) := sorry
+
+/- ## Welch's bound -/
+
+/-- Welch's bound (Welch 1974, in the frame-potential form): `N` unit vectors of `ℂ^d` have
+`Σ_{i,j} |⟨φ_i, φ_j⟩|² ≥ N²/d`. -/
+theorem welch_bound {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i)) :
+    (N : ℝ) ^ 2 / (d : ℝ) ≤ ∑ i, ∑ j, overlapSq (Φ i) (Φ j) := sorry
+
+/-- Welch's bound for a constant overlap: `N ≥ 2` unit vectors with the same squared overlap `c` on every pair
+have `c ≥ (N − d)/(d(N − 1))`. -/
+theorem welch_bound_of_constantOverlap {d N : ℕ} {c : ℝ} (hN : 2 ≤ N) (Φ : Fin N → StateVector d)
+    (hn : ∀ i, IsNormalized (Φ i)) (ho : HasConstantOverlapSq c Φ) :
+    ((N : ℝ) - d) / ((d : ℝ) * ((N : ℝ) - 1)) ≤ c := sorry
+
+/-- The relative bound: `N` unit vectors with every pairwise squared overlap at most `α`, where `α d < 1`, satisfy
+`N (1 − α d) ≤ d (1 − α)`. -/
+theorem welch_card_bound {d N : ℕ} {α : ℝ} (hα : α * (d : ℝ) < 1) (Φ : Fin N → StateVector d)
+    (hn : ∀ i, IsNormalized (Φ i)) (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ α) :
+    (N : ℝ) * (1 - α * (d : ℝ)) ≤ (d : ℝ) * (1 - α) := sorry
+
+/-- At most `d²` unit vectors of `ℂ^d` have every pairwise squared overlap at most `1/(d + 1)`: the SIC angle is
+the smallest common bound a family of `d²` unit vectors can have. -/
+theorem card_le_of_overlapSq_le_sic {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i))
+    (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d) : N ≤ d ^ 2 := sorry
+
+/- ## A SIC-POVM in dimension 4 -/
+
+/-- A SIC-POVM in dimension `4`: a Weyl–Heisenberg orbit of an exact fiducial vector, kernel-checked. -/
+theorem hasSICPOVM_four : HasSICPOVM 4 := sorry
 
 end QuantumDesigns

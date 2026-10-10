@@ -46,7 +46,17 @@ run_cmd do
       `QuantumDesigns.gerzon_equality, `QuantumDesigns.gerzon_frame,
       `QuantumDesigns.isSICFamily_frame, `QuantumDesigns.hasSICPOVM_iff_equiangular,
       `QuantumDesigns.card_le_of_sicOverlapSq, `QuantumDesigns.hasSICPOVM_two,
-      `QuantumDesigns.hasSICPOVM_three, `QuantumDesigns.hasSICPOVM_eight] do
+      `QuantumDesigns.hasSICPOVM_three, `QuantumDesigns.hasSICPOVM_eight,
+      `QuantumDesigns.hasCompleteMUBs_of_hasMUBs_self,
+      `QuantumDesigns.hasCompleteMUBs_of_le_hasMUBs, `QuantumDesigns.isMaxMUBCount_ne_self,
+      `QuantumDesigns.isMaxMUBCount_dichotomy, `QuantumDesigns.hasMUBs_two,
+      `QuantumDesigns.hasMUBs_prime_pow_iff, `QuantumDesigns.isMaxMUBCount_unique,
+      `QuantumDesigns.exists_isMaxMUBCount, `QuantumDesigns.not_exists_isMaxMUBCount_one,
+      `QuantumDesigns.isMaxMUBCount_bounds, `QuantumDesigns.mutuallyUnbiasedBases_dim6_bounds,
+      `QuantumDesigns.not_isMaxMUBCount_six_six, `QuantumDesigns.mub_reconstruction,
+      `QuantumDesigns.sic_reconstruction, `QuantumDesigns.welch_bound,
+      `QuantumDesigns.welch_bound_of_constantOverlap, `QuantumDesigns.welch_card_bound,
+      `QuantumDesigns.card_le_of_overlapSq_le_sic, `QuantumDesigns.hasSICPOVM_four] do
     unless env.contains n do
       logError m!"Compared theorem is missing from the environment: {n}"
   logInfo m!"Audited {checked} project constants; unexpected axiom dependencies: {rejected}."

@@ -13,3 +13,15 @@ public import QuantumDesigns.Gerzon
 public import QuantumDesigns.SICTables
 public import QuantumDesigns.SIC
 public import QuantumDesigns.Main
+public import QuantumDesigns.GapCore
+public import QuantumDesigns.GapPhi
+public import QuantumDesigns.GapKraus
+public import QuantumDesigns.GapDFT
+public import QuantumDesigns.GapSchwarz
+public import QuantumDesigns.GapDiag
+public import QuantumDesigns.GapMain
+public import QuantumDesigns.Welch
+public import QuantumDesigns.Reconstruct
+public import QuantumDesigns.Count
+public import QuantumDesigns.SIC4Tables
+public import QuantumDesigns.SIC4

@@ -109,4 +109,79 @@ theorem hasSICPOVM_three : HasSICPOVM 3 :=
 theorem hasSICPOVM_eight : HasSICPOVM 8 :=
   hasSICPOVM_eight_internal
 
+theorem hasCompleteMUBs_of_hasMUBs_self (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d :=
+  hasCompleteMUBs_of_hasMUBs_self_internal d h
+
+theorem hasCompleteMUBs_of_le_hasMUBs {d k : ℕ} (hk : d ≤ k) (h : HasMUBs d k) : HasCompleteMUBs d :=
+  hasCompleteMUBs_of_le_hasMUBs_internal hk h
+
+theorem isMaxMUBCount_ne_self (d : ℕ) (hd : 2 ≤ d) : ¬ IsMaxMUBCount d d :=
+  isMaxMUBCount_ne_self_internal d hd
+
+theorem isMaxMUBCount_dichotomy (d : ℕ) (hd : 2 ≤ d) (k : ℕ) (h : IsMaxMUBCount d k) :
+    k = d + 1 ∨ k < d :=
+  isMaxMUBCount_dichotomy_internal d hd k h
+
+theorem hasMUBs_two (d : ℕ) : HasMUBs d 2 :=
+  hasMUBs_two_internal d
+
+theorem hasMUBs_prime_pow_iff (p k : ℕ) (hp : p.Prime) (hk : 1 ≤ k) (m : ℕ) :
+    HasMUBs (p ^ k) m ↔ m ≤ p ^ k + 1 :=
+  hasMUBs_prime_pow_iff_internal p k hp hk m
+
+theorem isMaxMUBCount_unique {d k l : ℕ} (hk : IsMaxMUBCount d k) (hl : IsMaxMUBCount d l) : k = l :=
+  isMaxMUBCount_unique_internal hk hl
+
+theorem exists_isMaxMUBCount (d : ℕ) (hd : 2 ≤ d) : ∃ k, IsMaxMUBCount d k :=
+  exists_isMaxMUBCount_internal d hd
+
+theorem not_exists_isMaxMUBCount_one : ¬ ∃ k, IsMaxMUBCount 1 k :=
+  not_exists_isMaxMUBCount_one_internal
+
+theorem isMaxMUBCount_bounds (d : ℕ) (hd : 2 ≤ d) (k : ℕ) (h : IsMaxMUBCount d k) :
+    3 ≤ k ∧ k ≤ d + 1 :=
+  isMaxMUBCount_bounds_internal d hd k h
+
+theorem mutuallyUnbiasedBases_dim6_bounds : HasMUBs 6 3 ∧ ∀ m : ℕ, HasMUBs 6 m → m ≤ 7 :=
+  mutuallyUnbiasedBases_dim6_bounds_internal
+
+theorem not_isMaxMUBCount_six_six : ¬ IsMaxMUBCount 6 6 :=
+  not_isMaxMUBCount_six_six_internal
+
+theorem mub_reconstruction {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (X : Matrix (Fin d) (Fin d) ℂ) :
+    X = ∑ s, ∑ l, Matrix.trace (X * Matrix.vecMulVec (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+          (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))) •
+        Matrix.vecMulVec (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+          (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l)) -
+      Matrix.trace X • (1 : Matrix (Fin d) (Fin d) ℂ) :=
+  mub_reconstruction_internal B hB X
+
+theorem sic_reconstruction {d : ℕ} (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ)
+    (X : Matrix (Fin d) (Fin d) ℂ) :
+    X = ∑ i, ((((d : ℂ) + 1) * Matrix.trace (X * Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) -
+          Matrix.trace X) / (d : ℂ)) • Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l)) :=
+  sic_reconstruction_internal Φ h X
+
+theorem welch_bound {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i)) :
+    (N : ℝ) ^ 2 / (d : ℝ) ≤ ∑ i, ∑ j, overlapSq (Φ i) (Φ j) :=
+  welch_bound_internal Φ hn
+
+theorem welch_bound_of_constantOverlap {d N : ℕ} {c : ℝ} (hN : 2 ≤ N) (Φ : Fin N → StateVector d)
+    (hn : ∀ i, IsNormalized (Φ i)) (ho : HasConstantOverlapSq c Φ) :
+    ((N : ℝ) - d) / ((d : ℝ) * ((N : ℝ) - 1)) ≤ c :=
+  welch_bound_of_constantOverlap_internal hN Φ hn ho
+
+theorem welch_card_bound {d N : ℕ} {α : ℝ} (hα : α * (d : ℝ) < 1) (Φ : Fin N → StateVector d)
+    (hn : ∀ i, IsNormalized (Φ i)) (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ α) :
+    (N : ℝ) * (1 - α * (d : ℝ)) ≤ (d : ℝ) * (1 - α) :=
+  welch_card_bound_internal hα Φ hn ho
+
+theorem card_le_of_overlapSq_le_sic {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i))
+    (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d) : N ≤ d ^ 2 :=
+  card_le_of_overlapSq_le_sic_internal Φ hn ho
+
+theorem hasSICPOVM_four : HasSICPOVM 4 :=
+  hasSICPOVM_four_internal
+
 end QuantumDesigns
