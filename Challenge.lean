@@ -15,19 +15,19 @@ that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d +
 `k` is the largest such number. This file states, and `Solution.lean` proves (kernel-only):
 
 * the bound: for `d ≥ 2`, `HasMUBs d m → m ≤ d + 1` (the `d² − 1`-dimensional space of traceless matrices
-  holds the `m(d − 1)` pairwise orthogonal traceless projector combinations, Bandyopadhyay–Boykin–Roychowdhury–Vatan
-  2002, Theorem 3.5; the argument of XC0R's formalization of the case `d = 6`); the hypothesis is sharp: in
+  holds the `m(d − 1)` pairwise orthogonal traceless projector combinations; Wootters–Fields 1989;
+  Bandyopadhyay–Boykin–Roychowdhury–Vatan 2002, Theorem 3.5; the argument of XC0R's formalization of the case `d = 6`); the hypothesis is sharp: in
   dimension `1` every two bases are unbiased, so `HasMUBs 1 m` for every `m`;
 * restriction, the tensor bound `HasMUBs m k → HasMUBs n k → HasMUBs (m n) k` (Klappenecker–Rötteler 2004,
-  Theorem 4; XC0R's `hasMUBs_mul`), and its corollary over the factorization: `HasMUBs d k` whenever `k ≤ q + 1` for
+  Lemma 3; XC0R's `hasMUBs_mul`), and its corollary over the factorization: `HasMUBs d k` whenever `k ≤ q + 1` for
   every exact prime-power divisor `q` of `d`; hence `HasMUBs d 3` for every `d ≥ 2`;
 * complete sets in every prime-power dimension: for a finite field `F` of odd characteristic and size `q`, the
   standard basis and the `q` bases with entries `ψ(a x² + b x)/√q` (`ψ` a nontrivial additive character, `a` the
   basis index, `b` the column index, `x` the row) are `q + 1` mutually unbiased bases (Wootters–Fields 1989;
   Klappenecker–Rötteler 2004, Theorem 2), through the Weyl-differencing identity `‖Σ_x ψ(c x² + e x)‖² = q` for
   `c ≠ 0`; for `q = 2ⁿ`, the bases with entries `i^{xᵀS_a x}(−1)^{b·x}/√q` (`S_a` the Gram matrix of the trace form
-  `(x, y) ↦ Tr(a x y)` of `𝔽_{2ⁿ}`, lifted to `{0, 1}`; the Galois-ring bases of Klappenecker–Rötteler Theorem 3 in
-  these coordinates); so `IsMaxMUBCount (pᵏ) (pᵏ + 1)` for every prime power, and `HasCompleteMUBs d ↔
+  `(x, y) ↦ Tr(a x y)` of `𝔽_{2ⁿ}`, lifted to `{0, 1}`; equivalent to the Galois-ring bases of Klappenecker–Rötteler
+  Theorem 3, up to `a ↦ a²` and a relabelling of columns); so `IsMaxMUBCount (pᵏ) (pᵏ + 1)` for every prime power, and `HasCompleteMUBs d ↔
   IsMaxMUBCount d (d + 1)` for `d ≥ 2`; the cases `2, 4, 8` also by explicit kernel-checked tables.
 
 **SIC-POVMs and equiangular lines.** A SIC family in `ℂ^d` is `d²` unit vectors with pairwise squared overlap
@@ -46,7 +46,7 @@ that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d +
   the three-qubit Pauli group (Jedwab–Wiebe 2015, Example 4), kernel-checked; `HasSICPOVM 2` (the tetrahedron) and
   `HasSICPOVM 3` (the Hesse configuration), the witness families of formal-conjectures' file.
 
-Conventions: `Matrix.unitaryGroup (Fin d) ℂ` is the group of unitary `d × d` matrices (`star U * U = 1`);
+Conventions: `Matrix.unitaryGroup (Fin d) ℂ` is the group of unitary `d × d` matrices (`star U * U = 1 = U * star U`);
 `‖z‖` is the complex absolute value; `EuclideanSpace ℂ (Fin d)` is `ℂ^d` with the `ℓ²` norm, a vector `ψ` having
 coordinates `ψ i`; `Complex.normSq z = ‖z‖²`; `Pairwise P` means `P i j` for all `i ≠ j`; `Fintype.card F` is the
 size of the finite field `F`; `ringChar F` its characteristic; `AddChar F ℂ` the additive characters of `F` into
@@ -55,6 +55,7 @@ size of the finite field `F`; `ringChar F` its characteristic; `AddChar F ℂ` t
 -/
 
 @[expose] public section
+noncomputable section
 
 namespace QuantumDesigns
 
@@ -131,11 +132,11 @@ theorem hasMUBs_of_le {d k l : ℕ} (hkl : k ≤ l) (h : HasMUBs d l) : HasMUBs 
 
 /- ## The tensor bound -/
 
-/-- The tensor bound (Klappenecker–Rötteler 2004, Theorem 4; XC0R's `hasMUBs_mul`): Kronecker products of
+/-- The tensor bound (Klappenecker–Rötteler 2004, Lemma 3; XC0R's `hasMUBs_mul`): Kronecker products of
 `k` unbiased bases of `ℂ^m` with `k` unbiased bases of `ℂ^n` are `k` unbiased bases of `ℂ^{mn}`. -/
 theorem hasMUBs_mul {m n k : ℕ} (hm : HasMUBs m k) (hn : HasMUBs n k) : HasMUBs (m * n) k := sorry
 
-/-- The tensor bound over the factorization (Klappenecker–Rötteler 2004, Theorem 4): if `k ≤ q + 1` for every
+/-- The tensor bound over the factorization (Klappenecker–Rötteler 2004, Lemma 3): if `k ≤ q + 1` for every
 exact prime-power divisor `q = p ^ (d.factorization p)` of `d ≥ 1`, then `ℂ^d` has `k` mutually unbiased bases
 (the complete sets of the prime-power factors, restricted to `k` bases each and tensored). -/
 theorem hasMUBs_of_forall_primePow (d k : ℕ) (hd : d ≠ 0)
@@ -165,8 +166,8 @@ theorem isMaxMUBCount_odd_prime_pow (p k : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (
 
 /-- `2ⁿ + 1` mutually unbiased bases of `ℂ^{2ⁿ}` for every `n ≥ 1`: the standard basis and, for each
 `a ∈ 𝔽_{2ⁿ}`, the basis whose column `b ∈ 𝔽₂ⁿ` has entries `i^{xᵀ S_a x} (−1)^{b·x} / √2ⁿ`, `x ∈ 𝔽₂ⁿ`, where
-`S_a` is the Gram matrix of the bilinear form `(x, y) ↦ Tr(a x y)` lifted to `{0, 1}` (Klappenecker–Rötteler
-2004, Theorem 3, in these coordinates). -/
+`S_a` is the Gram matrix of the bilinear form `(x, y) ↦ Tr(a x y)` lifted to `{0, 1}` (equivalent to the Galois-ring
+bases of Klappenecker–Rötteler 2004, Theorem 3, up to `a ↦ a²` and a relabelling of columns). -/
 theorem hasCompleteMUBs_two_pow (n : ℕ) (hn : 1 ≤ n) : HasCompleteMUBs (2 ^ n) := sorry
 
 /-- `2ⁿ + 1` is the maximal number of mutually unbiased bases in dimension `2ⁿ`, `n ≥ 1`. -/
@@ -227,10 +228,10 @@ theorem card_le_of_sicOverlapSq {d N : ℕ} (Φ : Fin N → StateVector d)
 
 /- ## SIC-POVMs in dimensions 2, 3 and 8 -/
 
-/-- The tetrahedral SIC-POVM of the qubit. -/
+/-- The tetrahedral SIC-POVM of the qubit (formal-conjectures' `hasSICPOVM_two`, left with `sorry` there). -/
 theorem hasSICPOVM_two : HasSICPOVM 2 := sorry
 
-/-- The Hesse SIC-POVM of the qutrit. -/
+/-- The Hesse SIC-POVM of the qutrit (formal-conjectures' `hasSICPOVM_three`, left with `sorry` there). -/
 theorem hasSICPOVM_three : HasSICPOVM 3 := sorry
 
 /-- Hoggar's 64 lines: the orbit of `(−1 + 2i, 1, 1, 1, 1, 1, 1, 1)/√12` under the three-qubit Pauli group,

@@ -12,6 +12,7 @@ to the same term in both files; the registry's comparator judges the elaborated 
 -/
 
 @[expose] public section
+noncomputable section
 
 namespace QuantumDesigns
 

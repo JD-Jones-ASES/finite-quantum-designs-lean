@@ -1,0 +1,105 @@
+⚠ [8932/8946] Replayed QuantumDesigns.Bound
+warning: QuantumDesigns/Bound.lean:25:8: declaration uses `sorry`
+warning: QuantumDesigns/Bound.lean:27:8: declaration uses `sorry`
+warning: QuantumDesigns/Bound.lean:29:8: declaration uses `sorry`
+⚠ [8933/8946] Replayed QuantumDesigns.OddField
+warning: QuantumDesigns/OddField.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/OddField.lean:36:8: declaration uses `sorry`
+⚠ [8934/8946] Replayed QuantumDesigns.TwoPow
+warning: QuantumDesigns/TwoPow.lean:41:8: declaration uses `sorry`
+⚠ [8935/8946] Replayed QuantumDesigns.Small
+warning: QuantumDesigns/Small.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:34:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:36:8: declaration uses `sorry`
+⚠ [8936/8946] Replayed QuantumDesigns.Gerzon
+warning: QuantumDesigns/Gerzon.lean:41:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:44:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:47:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:50:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:54:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:58:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:62:8: declaration uses `sorry`
+⚠ [8937/8946] Replayed QuantumDesigns.PrimePow
+warning: QuantumDesigns/PrimePow.lean:17:8: declaration uses `sorry`
+⚠ [8938/8946] Replayed QuantumDesigns.Tensor
+warning: QuantumDesigns/Tensor.lean:31:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:35:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:38:8: declaration uses `sorry`
+⚠ [8939/8946] Replayed QuantumDesigns.Chirp
+warning: QuantumDesigns/Chirp.lean:28:8: declaration uses `sorry`
+⚠ [8940/8946] Replayed QuantumDesigns.SIC
+warning: QuantumDesigns/SIC.lean:30:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:34:8: declaration uses `sorry`
+⚠ [8941/8946] Replayed QuantumDesigns.Main
+warning: QuantumDesigns/Main.lean:22:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:25:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:27:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:30:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:33:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:35:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:37:8: declaration uses `sorry`
+✖ [8944/8946] Building Test.Axioms (14s)
+trace: .> LEAN_PATH=C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\packages\Cli\.lake\build\lib\lean;C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\packages\batteries\.lake\build\lib\lean;C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\packages\Qq\.lake\build\lib\lean;C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\packages\aesop\.lake\build\lib\lean;C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\packages\proofwidgets\.lake\build\lib\lean;C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\packages\importGraph\.lake\build\lib\lean;C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\packages\LeanSearchClient\.lake\build\lib\lean;C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\packages\plausible\.lake\build\lib\lean;C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\packages\mathlib\.lake\build\lib\lean;C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\build\lib\lean c:\Users\jdj32\.elan\toolchains\leanprover--lean4---v4.35.0-rc2\bin\lean.exe C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\Test\Axioms.lean -o C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\build\lib\lean\Test\Axioms.olean -i C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\build\lib\lean\Test\Axioms.ilean -c C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\build\ir\Test\Axioms.c --setup C:\GitHub_Files\Claude-Repos\finite-quantum-designs-lean\.lake\build\ir\Test\Axioms.setup.json --json
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_four_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasCompleteMUBs_two_pow_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.gerzon_bound_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.card_le_of_sicOverlapSq_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_one_dim -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasSICPOVM_two_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_three_chirp -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.quadSum_normSq_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_three -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_two -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.gerzon_equality_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasCompleteMUBs_of_odd_char_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_of_le -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasCompleteMUBs_prime_pow_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasCompleteMUBs_of_odd_char -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_odd_prime_pow -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_three_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasSICPOVM_iff_equiangular -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_eight -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_mul_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.gerzon_sharp -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasCompleteMUBs_iff_isMaxMUBCount -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.gerzon_sharp_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_four_five -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_le -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_prime_pow -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_four -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_le_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_two_pow -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_one_dim_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasSICPOVM_three_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_two_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isSICFamily_frame -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_two_three -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_of_le_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_mul -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isSICFamily_frame_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.gerzon_equality -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_of_forall_primePow -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasCompleteMUBs_two_pow -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_eight_nine -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.quadSum_normSq -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasSICPOVM_eight -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasMUBs_of_forall_primePow_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasSICPOVM_eight_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_two_pow_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.gerzon_frame_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_prime_pow_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_eight_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.card_le_of_sicOverlapSq -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasSICPOVM_three -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasSICPOVM_iff_equiangular_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasCompleteMUBs_iff_isMaxMUBCount_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.gerzon_frame -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.hasSICPOVM_two -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.gerzon_bound -> sorryAx
+error: Test/Axioms.lean:20:0: Unexpected axiom dependency: QuantumDesigns.isMaxMUBCount_odd_prime_pow_internal -> sorryAx
+error: Test/Axioms.lean:20:0: Axiom audit matched only 71 project constants; expected at least 200
+info: Test/Axioms.lean:20:0: Audited 71 project constants; unexpected axiom dependencies: 57.
+Some required targets logged failures:
+- Test.Axioms
+error: build failed

@@ -1,0 +1,149 @@
+=== QuantumDesigns.Defs 05:49:17
+exit 0 05:49:42
+=== Challenge 05:49:42
+warning: Challenge.lean:124:8: declaration uses `sorry`
+warning: Challenge.lean:128:8: declaration uses `sorry`
+warning: Challenge.lean:131:8: declaration uses `sorry`
+warning: Challenge.lean:137:8: declaration uses `sorry`
+warning: Challenge.lean:142:8: declaration uses `sorry`
+warning: Challenge.lean:146:8: declaration uses `sorry`
+warning: Challenge.lean:153:8: declaration uses `sorry`
+warning: Challenge.lean:160:8: declaration uses `sorry`
+warning: Challenge.lean:164:8: declaration uses `sorry`
+warning: Challenge.lean:171:8: declaration uses `sorry`
+warning: Challenge.lean:174:8: declaration uses `sorry`
+warning: Challenge.lean:177:8: declaration uses `sorry`
+warning: Challenge.lean:181:8: declaration uses `sorry`
+warning: Challenge.lean:185:8: declaration uses `sorry`
+warning: Challenge.lean:188:8: declaration uses `sorry`
+warning: Challenge.lean:191:8: declaration uses `sorry`
+warning: Challenge.lean:197:8: declaration uses `sorry`
+warning: Challenge.lean:202:8: declaration uses `sorry`
+warning: Challenge.lean:207:8: declaration uses `sorry`
+warning: Challenge.lean:212:8: declaration uses `sorry`
+warning: Challenge.lean:217:8: declaration uses `sorry`
+warning: Challenge.lean:221:8: declaration uses `sorry`
+warning: Challenge.lean:226:8: declaration uses `sorry`
+warning: Challenge.lean:232:8: declaration uses `sorry`
+warning: Challenge.lean:235:8: declaration uses `sorry`
+warning: Challenge.lean:240:8: declaration uses `sorry`
+exit 0 05:50:02
+=== QuantumDesigns.Bound 05:50:02
+warning: QuantumDesigns/Bound.lean:25:8: declaration uses `sorry`
+warning: QuantumDesigns/Bound.lean:27:8: declaration uses `sorry`
+warning: QuantumDesigns/Bound.lean:29:8: declaration uses `sorry`
+exit 0 05:50:25
+=== QuantumDesigns.OddField 05:50:25
+warning: QuantumDesigns/OddField.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/OddField.lean:36:8: declaration uses `sorry`
+exit 0 05:50:50
+=== QuantumDesigns.TwoPow 05:50:50
+warning: QuantumDesigns/TwoPow.lean:40:8: declaration uses `sorry`
+exit 0 05:51:19
+=== QuantumDesigns.Small 05:51:19
+warning: QuantumDesigns/Small.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:34:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:36:8: declaration uses `sorry`
+exit 0 05:51:41
+=== QuantumDesigns.Chirp 05:51:41
+warning: QuantumDesigns/Chirp.lean:28:8: declaration uses `sorry`
+exit 0 05:52:03
+=== QuantumDesigns.PrimePow 05:52:03
+warning: QuantumDesigns/OddField.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/OddField.lean:36:8: declaration uses `sorry`
+warning: QuantumDesigns/TwoPow.lean:40:8: declaration uses `sorry`
+warning: QuantumDesigns/PrimePow.lean:17:8: declaration uses `sorry`
+exit 0 05:52:26
+=== QuantumDesigns.Tensor 05:52:26
+warning: QuantumDesigns/OddField.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/OddField.lean:36:8: declaration uses `sorry`
+warning: QuantumDesigns/TwoPow.lean:40:8: declaration uses `sorry`
+warning: QuantumDesigns/PrimePow.lean:17:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:31:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:35:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:38:8: declaration uses `sorry`
+exit 0 05:52:48
+=== QuantumDesigns.Gerzon 05:52:48
+warning: QuantumDesigns/Gerzon.lean:41:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:44:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:47:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:50:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:54:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:58:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:62:8: declaration uses `sorry`
+exit 0 05:53:10
+=== QuantumDesigns.SIC 05:53:10
+warning: QuantumDesigns/SIC.lean:30:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:34:8: declaration uses `sorry`
+exit 0 05:53:32
+=== QuantumDesigns.Main 05:53:32
+warning: QuantumDesigns/Bound.lean:25:8: declaration uses `sorry`
+warning: QuantumDesigns/Bound.lean:27:8: declaration uses `sorry`
+warning: QuantumDesigns/Bound.lean:29:8: declaration uses `sorry`
+warning: QuantumDesigns/OddField.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/OddField.lean:36:8: declaration uses `sorry`
+warning: QuantumDesigns/TwoPow.lean:40:8: declaration uses `sorry`
+warning: QuantumDesigns/PrimePow.lean:17:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:31:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:35:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:38:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:34:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:36:8: declaration uses `sorry`
+warning: QuantumDesigns/Chirp.lean:28:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:41:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:44:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:47:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:50:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:54:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:58:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:62:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:30:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:34:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:22:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:25:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:27:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:30:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:33:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:35:8: declaration uses `sorry`
+exit 0 05:53:53
+=== Solution 05:53:53
+warning: QuantumDesigns/Bound.lean:25:8: declaration uses `sorry`
+warning: QuantumDesigns/Bound.lean:27:8: declaration uses `sorry`
+warning: QuantumDesigns/Bound.lean:29:8: declaration uses `sorry`
+warning: QuantumDesigns/OddField.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/OddField.lean:36:8: declaration uses `sorry`
+warning: QuantumDesigns/TwoPow.lean:40:8: declaration uses `sorry`
+warning: QuantumDesigns/PrimePow.lean:17:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:31:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:35:8: declaration uses `sorry`
+warning: QuantumDesigns/Tensor.lean:38:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:34:8: declaration uses `sorry`
+warning: QuantumDesigns/Small.lean:36:8: declaration uses `sorry`
+warning: QuantumDesigns/Chirp.lean:28:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:41:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:44:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:47:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:50:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:54:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:58:8: declaration uses `sorry`
+warning: QuantumDesigns/Gerzon.lean:62:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:30:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:32:8: declaration uses `sorry`
+warning: QuantumDesigns/SIC.lean:34:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:22:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:25:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:27:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:30:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:33:8: declaration uses `sorry`
+warning: QuantumDesigns/Main.lean:35:8: declaration uses `sorry`
+exit 0 05:54:29
+=== Test 05:54:29
+error: Test: some modules have bad imports or could not be read
+error: no such file or directory (error code: 4058)
+error: build failed
+exit 1 05:54:31
+DONE 05:54:31
