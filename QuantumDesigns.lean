@@ -10,5 +10,6 @@ public import QuantumDesigns.Small
 public import QuantumDesigns.Chirp
 public import QuantumDesigns.PrimePow
 public import QuantumDesigns.Gerzon
+public import QuantumDesigns.SICTables
 public import QuantumDesigns.SIC
 public import QuantumDesigns.Main

@@ -117,4 +117,19 @@ identity (`gerzon_frame_internal`). `isSICFamily_frame_internal`: `sicOverlapSq 
 
 ## 9. SIC-POVMs in dimensions 2, 3 and 8 (`QuantumDesigns/SIC.lean`, `SICTables.lean`)
 
-(filled from the lane report)
+**Dimension 8.** `SICTables.lean` is a leaf with no imports: the 64 vectors `v_i(x) = sign · ψ(x ⊕ ⌊i/8⌋)` with
+`ψ = (−1 + 2i, 1, 1, 1, 1, 1, 1, 1)`, the sign the parity of `(i mod 8) ∧ (x ⊕ ⌊i/8⌋)` (a 3-bit xor of shifts), the real
+and imaginary parts of the Gaussian-integer inner products `ipRe`, `ipIm` as integer functions on `ℕ` with the 8-term
+sums written out; `hg_diag` (`ipRe i i = 12`, `ipIm i i = 0`) and `hg_overlaps` (`re² + im² = 16` for `i ≠ j`, all
+4032 ordered pairs) are `decide +kernel` (seconds). `SIC.lean`: `hg_hoggar i = toLp 2 (fun x => (√12)⁻¹ (vr + vi · I))`;
+`hg_term` (the generic product `conj(r + s i)(r' + s' i)` as integer real and imaginary parts), `hg_sum_z` (the eight
+terms, `Fin.sum_univ_eight`), `hg_inner` (the inner sum is `(1/12)(ipRe + ipIm · i)`); normalization through
+`Complex.normSq_eq_conj_mul_self` and `EuclideanSpace.norm_eq`, the overlaps through `Complex.normSq_add_mul_I`:
+`16/144 = 1/9 = sicOverlapSq 8` (`hasSICPOVM_eight_internal`).
+
+**Dimensions 2 and 3.** The tetrahedral family `hg_qubit a b r` (`(1, 0)` and `(a, b ω^m)`, `ω = −1/2 + (r/2) i`) and
+the Hesse family `hg_hesse s r` (the nine vectors `(0, s, −s ω^m)`, `(−s ω^m, 0, s)`, `(s, −s ω^m, 0)`), with explicit
+real and imaginary parts, adapt formal-conjectures' `qubitSICFamily` and `hesseFamily`; `hg_qubit_sic` and
+`hg_hesse_sic` prove the SIC property for any parameters with `a² = 1/3`, `b² = 2/3`, `r² = 3` (resp. `s² = 1/2`,
+`r² = 3`) by `fin_cases`, `simp`, `ring_nf`, the square relations and `norm_num`; the pins supply the parameters with
+`Real.sq_sqrt` (`hasSICPOVM_two_internal`, `hasSICPOVM_three_internal`).
