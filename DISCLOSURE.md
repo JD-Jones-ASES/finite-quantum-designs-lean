@@ -2,7 +2,7 @@
 
 JD Jones directed this project. Claude (Anthropic) in Claude Code was used throughout, in two sessions: the statements,
 the Lean proofs, the standard-library replay, the literature and prior-art searches, the checkers and the repository
-were produced in that process. In the second session, which added statements 27–45, Weiner's paper (arXiv:0902.0635v2)
+were produced in that process. In the second session, which added statements 27–46, Weiner's paper (arXiv:0902.0635v2)
 was read in full; openai/math's Completion files were read only after the route of PROOF.md §10 was fixed, and nothing
 was copied from them; the dimension-4 fiducial was taken from Appleby 2005 (eqs. (6)–(8), (149)), and Zauner's 1999
 thesis, which it credits, was not read. The definitions are those of google-deepmind/formal-conjectures (Open Quantum

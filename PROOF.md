@@ -166,9 +166,11 @@ the complement of the traceless parts of the `d` diagonal algebras, are used as 
 `w_{r,k}/√d` of each traceless part. Its Lemma 3.1 takes the Schwarz inequality for 2-positive maps and the
 multiplicative domain from Choi 1974; here the Kadison–Schwarz defect of the Kraus form is written out as a sum of
 squares of commutators, so a fixed point commutes with the Kraus operators, the step that openai/math's
-`Completion/Kraus.lean` takes for general `n` (`commutator_trace_identity`, `commute_of_kraus_fixed`). Its
-Proposition 3.3 (the complement is a maximal abelian subalgebra, by a double-commutant argument) is not proved: a
-common eigenbasis of the commuting Kraus operators gives the missing basis directly. The theorem is proved for every `d`.
+`Completion/Kraus.lean` (commit `adc7f12`, 2026-10-06) takes for general `n` (`commutator_trace_identity`,
+`commute_of_kraus_fixed`); that file was read after the route here was pinned. Its Proposition 3.3 (the complement is
+a maximal abelian subalgebra, by a double-commutant argument) is not proved: a common eigenbasis of the commuting Kraus
+operators gives the missing basis directly. Corollary 3.4 is proved for every `d`, in its extension form (the given
+bases keep their places) and in its existence form.
 
 **`GapCore`.** For a basis `U` with projectors `P_j = bd_proj U j`: `gp_diag U X j = Tr(P_j X)`, the diagonal of `X` in
 `U`; `gp_pinch U X = Σ_j P_j X P_j`, the pinching (the paper's (4)); `gp_w U k = Σ_j ζ^{j(k+1)} P_j` for `k < d − 1`,
@@ -236,8 +238,9 @@ every projector `Q_l = bd_proj W l` (`gp_commute_proj_of_diag`), and `K_i = ((K_
 (`gp_herm_recover`), so every `K_i` commutes with `Q_l` and `gp_Phi B Q_l = Σ_i K_i^* Q_l K_i = (Σ_i K_i^* K_i) Q_l =
 Q_l`. By `gp_flat_Phi`, `Q_l` is flat: `gp_diag (B s) Q_l l' = Tr(Q_l)/d = 1/d` (`gp_trace_proj`), which
 `gp_diag_eq_inner` and `bd_inner_proj` read as `‖((B s)^* W)_{l'l}‖² = 1/d`. So `W` is unbiased to every `B s`, and
-`Fin.cons W B : Fin (d + 1) → UMat d` is pairwise unbiased (`of_isUnbiased_symm` for the symmetric pairs):
-`hasCompleteMUBs_of_hasMUBs_self_internal`. The corollaries: `hasCompleteMUBs_of_le_hasMUBs_internal` restricts
+`Fin.cons W B : Fin (d + 1) → UMat d` is pairwise unbiased (`of_isUnbiased_symm` for the symmetric pairs), with
+`B r` at `r.succ` (`Fin.cons_succ`): `exists_isMUBFamily_extension_internal`, of which
+`hasCompleteMUBs_of_hasMUBs_self_internal` keeps the family. The corollaries: `hasCompleteMUBs_of_le_hasMUBs_internal` restricts
 `k ≥ d` bases to `d` (`hasMUBs_of_le_internal`); `isMaxMUBCount_ne_self_internal`: `IsMaxMUBCount d d` would give
 `d + 1 ≤ d`; `isMaxMUBCount_dichotomy_internal` adds the bound `k ≤ d + 1` (`hasMUBs_le_internal`);
 `not_isMaxMUBCount_six_six_internal` is the instance `d = 6`.

@@ -7,7 +7,7 @@ see [NOTICE](NOTICE)). A basis of `ℂ^d` is a unitary matrix whose columns are 
 exist, `IsMaxMUBCount d k` that `k` is the largest such number. A SIC family in `ℂ^d` is `d²` unit vectors with
 pairwise squared overlap `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's conjecture: for every `d`).
 
-[Challenge.lean](Challenge.lean) restates the fourteen definitions and states forty-five theorems;
+[Challenge.lean](Challenge.lean) restates the fourteen definitions and states forty-six theorems;
 [Solution.lean](Solution.lean) proves them, kernel-only; the table in [VERIFICATION.md](VERIFICATION.md) names each:
 
 - **the bound:** for `d ≥ 2`, `HasMUBs d m → m ≤ d + 1` (Wootters–Fields 1989; Bandyopadhyay–Boykin–Roychowdhury–Vatan
@@ -25,12 +25,13 @@ pairwise squared overlap `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's c
   `(x, y) ↦ Tr(a x y)` of `𝔽_{2ⁿ}` (equivalent to the Galois-ring bases of Klappenecker–Rötteler Theorem 3); so
   `IsMaxMUBCount (pᵏ) (pᵏ + 1)` for every prime power, and `HasCompleteMUBs d ↔ IsMaxMUBCount d (d + 1)` for
   `d ≥ 2`; `μ(2) = 3`, `μ(4) = 5`, `μ(8) = 9` also by explicit kernel-checked tables;
-- **Weiner's gap:** `HasMUBs d d → HasCompleteMUBs d` for every `d` (Weiner 2013, Corollary 3.4), by the paper's route
-  with its operator-algebra steps written out: Weiner's projection onto the matrices with a constant diagonal in every
-  basis has a Kraus form (his Lemma 3.2), the Kadison–Schwarz defect of a Kraus map is a sum of squares, so the flat
-  fixed points commute with the Kraus operators, and a common eigenbasis of the commuting family is the missing basis;
-  hence `k ≥ d` bases complete to `d + 1`, and for `d ≥ 2` the maximal number `μ(d)` is never `d`: it is `d + 1` or
-  below `d` (the paper's dichotomy); `μ(6) ≠ 6`;
+- **Weiner's gap:** any `d` mutually unbiased bases of `ℂ^d` extend, by one more basis, to a complete set, the given
+  bases keeping their places (Weiner 2013, Corollary 3.4), so `HasMUBs d d → HasCompleteMUBs d`, for every `d`; by the
+  paper's route with its operator-algebra steps written out: Weiner's projection onto the matrices with a constant
+  diagonal in every basis has a Kraus form (his Lemma 3.2), the Kadison–Schwarz defect of a Kraus map is a sum of
+  squares, so the flat fixed points commute with the Kraus operators, and a common eigenbasis of the commuting family
+  is the missing basis; hence `k ≥ d` bases complete to `d + 1`, and for `d ≥ 2` the maximal number `μ(d)` is never
+  `d`: it is `d + 1` or below `d` (the paper's dichotomy); `μ(6) ≠ 6`;
 - **the maximal number:** for `d ≥ 2`, `μ(d)` exists, is unique and lies in `[3, d + 1]`; dimension `1` has none; two
   bases exist in every dimension; for a prime power `q`, `HasMUBs q m ↔ m ≤ q + 1`; formal-conjectures'
   `mutuallyUnbiasedBases_dim6_bounds` (`3 ≤ μ(6) ≤ 7`, left with `sorry` there) is proved verbatim;
@@ -61,13 +62,14 @@ pairwise squared overlap `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's c
   covariance reduces the 240 overlaps to fifteen, proved by exact trigonometric and radical identities (only the index
   arithmetic is kernel-checked).
 
-Not claimed: anything about dimension six beyond `3 ≤ μ(6) ≤ 7` and `μ(6) ≠ 6` (openai/math holds `μ(6) ≤ 5` in Lean,
-which implies `μ(6) ≠ 6`, and Weiner's gap at `d = 6`, `six_extend_to_seven`, in its own vocabulary); SICs in
-dimensions 5–7; any first formalization. The general-`n` lemmas of openai/math's
-`lean/OAI/Analysis/MutuallyUnbiased/Completion` (commit `adc7f12`) make the same elementary move as the route here:
-the Kadison–Schwarz defect of a Kraus map as squared Hilbert–Schmidt norms of commutators (`commutator_trace_identity`,
-`commute_of_kraus_fixed`), a joint eigenbasis (`exists_joint_projection_basis`), fixed rank-one projectors
-(`exists_fixed_projection_basis`); this repository repeats it in formal-conjectures' vocabulary and for every `d`. The
+Not claimed: anything about dimension six beyond `3 ≤ μ(6) ≤ 7` and `μ(6) ≠ 6`; SICs in dimensions 5–7; any first
+formalization. In dimension six openai/math goes further, in its own vocabulary: its `N6_le_five` (`μ(6) ≤ 5`) implies
+`μ(6) ≠ 6` and `μ(6) ≤ 7`, and its `six_extend_to_seven` is the extension form of Weiner's gap at `d = 6`. The
+general-`n` lemmas of its `lean/OAI/Analysis/MutuallyUnbiased/Completion` (commit `adc7f12`, 2026-10-06) make the same
+elementary move as the route here: the Kadison–Schwarz defect of a Kraus map as squared Hilbert–Schmidt norms of
+commutators (`commutator_trace_identity`, `commute_of_kraus_fixed` in `Completion/Kraus.lean`), a joint eigenbasis
+(`exists_joint_projection_basis`), fixed rank-one projectors (`exists_fixed_projection_basis`). Those files were read
+after the route here was pinned; this repository takes the step in formal-conjectures' vocabulary and for every `d`. The
 Kadison–Schwarz inequality for completely positive and Kraus maps is in physlib, Lean-QIT and kencyke/quantum-system;
 the-omega-institute/trureturing proves the injectivity of the diagonal map of a complete family (in its vocabulary of
 rank-one contexts) and a density-matrix reconstruction under an assumed completeness hypothesis, and kernel-checks the
