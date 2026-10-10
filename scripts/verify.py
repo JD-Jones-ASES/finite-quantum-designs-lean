@@ -6,8 +6,7 @@
 In order: the pins (lean-toolchain and the Mathlib revision of lake-manifest.json are the committed
 ones), the source guard, the definition comparison between Challenge.lean and QuantumDesigns/Defs.lean, the
 statement comparison between Challenge.lean and Solution.lean, the standard-library replays
-scripts/check_tables.py (the tables) and scripts/check_minimal_classes.py (the enumeration for
-PROOF.md section 12), the metadata (formalization.yaml parses;
+scripts/check_designs.py (every construction), the metadata (formalization.yaml parses;
 its title length, main results and alignment against comparator.json; no definition holes; no
 original-proof source), the Lean build of every target (including the Test audit, which fails on
 any axiom beyond propext, Classical.choice and Quot.sound), the module-resolution check, the
@@ -67,10 +66,10 @@ def check_script(name, args):
 
 
 def check_replay():
-    result = run([sys.executable, "-I", "scripts/check_tables.py"], capture_output=True)
+    result = run([sys.executable, "-I", "scripts/check_designs.py"], capture_output=True)
     lines = result.stdout.strip().splitlines()
     good = result.returncode == 0 and lines[-1:] == ["VERDICT: PASS"]
-    return step("check_tables.py (the standard-library replay of the tables)", good,
+    return step("check_designs.py (the standard-library replay of the constructions)", good,
                 lines[-1] if lines else (result.stderr.strip().splitlines()[-1:] or [""])[0])
 
 
@@ -191,8 +190,6 @@ def main():
     ok &= check_script("definitions", ["scripts/check_definitions.py"])
     ok &= check_script("statements", ["scripts/check_statements.py"])
     ok &= check_replay()
-    ok &= check_script("check_minimal_classes.py (the enumeration for PROOF.md section 12)",
-                       ["-I", "scripts/check_minimal_classes.py"])
     ok &= check_yaml()
     if not skip_build:
         if fetch:
