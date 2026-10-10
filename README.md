@@ -1,4 +1,4 @@
-# Finite quantum designs: mutually unbiased bases and SIC-POVMs in every prime-power and small dimension
+# Finite quantum designs: mutually unbiased bases in every prime-power dimension, the complex Gerzon bound, and SIC-POVMs in dimensions 2, 3 and 8
 
 Two structures of finite-dimensional quantum information, in the vocabulary of the formal-conjectures repository
 (google-deepmind/formal-conjectures, Open Quantum Problems 13 and 23; Apache-2.0, restated character for character,
@@ -49,3 +49,7 @@ pins, the source guard, the definition and statement checks, the standard-librar
 beyond `propext`, `Classical.choice`, `Quot.sound`), the module-resolution check, the `pp.all` elaboration check of the
 definitions and Palomar's core-notation audit, and ends with `VERIFY: PASS`. [PROOF.md](PROOF.md) gives the proofs
 with the Lean names; [DISCLOSURE.md](DISCLOSURE.md) says how the repository was made.
+
+License: [MIT](LICENSE) for the Lean files and scripts; the fourteen definitions and the lemmas listed in [NOTICE](NOTICE)
+derive from formal-conjectures under Apache-2.0 ([LICENSES/Apache-2.0.txt](LICENSES/Apache-2.0.txt));
+`scripts/core_notation_audit.lean` is Palomar's, under its MIT licence ([LICENSES/PalomarSubmission-MIT.txt](LICENSES/PalomarSubmission-MIT.txt)).

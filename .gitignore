@@ -13,3 +13,5 @@ __pycache__/
 .verify.log
 .audit.log
 .audit-names.txt
+.rebuild.log
+.scratch/

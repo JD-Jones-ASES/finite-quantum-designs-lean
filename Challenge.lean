@@ -3,7 +3,7 @@ module
 public import Mathlib
 
 /-!
-# Finite quantum designs: mutually unbiased bases and SIC-POVMs in every prime-power and small dimension
+# Finite quantum designs: mutually unbiased bases in every prime-power dimension, the complex Gerzon bound, and SIC-POVMs in dimensions 2, 3 and 8
 
 Two structures of finite-dimensional quantum information, stated in the vocabulary of the
 formal-conjectures repository (google-deepmind/formal-conjectures, Apache-2.0; its Open Quantum Problems 13 and
@@ -184,10 +184,10 @@ theorem hasCompleteMUBs_iff_isMaxMUBCount (d : ℕ) (hd : 2 ≤ d) :
 /-- `μ(2) = 3` (formal-conjectures' `mutuallyUnbiasedBases_dim2`, re-proved here as the case `n = 1`). -/
 theorem isMaxMUBCount_two : IsMaxMUBCount 2 3 := sorry
 
-/-- `μ(4) = 5`: five mutually unbiased bases of `ℂ⁴` with entries in `{±1, ±i}/2`, kernel-checked. -/
+/-- `μ(4) = 5`: the standard basis and four bases of `ℂ⁴` with entries in `{±1, ±i}/2`, kernel-checked. -/
 theorem isMaxMUBCount_four : IsMaxMUBCount 4 5 := sorry
 
-/-- `μ(8) = 9`: nine mutually unbiased bases of `ℂ⁸` with entries in `{±1, ±i}/√8`, kernel-checked. -/
+/-- `μ(8) = 9`: the standard basis and eight bases of `ℂ⁸` with entries in `{±1 ± i}/4`, kernel-checked. -/
 theorem isMaxMUBCount_eight : IsMaxMUBCount 8 9 := sorry
 
 /- ## Gerzon's bound and its equality case -/

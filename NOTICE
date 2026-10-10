@@ -1,7 +1,7 @@
 finite-quantum-designs-lean is licensed under the MIT License (see LICENSE).
 
-Portions derive from google-deepmind/formal-conjectures (https://github.com/google-deepmind/formal-conjectures),
-Copyright 2026 The Formal Conjectures Authors, licensed under the Apache License, Version 2.0, and from the fork
+Portions derive from google-deepmind/formal-conjectures (https://github.com/google-deepmind/formal-conjectures,
+commit 1646ca16afd6cc7a693d3bdc9f066c4d3cc01a89), Copyright 2026 The Formal Conjectures Authors, licensed under the Apache License, Version 2.0, and from the fork
 XC0R/formal-conjectures (https://github.com/XC0R/formal-conjectures, commit c8733543568e8011288a9fa7ef33375f5e5907d3),
 under the same license. A copy of that license is in LICENSES/Apache-2.0.txt; it is also available at
 http://www.apache.org/licenses/LICENSE-2.0. Neither upstream repository carries a NOTICE file.

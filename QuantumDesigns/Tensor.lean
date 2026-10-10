@@ -19,7 +19,7 @@ for a prime power `pʲ`, `j ≥ 1`, the prime factors are `{p}` with exponent `j
 (`hasCompleteMUBs_prime_pow_internal`) gives `HasMUBs pʲ k`; for coprime `a * b` the exponents add
 (`Nat.factorization_mul`) and a prime dividing both factors would divide their gcd, so each factor inherits the
 hypothesis and `hasMUBs_mul_internal` finishes. The statement for a single prime divisor (`HasMUBs d (q + 1)` for every
-`p ∣ d`) is false in general: `d = 6`, `p = 3` would give four bases in dimension six, an open question.
+`p ∣ d`) is not known to hold: `d = 6`, `p = 3` would give four bases in dimension six, an open question.
 `hasMUBs_three_internal`: every exact prime-power divisor is `≥ 2` (`Nat.Prime.factorization_pos_of_dvd`), so `3 ≤ q + 1`.
 -/
 

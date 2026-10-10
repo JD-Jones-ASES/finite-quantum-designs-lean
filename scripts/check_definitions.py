@@ -11,7 +11,7 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-HEAD = re.compile(r"^(?:noncomputable )?(?:def|inductive) ([\w.]+)")
+HEAD = re.compile(r"^(?:noncomputable )?(?:def|abbrev|inductive) ([\w.]+)")
 
 
 def blocks(text):
