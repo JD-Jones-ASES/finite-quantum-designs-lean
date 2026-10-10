@@ -85,7 +85,7 @@ the steps of 27 and 28 (PROOF.md §10); `QuantumDesigns/SIC4Tables.lean` holds t
   as printed (eq. (149)) with its sixteen translates, in the ring ℚ[c, q, i] (all 16 norms and 120 pairs; a float
   check outside the verdict); `VERDICT: PASS`.
 - **Build and axioms:** `lake build` of every target; `Test/Axioms.lean` walks every constant of the project and every
-  compared theorem and fails on any axiom beyond `propext`, `Classical.choice`, `Quot.sound` (about 470 project constants,
+  compared theorem and fails on any axiom beyond `propext`, `Classical.choice`, `Quot.sound` (475 project constants,
   no other axiom).
 - **Module resolution** (`scripts/check_module_resolution.py`): `Challenge` and `Solution` resolve to this repository's
   files first in Lake's source path.
