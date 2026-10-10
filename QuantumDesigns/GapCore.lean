@@ -9,17 +9,20 @@ For `d` mutually unbiased bases `B : Fin d → UMat d` of `ℂ^d` (Weiner 2013),
 rank-one projectors: `gp_diag U X j = Tr(P_j X) = ⟨e_j, X e_j⟩` is the diagonal of `X` in the basis `U`;
 `gp_pinch U X = Σ_j P_j X P_j` is the pinching (the diagonal part of `X` in `U`); `gp_w U k = Σ_j ζ^{j(k+1)} P_j`
 (`k < d − 1`, `ζ = exp(2πi/d)`) are the traceless combinations whose flattenings are `bd_w`; Weiner's projection
-`gp_Phi B X = X + Tr(X)·1 − Σ_r gp_pinch (B r) X` is the orthogonal projection of the matrix space onto the
-complement of the span of all `w_{r,k}`; and `gp_Flat B X` says that `X` has the constant diagonal `Tr(X)/d` in
-every basis of the family (the complement, described by its diagonals).
+`gp_Phi B X = X + Tr(X)·1 − Σ_r gp_pinch (B r) X` is, for mutually unbiased bases, the orthogonal projection of the
+matrix space onto the complement of the span of all `w_{r,k}`; and `gp_Flat B X` says that `X` has the constant
+diagonal `Tr(X)/d` in every basis of the family (the complement, described by its diagonals).
 
 The route to the theorem: `gp_Phi` maps into the flat matrices and fixes them (`GapPhi`); it has a Kraus form
 `Σ_i K_i^* X K_i` over an orthonormal family completing the `w_{r,k}/√d` to a basis of the matrix space
-(`GapKraus`, Weiner's Lemmas 2.1 and 3.2); the `K_i` are flat by Fourier inversion on the diagonal (`GapDFT`);
-the Kadison–Schwarz defect of a Kraus map is a sum of squares, so a flat fixed point commutes with every `K_i`
-(`GapSchwarz`); a commuting family of Hermitian matrices is simultaneously diagonalizable (`GapDiag`); the
-projectors of the common eigenbasis are fixed by `gp_Phi`, hence flat, hence unbiased to every basis of the
-family (`GapMain`).
+(`GapKraus`: Lemma 2.1 of Weiner 2013, recalled there from Werner 2001, and Weiner's Lemma 3.2); the `K_i` are
+flat by Fourier inversion on the diagonal (`GapDFT`); the Kadison–Schwarz defect of a Kraus map is a sum of
+squares, so a flat fixed point commutes with every `K_i` (`GapSchwarz`); a commuting family of Hermitian matrices
+is simultaneously diagonalizable (`GapDiag`); the projectors of the common eigenbasis are fixed by `gp_Phi`, hence
+flat, hence unbiased to every basis of the family (`GapMain`). This is the route of Weiner's proof with its
+operator-algebra steps written out: the sum-of-squares defect and the trace stand in for the Schwarz inequality
+and the multiplicative domain that Weiner's Lemma 3.1 takes from Choi 1974, and the common eigenbasis for the
+double-commutant argument of Weiner's Proposition 3.3.
 -/
 
 @[expose] public section

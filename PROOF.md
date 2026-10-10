@@ -157,3 +157,164 @@ real and imaginary parts, adapt formal-conjectures' `qubitSICFamily` and `hesseF
 `hg_hesse_sic` prove the SIC property for any parameters with `a² = 1/3`, `b² = 2/3`, `r² = 3` (resp. `s² = 1/2`,
 `r² = 3`) by `fin_cases`, `simp`, `ring_nf`, the square relations and `norm_num`; the final theorems supply the parameters with
 `Real.sq_sqrt` (`hasSICPOVM_two_internal`, `hasSICPOVM_three_internal`).
+
+## 10. Weiner's gap (`QuantumDesigns/GapCore.lean`, `GapPhi.lean`, `GapKraus.lean`, `GapDFT.lean`, `GapSchwarz.lean`, `GapDiag.lean`, `GapMain.lean`)
+
+The route is Weiner's proof (Weiner 2013, read as arXiv:0902.0635v2, §§2–3) with its operator-algebra steps written
+out. The paper's Lemma 2.1, which it recalls from Werner 2001, and its Lemma 3.2, the Kraus form of the projection onto
+the complement of the traceless parts of the `d` diagonal algebras, are used as they stand, with the Fourier basis
+`w_{r,k}/√d` of each traceless part. Its Lemma 3.1 takes the Schwarz inequality for 2-positive maps and the
+multiplicative domain from Choi 1974; here the Kadison–Schwarz defect of the Kraus form is written out as a sum of
+squares of commutators, so a fixed point commutes with the Kraus operators, the step that openai/math's
+`Completion/Kraus.lean` (commit `adc7f12`, 2026-10-06) takes for general `n` (`commutator_trace_identity`,
+`commute_of_kraus_fixed`); that file was read after the route here was pinned. Its Proposition 3.3 (the complement is
+a maximal abelian subalgebra, by a double-commutant argument) is not proved: a common eigenbasis of the commuting Kraus
+operators gives the missing basis directly. Corollary 3.4 is proved for every `d`, in its extension form (the given
+bases keep their places) and in its existence form.
+
+**`GapCore`.** For a basis `U` with projectors `P_j = bd_proj U j`: `gp_diag U X j = Tr(P_j X)`, the diagonal of `X` in
+`U`; `gp_pinch U X = Σ_j P_j X P_j`, the pinching (the paper's (4)); `gp_w U k = Σ_j ζ^{j(k+1)} P_j` for `k < d − 1`,
+whose flattening is `bd_w` (`gp_vec_w`). For `d` bases `B`, Weiner's projection is `gp_Phi B X = X + Tr(X)·1 −
+Σ_r gp_pinch (B r) X` (the paper's (13)–(14), rearranged), and `gp_Flat B X` says that the diagonal of `X` in every
+`B s` is the constant `Tr(X)/d`. `gp_unvec` inverts the flattening (`gp_unvec_vec`, `gp_vec_unvec`);
+`gp_inner_vec_eq_trace` reads the flattened inner product as `Tr(A^* X)`, and `gp_diag_eq_inner` the diagonal as
+`⟨P_j, X⟩` (`gp_proj_star`: the projectors are Hermitian).
+
+**`GapPhi`.** Inside one basis `P_j X P_j = x_j P_j` with `x_j = gp_diag U X j` (`gp_proj_mul_mul_proj`) and
+`Σ_j P_j = 1` (`gp_sum_proj`, from `U U^* = 1`), so the pinching is `Σ_j x_j P_j` (`gp_pinch_eq`) and `Σ_j x_j = Tr X`
+(`gp_sum_diag`). The diagonal of a pinching in its own basis is `x` (`gp_diag_pinch_same`, from `gp_diag_proj_same`:
+`Tr(P_j P_l) = δ_{jl}`) and in an unbiased basis the constant `Tr(X)/d` (`gp_diag_pinch_unbiased`, from
+`gp_diag_proj_unbiased`: `Tr(P^U_j P^V_l) = 1/d`); the diagonal is linear (`gp_diag_add`, `gp_diag_sub`, `gp_diag_smul`,
+`gp_diag_sum`). So for `d` mutually unbiased bases the diagonal of `gp_Phi B X` in the basis `s` at `l` is
+`x_{s,l} + Tr X − x_{s,l} − (d − 1) Tr(X)/d = Tr(X)/d`: `gp_Phi B X` is flat (`gp_flat_Phi`). A flat `X` has every
+pinching equal to `(Tr(X)/d)·1`, so `gp_Phi B X = X` (`gp_Phi_of_flat`). Also `gp_Phi_one`, `gp_Phi_trace`
+(`Tr Φ(X) = Tr X + d Tr X − d Tr X`), `gp_Phi_star`, and the flatness of `X^*` and of `1` (`gp_flat_star`, `gp_flat_one`).
+
+**`GapKraus`.** The paper's Lemma 2.1: for an orthonormal basis `b` of the flattened matrix space,
+`Σ_i b_i^* X b_i = Tr(X)·1` (`gp_onb_sum`); entry `(p, q)` is `Σ_{a,c} X_{ac} Σ_i conj((b_i)_{ap}) (b_i)_{cq}`, and the
+inner sum is Parseval's identity for the matrix units, `δ_{ac} δ_{pq}` (`gp_onb_parseval`,
+`OrthonormalBasis.sum_inner_mul_inner`). The weighted projectors conjugate to the pinching: `w_k^* X w_k =
+Σ_{j,j'} ζ^{(j'−j)(k+1)} P_j X P_{j'}` (`gp_star_w_mul`), and over the frequencies `0, …, d − 1` (frequency `0` gives
+`X`) the geometric sums are `d δ_{jj'}` (`gp_freq`, `gp_freq_zero`, `gp_geom`, `gp_sum_freq`, from `bd_geom_zero`), so
+`Σ_{k<d−1} w_k^* X w_k = d Σ_j P_j X P_j − X` (`gp_w_sum`; the paper's (11) with its basis of each traceless part taken
+to be the `w_k/√d`). The Kraus form, the paper's Lemma 3.2 (`gp_exists_kraus`): the `d(d − 1)` vectors `w_{r,k}/√d`
+(`gp_kfam`, `gp_exists_scale`) are orthonormal (`gp_kfam_orthonormal`, from `bd_inner_w_self`, `bd_inner_w_same_ne`,
+`bd_inner_w_diff`) in a space of dimension `d² = d(d − 1) + d`, so they extend to an orthonormal basis indexed by
+`Fin d × Fin (d − 1) ⊕ Fin d` (`Orthonormal.exists_orthonormalBasis_extension_of_card_eq`); the `d` added vectors, as
+matrices `K_i`, are orthogonal to every `w_{r,k}`, and `gp_onb_sum` with `gp_w_sum` for each basis gives
+`Σ_i K_i^* X K_i = Tr(X)·1 − Σ_r (E_r(X) − X/d) = gp_Phi B X` and `Σ_i K_i^* K_i = gp_Phi B 1 = 1`.
+
+**`GapDFT`.** In a basis `U`, `⟨w_k, X⟩ = Σ_j conj(ζ^{j(k+1)}) x_j` (`gp_dft_inner_w`, through `gp_dft_vec_sum` and
+`gp_diag_eq_inner`): the discrete Fourier transform of the diagonal at the frequency `k + 1`. If it vanishes at every
+frequency `1, …, d − 1`, Fourier inversion (`gp_dft_orth`: `Σ_{m<d} ζ^{lm} conj(ζ^{jm}) = d δ_{jl}`, from `bd_geom_zero`
+and `bd_not_dvd`) keeps only the frequency `0`: `d x_l = Σ_j x_j = Tr X` (`gp_dft_sum_diag`, `gp_dft_sum_proj`). So a
+matrix orthogonal to every `w_k` of `U` has the constant diagonal `Tr(X)/d` in `U` (`gp_flat_of_orth`), the description
+of the complement by its diagonals that the paper leaves implicit.
+
+**`GapSchwarz`.** For matrices `K_i` with `Σ_i K_i^* K_i = 1` and `C = Σ_i K_i^* X K_i`,
+`Σ_i K_i^* X^* X K_i − C^* C = Σ_i (X K_i − K_i C)^* (X K_i − K_i C)` (`gp_schwarz_defect`, by expanding the right side,
+with `gp_sum_mul_mul_eq`): the Kadison–Schwarz defect of a Kraus map is a sum of squares. A sum of matrices `A_i^* A_i`
+with zero trace has every `A_i = 0`, since `Tr(A^* A) = Σ_{a,b} ‖A_{ab}‖²` (`gp_eq_zero_of_sum_trace`,
+`gp_eq_zero_of_trace_sum_star_mul_self`). So a fixed point `X` (`C = X`) of a Kraus map that preserves the trace of
+`X^* X` commutes with every `K_i` (`gp_commute_of_fixed`), the standard fact that the fixed points of a unital,
+trace-preserving channel commute with its Kraus operators.
+
+**`GapDiag`.** `gp_simultaneous_diag`: a finite family of pairwise commuting Hermitian matrices `H_i` has a unitary `W`
+with every `W^* H_i W` diagonal. The operators `toEuclideanLin (H_i)` are symmetric
+(`Matrix.isSymmetric_toEuclideanLin_iff`) and commute, so the joint eigenspaces `⨅_i eigenspace (H_i) (χ i)` form an
+internal direct sum (`LinearMap.IsSymmetric.directSum_isInternal_of_pairwise_commute`), orthogonal across distinct `χ`
+(`orthogonalFamily_iInf_eigenspaces`); finitely many are nonzero (`iSupIndep.fintypeNeBotOfFiniteDimensional`,
+`DirectSum.isInternal_ne_bot_iff`), and an orthonormal basis indexed by `Fin d` and subordinate to them
+(`DirectSum.IsInternal.subordinateOrthonormalBasis`) gives the columns of `W`
+(`OrthonormalBasis.toMatrix_orthonormalBasis_mem_unitary`).
+
+**`GapMain`.** Given `B : Fin d → UMat d` pairwise unbiased, let `K` be the Kraus family of `gp_exists_kraus`. Each
+`K_i` is orthogonal to every `w_{r,k}`, hence flat (`gp_flat_of_orth` through `gp_vec_w`); a flat `X` is fixed
+(`gp_Phi_of_flat`) and `gp_Phi` preserves traces (`gp_Phi_trace`), so by `gp_commute_of_fixed` every flat matrix
+commutes with every `K_j`, in particular `K_i` and `K_i^*` (`gp_flat_star`). The `2d` Hermitian parts `K_i + K_i^*` and
+`i (K_i − K_i^*)` (`gp_herm`, `gp_herm_isHermitian`) therefore commute pairwise (`gp_herm_commute`), and
+`gp_simultaneous_diag` gives a unitary `W` in which all of them are diagonal. A matrix diagonal in `W` commutes with
+every projector `Q_l = bd_proj W l` (`gp_commute_proj_of_diag`), and `K_i = ((K_i + K_i^*) − i·i(K_i − K_i^*))/2`
+(`gp_herm_recover`), so every `K_i` commutes with `Q_l` and `gp_Phi B Q_l = Σ_i K_i^* Q_l K_i = (Σ_i K_i^* K_i) Q_l =
+Q_l`. By `gp_flat_Phi`, `Q_l` is flat: `gp_diag (B s) Q_l l' = Tr(Q_l)/d = 1/d` (`gp_trace_proj`), which
+`gp_diag_eq_inner` and `bd_inner_proj` read as `‖((B s)^* W)_{l'l}‖² = 1/d`. So `W` is unbiased to every `B s`, and
+`Fin.cons W B : Fin (d + 1) → UMat d` is pairwise unbiased (`of_isUnbiased_symm` for the symmetric pairs), with
+`B r` at `r.succ` (`Fin.cons_succ`): `exists_isMUBFamily_extension_internal`, of which
+`hasCompleteMUBs_of_hasMUBs_self_internal` keeps the family. The corollaries: `hasCompleteMUBs_of_le_hasMUBs_internal` restricts
+`k ≥ d` bases to `d` (`hasMUBs_of_le_internal`); `isMaxMUBCount_ne_self_internal`: `IsMaxMUBCount d d` would give
+`d + 1 ≤ d`; `isMaxMUBCount_dichotomy_internal` adds the bound `k ≤ d + 1` (`hasMUBs_le_internal`);
+`not_isMaxMUBCount_six_six_internal` is the instance `d = 6`.
+
+## 11. The maximal number (`QuantumDesigns/Count.lean`)
+
+`hasMUBs_two_internal`: for `d ≥ 2` restriction of three bases (`hasMUBs_three_internal`, `hasMUBs_of_le_internal`);
+`d = 1` is `hasMUBs_one_dim_internal`; at `d = 0` the constant family `fun _ => 1` is unbiased vacuously (`Fin 0` has no
+entries). `hasMUBs_prime_pow_iff_internal`: forward, the maximality clause of `isMaxMUBCount_prime_pow_internal`;
+backward, restriction of its complete set. `isMaxMUBCount_unique_internal`: two maxima bound each other
+(`le_antisymm`). `exists_isMaxMUBCount_internal`: `Nat.findGreatest (HasMUBs d) (d + 1)`, which satisfies `HasMUBs d`
+since `HasMUBs d 0` holds (`Nat.findGreatest_spec`, restriction of three bases) and bounds every `m` with `HasMUBs d m`,
+each at most `d + 1` (`hasMUBs_le_internal`, `Nat.le_findGreatest`). `not_exists_isMaxMUBCount_one_internal`:
+`HasMUBs 1 (k + 1)` exceeds any candidate `k`. `isMaxMUBCount_bounds_internal`: `3 ≤ k` by maximality against
+`hasMUBs_three_internal`, `k ≤ d + 1` by `hasMUBs_le_internal`. `mutuallyUnbiasedBases_dim6_bounds_internal` is the pair
+of `hasMUBs_three_internal` and `hasMUBs_le_internal` at `d = 6`, formal-conjectures' statement as written there.
+
+## 12. Reconstruction (`QuantumDesigns/Reconstruct.lean`)
+
+**A complete set** (`mub_reconstruction_internal`; the formula as printed in Scott 2006, eq. (9), with the weights
+`1/(d(d + 1))`, after Ivanović 1981 and Wootters–Fields 1989). With `P_{s,l} = bd_proj (B s) l` (`rc_proj_eq`: the
+projector of the statement), `T(X) = Σ_{s,l} Tr(X P_{s,l}) P_{s,l} − Tr(X)·1` is linear (`rc_T`, `rc_T_apply`). It fixes
+`1` (`rc_T_one`: `Σ_l P_{s,l} = 1`, `rc_sum_proj`; `Tr P_{s,l} = 1`, `rc_trace_proj`; `Tr 1 = d`) and every `P_{r,j}`
+(`rc_T_proj`: `Tr(P_{r,j} P_{s,l})` is the Hilbert–Schmidt inner product, `rc_trace_mul_proj`, so `δ_{jl}` for `s = r`
+and `1/d` otherwise; the other `d` bases contribute `(1/d) Σ_l P_{s,l} = (1/d)·1` each, in all `1`, which `Tr(P_{r,j})·1`
+cancels). The identity and the `(d + 1)(d − 1)` matrices `Σ_j ζ^{j(k+1)} P_{r,j}` (`rc_F`, whose flattening is
+`bd_fam B`, `rc_vec_F` with `rc_vecL` the flattening as a linear map) are linearly independent by the argument of
+`hasMUBs_le_internal` (`rc_fam_linIndep`, `LinearIndependent.of_comp`); they are `d²`, so they span the matrix space
+(`rc_F_span`, `LinearIndependent.span_eq_top_of_card_eq_finrank'`, `Module.finrank_matrix`), and `T` fixes every matrix
+(`rc_T_fix`). At `d = 0` the matrices are empty.
+
+**A SIC family** (`sic_reconstruction_internal`; the informational completeness is Renes–Blume-Kohout–Scott–Caves 2004,
+§II, and the coefficients are Scott 2006, eq. (9), with the weights `1/d²`). The `d²` projectors `P_i = gz_P (φ_i)` are
+linearly independent (`rc_linIndep`: from `Σ_i g_i P_i = 0` the trace gives `Σ_i g_i = 0` and the pairing with `φ_j`,
+`gz_pair_eq`, gives `(1 − c) g_j = 0`, with `c = 1/(d + 1) ≠ 1`), so they span the matrix space. Write
+`X = Σ_i a_i P_i`; `Tr(X P_j)` is the pairing of `X` with `φ_j` (`rc_trace_eq_pair`), so `gz_pair_eq` gives
+`Tr(X P_j) = (1 − c) a_j + c Σ_i a_i`, and the trace gives `Tr X = Σ_i a_i`; hence `a_j = ((d + 1) Tr(X P_j) − Tr X)/d`.
+At `d = 0` the matrices are empty.
+
+## 13. Welch's bound (`QuantumDesigns/Welch.lean`)
+
+With `P_i = gz_P (φ_i)` and the frame operator `S = Σ_i P_i` (`wl_S`, `wl_S_apply`, `wl_star_S_apply`): `Tr S = N`
+(`wl_trace_S`, from `gz_trace_P`) and `⟨S, S⟩ = Σ_{i,j} Tr(P_i P_j) = Σ_{i,j} overlapSq (φ_i) (φ_j)` (`wl_inner_S_S`,
+through `gz_pair_P`). The Cauchy–Schwarz inequality in the flattened matrix space (`bd_vec`, `bd_inner_vec`,
+`inner_mul_inner_self_le`) for `1` and `S`, with `⟨1, S⟩ = ⟨S, 1⟩ = N` (`wl_inner_one_S`, `wl_inner_S_one`) and
+`⟨1, 1⟩ = d` (`wl_inner_one_one`), is `N² ≤ d Σ_{i,j} overlapSq (φ_i) (φ_j)` (`wl_main`); dividing by `d` gives
+`welch_bound_internal` (at `d = 0` the left side is `N²/0 = 0`). With every pairwise overlap at most `α`,
+`Σ_{i,j} overlapSq ≤ N (1 + (N − 1) α)` (`wl_sum_le`, `wl_overlapSq_nonneg`). A constant overlap `c` gives
+`N² ≤ d (N + N (N − 1) c)` with `d ≥ 1` (`wl_dim_pos`: no unit vector lives in `ℂ⁰`), so `c ≥ (N − d)/(d(N − 1))` for
+`N ≥ 2` (`welch_bound_of_constantOverlap_internal`); `α d < 1` gives `N (1 − α d) ≤ d (1 − α)`
+(`welch_card_bound_internal`; `N = 0` is immediate); and `α = 1/(d + 1)` gives `N ≤ d²`
+(`card_le_of_overlapSq_le_sic_internal`). The bound is Welch
+1974 (closed access, not read), in the form stated by Datta–Howard–Cochran, eq. (2) with `k = 1`, and by
+Mixon–Needham–Shonkwiler–Villar, Proposition 1; `Σ_{i,j} |⟨φ_i, φ_j⟩|²` is the frame potential of Benedetto–Fickus 2003.
+
+## 14. A SIC-POVM in dimension 4 (`QuantumDesigns/SIC4.lean`, `SIC4Tables.lean`)
+
+**The fiducial** is Appleby's (Appleby 2005, §8, eq. (149), which credits Zauner 1999 and Renes–Blume-Kohout–Scott–Caves
+2004): with `c = cos(π/8)`, `s = sin(π/8)`, `q = √(2 + √5)` and `N² = (5 − √5)/40`, `ψ = N u` where
+`u = (2c, s(1 − q) + c(1 + q) i, 2s i, s(1 + q) + c(1 − q) i)` (`s4_ur`, `s4_ui`) and `‖u‖² = 6 + 2q²` (`s4_norm`).
+**The family** is the sixteen translates `(S^a T^b u)(x) = i^{b(x − a)} u(x − a)`, indices mod 4, numbered `k = 4a + b`
+(the paper's displacement operators, eqs. (6)–(8), without the phase `τ^{ab}`). `SIC4Tables.lean` is a leaf with no
+imports: the shifted coordinate `s4_sh` (`x − a`), the phase exponent `s4_ph` (`b(x − a)`), the index `s4_diff k l` of
+the difference of two displacements, and `s4_diff_bounds` (`decide +kernel`: `1 ≤ s4_diff k l ≤ 15` for `k ≠ l`).
+`SIC4.lean` writes the translates of a vector with arbitrary real parts `ur` and imaginary parts `ui` in real
+coordinates (`s4_rotRe`, `s4_rotIm` for the factor `iⁿ`; `s4_vr`, `s4_vi`), with the real and imaginary parts of their
+inner products (`s4_tr`, `s4_ti`, `s4_ipRe`, `s4_ipIm`) and the squared modulus `s4_osq`. Weyl–Heisenberg covariance,
+`s4_wh`: for arbitrary `ur`, `ui`, the squared overlap of the translates `k` and `l` is that of `u` with its translate
+`s4_diff k l` (sixteen row lemmas `s4_wh_0` … `s4_wh_15`, by `interval_cases`, `simp +decide only` and `ring`); a
+translate's inner product with itself is `‖u‖²` (`s4_diag`). The fifteen base overlaps, `s4_base`:
+`|⟨u, S^a T^b u⟩|² = (6 + 2q²)²/5`, by `linear_combination` with explicit polynomial coefficients from `c² + s² = 1`,
+`c² − s² = 2cs` and `q⁴ = 4q² + 1`. The bridge to `ℂ⁴` follows `hg_inner` of §9: `s4_z`, `s4_fam c s q N k = N u_k`,
+`s4_term`, `s4_sum_z`, `s4_inner` (the inner sum is `N² (s4_ipRe + s4_ipIm · i)`); `s4_sic`: for any parameters with
+these relations and `N² (6 + 2q²) = 1` the sixteen vectors are unit vectors with squared overlaps
+`(N² (6 + 2q²))²/5 = 1/5 = sicOverlapSq 4`. `hasSICPOVM_four_internal` supplies `c` and `s` (`Real.cos_two_mul'`,
+`Real.sin_two_mul`, `cos_pi_div_four`, `sin_pi_div_four`), `q` and `N` (`Real.sq_sqrt`). No table of overlaps is
+kernel-checked; only the index arithmetic is.

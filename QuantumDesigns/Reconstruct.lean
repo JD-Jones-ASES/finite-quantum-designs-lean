@@ -6,7 +6,8 @@ public import QuantumDesigns.Gerzon
 /-!
 # Reconstruction: complete sets of mutually unbiased bases and SIC families are informationally complete
 
-**A complete set of `d + 1` mutually unbiased bases** (Ivanović 1981; Wootters–Fields 1989). With
+**A complete set of `d + 1` mutually unbiased bases** (after Ivanović 1981 and Wootters–Fields 1989, in the form
+of Scott 2006, eqs. (9) and (56), where it follows from the 2-design identity; here from linear independence). With
 `P_{s,l} = bd_proj (B s) l` and `T(X) = Σ_{s,l} Tr(X P_{s,l}) P_{s,l} − Tr(X)·1` (`rc_T`, a linear map), it suffices
 to check `T(X) = X` on a spanning family. The `d²` flattened vectors `1, w_{r,k}` of `bd_fam B` are linearly
 independent (the family of `hasMUBs_le_internal`, with `m = d + 1`: `1 + (d + 1)(d − 1) = d²`; `rc_fam_linIndep`),
@@ -18,7 +19,9 @@ Hilbert–Schmidt inner product, `δ_{jl}` for `s = r` and `1/d` for `s ≠ r`, 
 `bd_inner_proj_unbiased`; the other `d` bases each contribute `(1/d) Σ_l P_{s,l} = (1/d)·1`, in all `1`, cancelled by
 `Tr(P_{r,j})·1 = 1`; `rc_T_proj`). `d = 0` is the empty matrix (`mub_reconstruction_internal`).
 
-**A SIC family** (Renes–Blume-Kohout–Scott–Caves 2004, §II). The `d²` projectors `P_i = gz_P (φ_i)` are linearly
+**A SIC family** (informational completeness: Renes–Blume-Kohout–Scott–Caves 2004, §II, through the Gram matrix of
+the projectors; the coefficients: Scott 2006, eq. (9) in the proof of Theorem 4, and Appleby–Dang–Fuchs, eq. (3),
+for states). The `d²` projectors `P_i = gz_P (φ_i)` are linearly
 independent: from `Σ_i g_i P_i = 0` the trace gives `Σ_i g_i = 0` and the pairing with `φ_j` (`gz_pair_eq`) gives
 `(1 − c) g_j = 0`, with `c = 1/(d + 1) ≠ 1` (`rc_linIndep`). Being `d²` of them, they span the matrix space; writing
 `X = Σ_i a_i P_i`, the pairing gives `Tr(X P_j) = (1 − c) a_j + c Σ_i a_i` (`rc_trace_eq_pair`) and the trace gives

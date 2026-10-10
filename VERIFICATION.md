@@ -1,6 +1,6 @@
 # Verification
 
-All twenty-six statements of Challenge.lean have proofs. The local build, the axiom audit, the source guard, the
+All forty-six statements of Challenge.lean have proofs. The local build, the axiom audit, the source guard, the
 definition and statement checks, the standard-library replay of the constructions behind the compared statements, the metadata check, the
 module-resolution check, the elaboration check and Palomar's core-notation audit of the statements pass;
 `python scripts/verify.py` runs them all and ends with `VERIFY: PASS`. The checks below were last run on the tree of the
@@ -39,11 +39,33 @@ the Challenge (formal-conjectures' own, restated), so the comparator checks the 
 | 24 | `hasSICPOVM_two` — the tetrahedron | QuantumDesigns/SIC.lean |
 | 25 | `hasSICPOVM_three` — the Hesse configuration | QuantumDesigns/SIC.lean |
 | 26 | `hasSICPOVM_eight` — Hoggar's 64 lines | QuantumDesigns/SIC.lean |
+| 27 | `hasCompleteMUBs_of_hasMUBs_self` — Weiner's gap: HasMUBs d d → HasCompleteMUBs d, for every d | QuantumDesigns/GapMain.lean |
+| 28 | `exists_isMUBFamily_extension` — the extension form: d mutually unbiased bases B of ℂ^d extend to d + 1 bases C with C (r + 1) = B r | QuantumDesigns/GapMain.lean |
+| 29 | `hasCompleteMUBs_of_le_hasMUBs` — for d ≤ k, HasMUBs d k → HasCompleteMUBs d | QuantumDesigns/GapMain.lean |
+| 30 | `isMaxMUBCount_ne_self` — for d ≥ 2, ¬ IsMaxMUBCount d d | QuantumDesigns/GapMain.lean |
+| 31 | `isMaxMUBCount_dichotomy` — for d ≥ 2, IsMaxMUBCount d k → k = d + 1 ∨ k < d | QuantumDesigns/GapMain.lean |
+| 32 | `hasMUBs_two` — HasMUBs d 2 for every d | QuantumDesigns/Count.lean |
+| 33 | `hasMUBs_prime_pow_iff` — for p prime and k ≥ 1, HasMUBs (pᵏ) m ↔ m ≤ pᵏ + 1 | QuantumDesigns/Count.lean |
+| 34 | `isMaxMUBCount_unique` — IsMaxMUBCount d k → IsMaxMUBCount d l → k = l | QuantumDesigns/Count.lean |
+| 35 | `exists_isMaxMUBCount` — for d ≥ 2, IsMaxMUBCount d k for some k | QuantumDesigns/Count.lean |
+| 36 | `not_exists_isMaxMUBCount_one` — no k has IsMaxMUBCount 1 k | QuantumDesigns/Count.lean |
+| 37 | `isMaxMUBCount_bounds` — for d ≥ 2, IsMaxMUBCount d k → 3 ≤ k ≤ d + 1 | QuantumDesigns/Count.lean |
+| 38 | `mutuallyUnbiasedBases_dim6_bounds` — HasMUBs 6 3, and HasMUBs 6 m → m ≤ 7 (formal-conjectures' statement) | QuantumDesigns/Count.lean |
+| 39 | `not_isMaxMUBCount_six_six` — ¬ IsMaxMUBCount 6 6 | QuantumDesigns/GapMain.lean |
+| 40 | `mub_reconstruction` — d + 1 mutually unbiased bases: X = Σ_{s,l} Tr(X P_{s,l}) P_{s,l} − Tr(X)·1 for every matrix X | QuantumDesigns/Reconstruct.lean |
+| 41 | `sic_reconstruction` — a SIC family: X = Σ_i ((d + 1) Tr(X P_i) − Tr X)/d · P_i for every matrix X | QuantumDesigns/Reconstruct.lean |
+| 42 | `welch_bound` — N unit vectors have Σ_{i,j} \|⟨φ_i, φ_j⟩\|² ≥ N²/d | QuantumDesigns/Welch.lean |
+| 43 | `welch_bound_of_constantOverlap` — N ≥ 2 unit vectors with one squared overlap c have c ≥ (N − d)/(d(N − 1)) | QuantumDesigns/Welch.lean |
+| 44 | `welch_card_bound` — N unit vectors with every pairwise squared overlap at most α, α d < 1, have N (1 − α d) ≤ d (1 − α) | QuantumDesigns/Welch.lean |
+| 45 | `card_le_of_overlapSq_le_sic` — N unit vectors with every pairwise squared overlap at most 1/(d + 1) have N ≤ d² | QuantumDesigns/Welch.lean |
+| 46 | `hasSICPOVM_four` — the Weyl–Heisenberg orbit of Appleby's fiducial | QuantumDesigns/SIC4.lean |
 
 `QuantumDesigns/Small.lean` holds the explicit complete sets in dimensions 2, 4 and 8 (`hasMUBs_two_three`,
 `hasMUBs_four_five`, `hasMUBs_eight_nine`, kernel-checked tables in `QuantumDesigns/SmallTables.lean`), used by 14–16;
 `QuantumDesigns/Chirp.lean` proves `hasMUBs_three_chirp`, a second, field-free proof of 6 (the Fourier and chirped
 Fourier bases); `QuantumDesigns/PrimePow.lean` assembles 8 and 10 into `hasCompleteMUBs_prime_pow_internal`.
+`QuantumDesigns/GapCore.lean`, `GapPhi.lean`, `GapKraus.lean`, `GapDFT.lean`, `GapSchwarz.lean` and `GapDiag.lean` hold
+the steps of 27 and 28 (PROOF.md §10); `QuantumDesigns/SIC4Tables.lean` holds the kernel-checked index arithmetic of 46.
 
 ## Checks
 
@@ -59,10 +81,13 @@ Fourier bases); `QuantumDesigns/PrimePow.lean` assembles 8 and 10 into `hasCompl
   generated from Challenge.lean by `scripts/gen_solution.py`.
 - **Replay** (`scripts/check_designs.py`, standard library, exact arithmetic): the odd-characteristic bases for
   q ∈ {3, 5, 7, 9, 11, 13, 25, 27}, the ℤ/4 bases for 2ⁿ ≤ 16 with every difference of Gram matrices nonsingular, Hoggar's 64 vectors (4096
-  ordered pairs) with the frame identity, the tetrahedron and the Hesse configuration; `VERDICT: PASS`.
+  ordered pairs) with the frame identity, the tetrahedron, the Hesse configuration, and Appleby's dimension-4 fiducial
+  as printed (eq. (149)) with its sixteen translates, in the ring ℚ[c, q, i] (all 16 norms and 120 pairs; a float
+  check outside the verdict); `VERDICT: PASS`.
 - **Build and axioms:** `lake build` of every target; `Test/Axioms.lean` walks every constant of the project and every
-  compared theorem and fails on any axiom beyond `propext`, `Classical.choice`, `Quot.sound`.
+  compared theorem and fails on any axiom beyond `propext`, `Classical.choice`, `Quot.sound` (about 470 project constants,
+  no other axiom).
 - **Module resolution** (`scripts/check_module_resolution.py`): `Challenge` and `Solution` resolve to this repository's
   files first in Lake's source path.
-- **Core-notation audit** (`scripts/core_notation_audit.lean`, Palomar's): the 26 theorems and 14 definitions print
-  with Mathlib's definitions as opaque axioms (40 rows).
+- **Core-notation audit** (`scripts/core_notation_audit.lean`, Palomar's): the 46 theorems and 14 definitions print
+  with Mathlib's definitions as opaque axioms (60 rows).

@@ -29,6 +29,7 @@
     "QuantumDesigns.hasSICPOVM_three",
     "QuantumDesigns.hasSICPOVM_eight",
     "QuantumDesigns.hasCompleteMUBs_of_hasMUBs_self",
+    "QuantumDesigns.exists_isMUBFamily_extension",
     "QuantumDesigns.hasCompleteMUBs_of_le_hasMUBs",
     "QuantumDesigns.isMaxMUBCount_ne_self",
     "QuantumDesigns.isMaxMUBCount_dichotomy",

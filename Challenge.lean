@@ -12,7 +12,7 @@ formal-conjectures repository (google-deepmind/formal-conjectures, Apache-2.0; i
 **Mutually unbiased bases.** An orthonormal basis of `ℂ^d` is a unitary matrix whose columns are the basis
 vectors; two bases `U`, `V` are *unbiased* when every entry of `U†V` has squared norm `1/d`; `HasMUBs d k` says
 that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d + 1` do, and `IsMaxMUBCount d k` that
-`k` is the largest such number. This file states, and `Solution.lean` proves (kernel-only):
+`k` is the largest such number (written `μ(d) = k`). This file states, and `Solution.lean` proves (kernel-only):
 
 * the bound: for `d ≥ 2`, `HasMUBs d m → m ≤ d + 1` (the `d² − 1`-dimensional space of traceless matrices
   holds the `m(d − 1)` pairwise orthogonal traceless projector combinations; Wootters–Fields 1989;
@@ -28,7 +28,20 @@ that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d +
   `c ≠ 0`; for `q = 2ⁿ`, the bases with entries `i^{xᵀS_a x}(−1)^{b·x}/√q` (`S_a` the Gram matrix of the trace form
   `(x, y) ↦ Tr(a x y)` of `𝔽_{2ⁿ}`, lifted to `{0, 1}`; equivalent to the Galois-ring bases of Klappenecker–Rötteler
   Theorem 3, up to `a ↦ a²` and a relabelling of columns); so `IsMaxMUBCount (pᵏ) (pᵏ + 1)` for every prime power, and `HasCompleteMUBs d ↔
-  IsMaxMUBCount d (d + 1)` for `d ≥ 2`; the cases `2, 4, 8` also by explicit kernel-checked tables.
+  IsMaxMUBCount d (d + 1)` for `d ≥ 2`; the cases `2, 4, 8` also by explicit kernel-checked tables;
+* Weiner's gap: for every `d`, any `d` mutually unbiased bases of `ℂ^d` extend by one more basis to a complete set
+  of `d + 1`, the given bases keeping their places, so `HasMUBs d d → HasCompleteMUBs d` (Weiner 2013, Corollary
+  3.4, in its extension and its existence form; the route of its proof, the operator-algebra steps written out: the
+  orthogonal projection onto the matrices with a constant diagonal in every basis of the family has a Kraus form, at
+  a fixed point its Kadison–Schwarz defect is a trace-zero sum of squares of commutators, and the missing basis is a
+  common eigenbasis of the Kraus operators); hence `k ≥ d` bases give a complete set, for `d ≥ 2` the maximal number is never `d` (so `μ(6) ≠ 6`),
+  and Weiner's dichotomy: for `d ≥ 2` it is `d + 1` or below `d`;
+* the maximal number: two bases in every dimension; `HasMUBs q m ↔ m ≤ q + 1` in every prime-power dimension `q`;
+  for `d ≥ 2`, `μ(d)` exists, is unique and lies in `[3, d + 1]`; in dimension `1` there is none; and
+  formal-conjectures' `mutuallyUnbiasedBases_dim6_bounds`, stated verbatim: `HasMUBs 6 3 ∧ ∀ m : ℕ, HasMUBs 6 m → m ≤ 7`;
+* reconstruction: a complete set determines every matrix from its diagonals,
+  `X = Σ_{s,l} Tr(X P_{s,l}) P_{s,l} − Tr(X)·1` with `P_{s,l}` the projector onto column `l` of basis `s` (after
+  Ivanović 1981 and Wootters–Fields 1989, in the form of Scott 2006, eqs. (9) and (56)).
 
 **SIC-POVMs and equiangular lines.** A SIC family in `ℂ^d` is `d²` unit vectors with pairwise squared overlap
 `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's conjecture: for every `d`). This file states, and
@@ -44,14 +57,27 @@ that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d +
   members;
 * `HasSICPOVM 8`: Hoggar's 64 lines (Hoggar 1981, 1998), as the orbit of `(−1 + 2i, 1, 1, 1, 1, 1, 1, 1)/√12` under
   the three-qubit Pauli group (Jedwab–Wiebe 2015, Example 4), kernel-checked; `HasSICPOVM 2` (the tetrahedron) and
-  `HasSICPOVM 3` (the Hesse configuration), the witness families of formal-conjectures' file.
+  `HasSICPOVM 3` (the Hesse configuration), the witness families of formal-conjectures' file;
+* `HasSICPOVM 4`: the sixteen Weyl–Heisenberg translates of Appleby's exact fiducial (Appleby 2005, §8, Eq. (149),
+  which credits Zauner 1999 and Renes–Blume-Kohout–Scott–Caves 2004), the squared overlaps `1/5` by exact
+  trigonometric and radical identities;
+* reconstruction: a SIC family determines every matrix, `X = Σ_i ((d + 1) Tr(X P_i) − Tr X)/d · P_i` with
+  `P_i = |φ_i⟩⟨φ_i|` (informational completeness: Renes–Blume-Kohout–Scott–Caves 2004, §II; the coefficients: Scott
+  2006, eq. (9) in the proof of Theorem 4, and Appleby–Dang–Fuchs, eq. (3));
+* Welch's bound in the frame-potential form: `N` unit vectors of `ℂ^d` have `Σ_{i,j} |⟨φ_i, φ_j⟩|² ≥ N²/d` (Welch
+  1974, as restated by Datta–Howard–Cochran and by Mixon–Needham–Shonkwiler–Villar; the frame potential is the
+  name of Benedetto–Fickus 2003); with one squared overlap `c` on every pair of `N ≥ 2` unit vectors,
+  `c ≥ (N − d)/(d(N − 1))`; with every pairwise squared overlap at most `α`, where `α d < 1`, the relative bound
+  `N (1 − α d) ≤ d (1 − α)`; and at most `d²` unit vectors have every pairwise squared overlap at or below the SIC
+  angle `1/(d + 1)`.
 
 Conventions: `Matrix.unitaryGroup (Fin d) ℂ` is the group of unitary `d × d` matrices (`star U * U = 1 = U * star U`);
 `‖z‖` is the complex absolute value; `EuclideanSpace ℂ (Fin d)` is `ℂ^d` with the `ℓ²` norm, a vector `ψ` having
 coordinates `ψ i`; `Complex.normSq z = ‖z‖²`; `Pairwise P` means `P i j` for all `i ≠ j`; `Fintype.card F` is the
 size of the finite field `F`; `ringChar F` its characteristic; `AddChar F ℂ` the additive characters of `F` into
 `ℂ` (unit-valued homomorphisms from `(F, +)` to `(ℂ, ×)`); `d.factorization p` the exponent of the prime `p` in `d`;
-`Matrix.vecMulVec v w` the matrix `(i, j) ↦ v i * w j`.
+`Matrix.vecMulVec v w` the matrix `(i, j) ↦ v i * w j`, so that `|φ⟩⟨φ|` is `Matrix.vecMulVec φ (star ∘ φ)`;
+`Tr X` is `Matrix.trace X`; `|⟨φ, ψ⟩|²` is `overlapSq φ ψ`.
 -/
 
 @[expose] public section
@@ -242,25 +268,38 @@ theorem hasSICPOVM_eight : HasSICPOVM 8 := sorry
 
 /- ## Weiner's gap: `d` bases complete to `d + 1` -/
 
-/-- Weiner's gap (Weiner 2013, Corollary 3.4): `d` mutually unbiased bases of `ℂ^d` extend to a complete set of
-`d + 1`. The matrices with a constant diagonal in every one of the `d` bases form a commutative star-closed
-subspace (the orthogonal projection onto it has a Kraus form, whose Kadison–Schwarz defect is a sum of squares of
-commutators with zero trace), and the projectors of a common eigenbasis of that subspace give the missing basis. -/
+/-- Weiner's gap (Weiner 2013; the operator-algebra steps of its proof written out): `d` mutually unbiased bases of
+`ℂ^d` give a complete set of `d + 1` (the existence form of Corollary 3.4). The orthogonal projection onto the
+matrices with a constant diagonal in every one of the `d` bases has a Kraus form `X ↦ Σ_i K_i^* X K_i` (Weiner's
+Lemma 3.2) whose operators `K_i` have constant diagonals themselves. At a fixed point `X` of the projection, such as
+any `K_i` or `K_i^*`, its Kadison–Schwarz defect is the trace-zero sum `Σ_i (X K_i − K_i X)^* (X K_i − K_i X)`, so
+`X` commutes with every `K_i`: the `K_i` commute with one another and with their adjoints, and the projectors of a
+common eigenbasis of the `K_i` are again fixed by the projection, hence have constant diagonals, hence are unbiased
+to every basis of the family. -/
 theorem hasCompleteMUBs_of_hasMUBs_self (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d := sorry
 
-/-- `k ≥ d` mutually unbiased bases of `ℂ^d` give a complete set of `d + 1`. -/
+/-- Weiner's Corollary 3.4 in its extension form (Weiner 2013; the route as above): any `d` mutually unbiased bases
+of `ℂ^d` extend, by one more basis, to a complete set of `d + 1`, the given bases keeping their places
+(`C (r + 1) = B r`). -/
+theorem exists_isMUBFamily_extension {d : ℕ} (B : Fin d → UMat d) (hB : IsMUBFamily B) :
+    ∃ C : Fin (d + 1) → UMat d, IsMUBFamily C ∧ ∀ r : Fin d, C r.succ = B r := sorry
+
+/-- `k ≥ d` mutually unbiased bases of `ℂ^d` give a complete set of `d + 1` (restrict to `d` and apply Weiner's
+gap). -/
 theorem hasCompleteMUBs_of_le_hasMUBs {d k : ℕ} (hk : d ≤ k) (h : HasMUBs d k) : HasCompleteMUBs d := sorry
 
-/-- The gap: for `d ≥ 2`, `d` is never the maximal number of mutually unbiased bases. -/
+/-- The gap (Weiner 2013, abstract: `N(d) ≠ d`): for `d ≥ 2`, `d` is never the maximal number of mutually
+unbiased bases. -/
 theorem isMaxMUBCount_ne_self (d : ℕ) (hd : 2 ≤ d) : ¬ IsMaxMUBCount d d := sorry
 
-/-- Weiner's dichotomy: for `d ≥ 2` the maximal number of mutually unbiased bases is `d + 1` or below `d`. -/
+/-- Weiner's dichotomy (Weiner 2013, abstract): for `d ≥ 2` the maximal number of mutually unbiased bases is `d + 1`
+or below `d`. -/
 theorem isMaxMUBCount_dichotomy (d : ℕ) (hd : 2 ≤ d) (k : ℕ) (h : IsMaxMUBCount d k) :
     k = d + 1 ∨ k < d := sorry
 
 /- ## The maximal number: existence, uniqueness, bounds -/
 
-/-- Two mutually unbiased bases in every dimension (the standard basis and the Fourier basis). -/
+/-- Two mutually unbiased bases in every dimension (e.g. the standard basis and the Fourier basis). -/
 theorem hasMUBs_two (d : ℕ) : HasMUBs d 2 := sorry
 
 /-- In a prime-power dimension `q = pᵏ`, `m` mutually unbiased bases exist iff `m ≤ q + 1`. -/
@@ -280,17 +319,20 @@ theorem not_exists_isMaxMUBCount_one : ¬ ∃ k, IsMaxMUBCount 1 k := sorry
 theorem isMaxMUBCount_bounds (d : ℕ) (hd : 2 ≤ d) (k : ℕ) (h : IsMaxMUBCount d k) :
     3 ≤ k ∧ k ≤ d + 1 := sorry
 
-/-- formal-conjectures' `mutuallyUnbiasedBases_dim6_bounds` (left with `sorry` there): `3 ≤ μ(6) ≤ 7`. -/
+/-- formal-conjectures' `mutuallyUnbiasedBases_dim6_bounds` (left with `sorry` there, marked solved with a
+`formal_proof` link to XC0R's fork at c8733543), stated verbatim: `3 ≤ μ(6) ≤ 7`, the instance `d = 6` of three
+bases and the bound. -/
 theorem mutuallyUnbiasedBases_dim6_bounds : HasMUBs 6 3 ∧ ∀ m : ℕ, HasMUBs 6 m → m ≤ 7 := sorry
 
-/-- The gap in dimension six: `μ(6) ≠ 6`. -/
+/-- The instance `d = 6` of Weiner's gap: `μ(6) ≠ 6` (also implied by the bound of five bases formalized in
+openai/math, `N6_le_five`). -/
 theorem not_isMaxMUBCount_six_six : ¬ IsMaxMUBCount 6 6 := sorry
 
 /- ## Reconstruction: complete sets and SIC families are informationally complete -/
 
-/-- A complete set of `d + 1` mutually unbiased bases determines every matrix from its diagonals (Ivanović 1981;
-Wootters–Fields 1989): `X = Σ_{s,l} Tr(X P_{s,l}) P_{s,l} − Tr(X)·1`, where `P_{s,l} = |e_{s,l}⟩⟨e_{s,l}|` is the
-projector onto column `l` of basis `s`. -/
+/-- A complete set of `d + 1` mutually unbiased bases determines every matrix from its diagonals:
+`X = Σ_{s,l} Tr(X P_{s,l}) P_{s,l} − Tr(X)·1`, where `P_{s,l} = |e_{s,l}⟩⟨e_{s,l}|` is the projector onto column `l`
+of basis `s` (after Ivanović 1981 and Wootters–Fields 1989, in the form of Scott 2006, eqs. (9) and (56)). -/
 theorem mub_reconstruction {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
     (X : Matrix (Fin d) (Fin d) ℂ) :
     X = ∑ s, ∑ l, Matrix.trace (X * Matrix.vecMulVec (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
@@ -299,8 +341,9 @@ theorem mub_reconstruction {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFam
           (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l)) -
       Matrix.trace X • (1 : Matrix (Fin d) (Fin d) ℂ) := sorry
 
-/-- A SIC family determines every matrix (Renes–Blume-Kohout–Scott–Caves 2004, §II):
-`X = Σ_i ((d + 1) Tr(X P_i) − Tr X)/d · P_i` with `P_i = |φ_i⟩⟨φ_i|`. -/
+/-- A SIC family determines every matrix: `X = Σ_i ((d + 1) Tr(X P_i) − Tr X)/d · P_i` with `P_i = |φ_i⟩⟨φ_i|`
+(informational completeness: Renes–Blume-Kohout–Scott–Caves 2004, §II; the coefficients: Scott 2006, eq. (9) in the
+proof of Theorem 4, and Appleby–Dang–Fuchs, eq. (3)). -/
 theorem sic_reconstruction {d : ℕ} (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ)
     (X : Matrix (Fin d) (Fin d) ℂ) :
     X = ∑ i, ((((d : ℂ) + 1) * Matrix.trace (X * Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) -
@@ -308,31 +351,37 @@ theorem sic_reconstruction {d : ℕ} (Φ : Fin (d ^ 2) → StateVector d) (h : I
 
 /- ## Welch's bound -/
 
-/-- Welch's bound (Welch 1974, in the frame-potential form): `N` unit vectors of `ℂ^d` have
-`Σ_{i,j} |⟨φ_i, φ_j⟩|² ≥ N²/d`. -/
+/-- Welch's bound in the frame-potential form: `N` unit vectors of `ℂ^d` have `Σ_{i,j} |⟨φ_i, φ_j⟩|² ≥ N²/d` (Welch
+1974, as restated by Datta–Howard–Cochran, eq. (2) with `k = 1`, and by Mixon–Needham–Shonkwiler–Villar,
+Proposition 1; the frame potential is the name of Benedetto–Fickus 2003). -/
 theorem welch_bound {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i)) :
     (N : ℝ) ^ 2 / (d : ℝ) ≤ ∑ i, ∑ j, overlapSq (Φ i) (Φ j) := sorry
 
 /-- Welch's bound for a constant overlap: `N ≥ 2` unit vectors with the same squared overlap `c` on every pair
-have `c ≥ (N − d)/(d(N − 1))`. -/
+have `c ≥ (N − d)/(d(N − 1))` (Welch 1974, as restated by Datta–Howard–Cochran, eq. (1) with `k = 1`). -/
 theorem welch_bound_of_constantOverlap {d N : ℕ} {c : ℝ} (hN : 2 ≤ N) (Φ : Fin N → StateVector d)
     (hn : ∀ i, IsNormalized (Φ i)) (ho : HasConstantOverlapSq c Φ) :
     ((N : ℝ) - d) / ((d : ℝ) * ((N : ℝ) - 1)) ≤ c := sorry
 
-/-- The relative bound: `N` unit vectors with every pairwise squared overlap at most `α`, where `α d < 1`, satisfy
-`N (1 − α d) ≤ d (1 − α)`. -/
+/-- The relative bound, from Welch's inequality: `N` unit vectors with every pairwise squared overlap at most `α`,
+where `α d < 1`, satisfy `N (1 − α d) ≤ d (1 − α)`. -/
 theorem welch_card_bound {d N : ℕ} {α : ℝ} (hα : α * (d : ℝ) < 1) (Φ : Fin N → StateVector d)
     (hn : ∀ i, IsNormalized (Φ i)) (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ α) :
     (N : ℝ) * (1 - α * (d : ℝ)) ≤ (d : ℝ) * (1 - α) := sorry
 
-/-- At most `d²` unit vectors of `ℂ^d` have every pairwise squared overlap at most `1/(d + 1)`: the SIC angle is
-the smallest common bound a family of `d²` unit vectors can have. -/
+/-- At most `d²` unit vectors of `ℂ^d` have every pairwise squared overlap at most `1/(d + 1)` (the relative bound
+at `α = 1/(d + 1)`): a SIC family is a largest family of unit vectors at or below the SIC angle (for `d ≥ 2`,
+`welch_card_bound` shows that `d²` unit vectors cannot all stay strictly below it). -/
 theorem card_le_of_overlapSq_le_sic {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i))
     (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d) : N ≤ d ^ 2 := sorry
 
 /- ## A SIC-POVM in dimension 4 -/
 
-/-- A SIC-POVM in dimension `4`: a Weyl–Heisenberg orbit of an exact fiducial vector, kernel-checked. -/
+/-- A SIC-POVM in dimension `4`: the sixteen vectors `(S^a T^b ψ)(x) = i^{b(x − a)} ψ(x − a)`, `a, b ∈ ℤ/4`, of
+Appleby's exact fiducial
+`ψ = √((5 − √5)/40) · (2 cos(π/8), i(e^{−iπ/8} + √(2 + √5) e^{iπ/8}), 2i sin(π/8), i(e^{−iπ/8} − √(2 + √5) e^{iπ/8}))`
+(Appleby 2005, §8, Eq. (149), which credits Zauner 1999 and Renes–Blume-Kohout–Scott–Caves 2004); the squared
+overlaps `1/5` by exact trigonometric and radical identities. -/
 theorem hasSICPOVM_four : HasSICPOVM 4 := sorry
 
 end QuantumDesigns

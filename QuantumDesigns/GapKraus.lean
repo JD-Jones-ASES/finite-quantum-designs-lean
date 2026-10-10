@@ -6,18 +6,19 @@ public import QuantumDesigns.GapPhi
 /-!
 # The Kraus form of Weiner's projection
 
-**Weiner's Lemma 2.1.** For an orthonormal basis `b` of the matrix space (Hilbert–Schmidt inner product, through
-the flattening `bd_vec`), `Σ_i b_i^* X b_i = Tr(X)·1`: the entry `(p, q)` of the left side is
-`Σ_{a,c} X_{ac} Σ_i conj((b_i)_{ap}) (b_i)_{cq}`, and the inner sum is the Parseval identity
-`⟨E_{ap}, E_{cq}⟩ = Σ_i ⟨E_{ap}, b_i⟩ ⟨b_i, E_{cq}⟩` for the matrix units (`OrthonormalBasis.sum_inner_mul_inner`),
-which is `δ_{ac} δ_{pq}` (`gp_onb_parseval`, `gp_onb_sum`).
+**Lemma 2.1 of Weiner 2013, recalled there from Werner 2001.** For an orthonormal basis `b` of the matrix space
+(Hilbert–Schmidt inner product, through the flattening `bd_vec`), `Σ_i b_i^* X b_i = Tr(X)·1`: the entry `(p, q)` of
+the left side is `Σ_{a,c} X_{ac} Σ_i conj((b_i)_{ap}) (b_i)_{cq}`, and the inner sum is the Parseval identity
+`Σ_i ⟨E_{cq}, b_i⟩ ⟨b_i, E_{ap}⟩ = ⟨E_{cq}, E_{ap}⟩` for the matrix units (`OrthonormalBasis.sum_inner_mul_inner`;
+Mathlib's inner product is conjugate-linear in its left argument, so `⟨E_{cq}, b_i⟩ = (b_i)_{cq}` and
+`⟨b_i, E_{ap}⟩ = conj((b_i)_{ap})`), which is `δ_{ac} δ_{pq}` (`gp_onb_parseval`, `gp_onb_sum`).
 
 **The weighted projectors conjugate to the pinching.** `w_k = Σ_j ζ^{j(k+1)} P_j` gives
 `w_k^* X w_k = Σ_{j,j'} ζ^{(j'−j)(k+1)} P_j X P_{j'}`; summing over `k + 1 ∈ {0, …, d − 1}` (the term `k + 1 = 0`
 is `1·X·1 = X`) the geometric sums `Σ_m ζ^{(j'−j)m}` are `d δ_{jj'}` (`gp_freq`, `gp_geom`, from `bd_geom_zero`), so
 `Σ_{k < d−1} w_k^* X w_k = d Σ_j P_j X P_j − X` (`gp_w_sum`).
 
-**Lemma 3.2 (the Kraus form).** For `d` mutually unbiased bases the `d(d − 1)` vectors `w_{r,k}/√d` are orthonormal
+**Weiner's Lemma 3.2 (the Kraus form).** For `d` mutually unbiased bases the `d(d − 1)` vectors `w_{r,k}/√d` are orthonormal
 (`bd_inner_w_same_ne`, `bd_inner_w_diff`, `bd_inner_w_self`) in the space of dimension `d² = d(d − 1) + d`, so they
 extend to an orthonormal basis indexed by `Fin d × Fin (d − 1) ⊕ Fin d`
 (`Orthonormal.exists_orthonormalBasis_extension_of_card_eq`, with the index set `Fin d × Fin (d − 1) ⊕ Fin d` and the
@@ -51,7 +52,8 @@ lemma gp_onb_parseval {d : ℕ} {ι : Type} [Fintype ι]
   rw [← h]
   exact Finset.sum_congr rfl fun i _ => mul_comm _ _
 
-/-- Weiner's Lemma 2.1: an orthonormal basis of the flattened matrix space satisfies `Σ_i b_i^* X b_i = Tr(X)·1`. -/
+/-- Lemma 2.1 of Weiner 2013 (recalled there from Werner 2001): an orthonormal basis of the flattened matrix space
+satisfies `Σ_i b_i^* X b_i = Tr(X)·1`. -/
 theorem gp_onb_sum {d : ℕ} {ι : Type} [Fintype ι]
     (b : OrthonormalBasis ι ℂ (EuclideanSpace ℂ (Fin d × Fin d))) (X : Matrix (Fin d) (Fin d) ℂ) :
     ∑ i, star (gp_unvec (b i)) * X * gp_unvec (b i) = Matrix.trace X • (1 : Matrix (Fin d) (Fin d) ℂ) := by

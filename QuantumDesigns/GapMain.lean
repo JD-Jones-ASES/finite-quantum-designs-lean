@@ -24,10 +24,18 @@ which each of them is diagonal. A matrix diagonal in `W` commutes with every pro
 By `gp_flat_Phi`, `Q_l` is flat: `gp_diag (B s) Q_l l' = Tr(Q_l)/d = 1/d` (`gp_trace_proj`), which
 `gp_diag_eq_inner` and `bd_inner_proj` read as `‖((B s)^* W)_{l' l}‖² = 1/d`: `W` is unbiased to every `B s`. The
 family `Fin.cons W B : Fin (d + 1) → UMat d` is then pairwise unbiased (the pairs inside `B` by hypothesis, the pairs
-with `W` by the above and its symmetry `of_isUnbiased_symm`).
+with `W` by the above and its symmetry `of_isUnbiased_symm`), and it keeps each `B r` at the index `r + 1`
+(`Fin.cons_succ`): the extension form `exists_isMUBFamily_extension_internal`. The existence form
+`hasCompleteMUBs_of_hasMUBs_self_internal` forgets the placement.
 
 The corollaries: `d ≤ k` bases restrict to `d` (`hasMUBs_of_le_internal`); `IsMaxMUBCount d d` would put
 `d + 1 ≤ d`; the dichotomy from the bound `k ≤ d + 1` (`hasMUBs_le_internal`); dimension six as the instance `d = 6`.
+
+Neighbours: in openai/math's `lean/OAI/Analysis/MutuallyUnbiased/Completion/` (openai/math@adc7f124, Apache-2.0),
+`six_extend_to_seven` is the instance `d = 6` of the completion, in its own vocabulary (orthonormal bases of
+`EuclideanSpace ℂ (Fin 6)`), and its general-`n` lemmas `exists_joint_projection_basis` and
+`exists_fixed_projection_basis` are the counterparts of `gp_simultaneous_diag` and of the fixed projectors `Q_l`
+here; its `μ(6) ≤ 5` (`N6_le_five`) implies `not_isMaxMUBCount_six_six_internal`.
 -/
 
 @[expose] public section
@@ -115,9 +123,10 @@ theorem gp_commute_proj_of_diag {d : ℕ} (W : UMat d) (X : Matrix (Fin d) (Fin 
 
 /-! ## Weiner's gap and its corollaries -/
 
-/-- Weiner's gap (Weiner 2013, Corollary 3.4): `d` mutually unbiased bases of `ℂ^d` extend to `d + 1`. -/
-theorem hasCompleteMUBs_of_hasMUBs_self_internal (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d := by
-  obtain ⟨B, hB⟩ := h
+/-- Weiner's Corollary 3.4 in its extension form: `d` mutually unbiased bases of `ℂ^d` extend, by one more basis,
+to a complete set of `d + 1`, the given bases keeping their places. -/
+theorem exists_isMUBFamily_extension_internal {d : ℕ} (B : Fin d → UMat d) (hB : IsMUBFamily B) :
+    ∃ C : Fin (d + 1) → UMat d, IsMUBFamily C ∧ ∀ r : Fin d, C r.succ = B r := by
   obtain ⟨K, hKo, hKr, hKs⟩ := gp_exists_kraus B hB
   -- the Kraus operators are flat
   have hflat : ∀ i, gp_Flat B (K i) := fun i s l =>
@@ -157,7 +166,7 @@ theorem hasCompleteMUBs_of_hasMUBs_self_internal (d : ℕ) (h : HasMUBs d d) : H
     apply Complex.ofReal_injective
     push_cast at h1 ⊢
     exact h1
-  refine ⟨Fin.cons W B, ?_⟩
+  refine ⟨Fin.cons W B, ?_, fun r => by simp⟩
   intro m n hmn
   induction m using Fin.cases with
   | zero =>
@@ -170,6 +179,13 @@ theorem hasCompleteMUBs_of_hasMUBs_self_internal (d : ℕ) (h : HasMUBs d d) : H
     | succ k' =>
       have hk : k ≠ k' := fun h => hmn (by rw [h])
       simpa using hB hk
+
+/-- Weiner's gap (Weiner 2013): `d` mutually unbiased bases of `ℂ^d` give a complete set of `d + 1` (the existence
+form of Corollary 3.4). -/
+theorem hasCompleteMUBs_of_hasMUBs_self_internal (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d := by
+  obtain ⟨B, hB⟩ := h
+  obtain ⟨C, hC, -⟩ := exists_isMUBFamily_extension_internal B hB
+  exact ⟨C, hC⟩
 
 theorem hasCompleteMUBs_of_le_hasMUBs_internal {d k : ℕ} (hk : d ≤ k) (h : HasMUBs d k) :
     HasCompleteMUBs d :=
