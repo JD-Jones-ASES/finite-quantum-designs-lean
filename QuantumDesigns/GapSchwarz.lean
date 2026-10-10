@@ -17,7 +17,7 @@ In Weiner's Lemma 3.1 these two steps are Choi's Schwarz inequality for two-posi
 and Choi's multiplicative-domain theorem (Theorem 3.1); for a Kraus map the defect identity and the trace replace
 both. The same elementary move, the squared Hilbert–Schmidt norm of each commutator in place of two-positivity and
 the multiplicative domain, is made for general `n` in openai/math's
-`lean/OAI/Analysis/MutuallyUnbiased/Completion/Kraus.lean` (openai/math@adc7f124, Apache-2.0;
+`lean/OAI/Analysis/MutuallyUnbiased/Completion/Kraus.lean` (openai/math@adc7f1241b, Apache-2.0;
 `commutator_trace_identity`, `commute_of_kraus_fixed`), which was read here after this route was pinned.
 -/
 

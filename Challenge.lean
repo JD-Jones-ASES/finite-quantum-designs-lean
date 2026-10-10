@@ -49,7 +49,7 @@ that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d +
 
 * Gerzon's bound over `ℂ`: `N` unit vectors in `ℂ^d` with the same squared overlap `c ≠ 1` on every pair have
   `N ≤ d²` (the rank-one projectors are linearly independent in the `d²`-dimensional matrix space;
-  Delsarte–Goethals–Seidel 1975, the complex form of Gerzon's unpublished bound); the hypothesis is sharp: with
+  Delsarte–Goethals–Seidel 1975, not read, as stated in Roy's thesis, Corollary 3.3.2; the complex form of Gerzon's unpublished bound); the hypothesis is sharp: with
   `c = 1` the family may be any length;
 * the equality case: for `d ≥ 2`, `d²` unit vectors with the same overlap `c ≠ 1` have `c = 1/(d + 1)`, and
   their rank-one projectors resolve the identity, `Σ_i (1/d) |φ_i⟩⟨φ_i| = 1` (so every SIC family is a POVM, and
@@ -58,7 +58,7 @@ that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d +
 * `HasSICPOVM 8`: Hoggar's 64 lines (Hoggar 1981, 1998), as the orbit of `(−1 + 2i, 1, 1, 1, 1, 1, 1, 1)/√12` under
   the three-qubit Pauli group (Jedwab–Wiebe 2015, Example 4), kernel-checked; `HasSICPOVM 2` (the tetrahedron) and
   `HasSICPOVM 3` (the Hesse configuration), the witness families of formal-conjectures' file;
-* `HasSICPOVM 4`: the sixteen Weyl–Heisenberg translates of Appleby's exact fiducial (Appleby 2005, §8, Eq. (149),
+* `HasSICPOVM 4`: the sixteen Weyl–Heisenberg translates of Appleby's exact fiducial (Appleby 2005, §8, eq. (149),
   which credits Zauner 1999 and Renes–Blume-Kohout–Scott–Caves 2004), the squared overlaps `1/5` by exact
   trigonometric and radical identities;
 * reconstruction: a SIC family determines every matrix, `X = Σ_i ((d + 1) Tr(X P_i) − Tr X)/d · P_i` with
@@ -380,7 +380,7 @@ theorem card_le_of_overlapSq_le_sic {d N : ℕ} (Φ : Fin N → StateVector d) (
 /-- A SIC-POVM in dimension `4`: the sixteen vectors `(S^a T^b ψ)(x) = i^{b(x − a)} ψ(x − a)`, `a, b ∈ ℤ/4`, of
 Appleby's exact fiducial
 `ψ = √((5 − √5)/40) · (2 cos(π/8), i(e^{−iπ/8} + √(2 + √5) e^{iπ/8}), 2i sin(π/8), i(e^{−iπ/8} − √(2 + √5) e^{iπ/8}))`
-(Appleby 2005, §8, Eq. (149), which credits Zauner 1999 and Renes–Blume-Kohout–Scott–Caves 2004); the squared
+(Appleby 2005, §8, eq. (149), which credits Zauner 1999 and Renes–Blume-Kohout–Scott–Caves 2004); the squared
 overlaps `1/5` by exact trigonometric and radical identities. -/
 theorem hasSICPOVM_four : HasSICPOVM 4 := sorry
 

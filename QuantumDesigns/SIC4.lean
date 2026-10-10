@@ -7,7 +7,7 @@ public import QuantumDesigns.SIC4Tables
 # A SIC-POVM in dimension 4
 
 **The fiducial.** Appleby, *SIC-POVMs and the extended Clifford group*, J. Math. Phys. 46, 052107 (2005),
-arXiv:quant-ph/0412001v2, §8 ("Dimension 4"), Eq. (149), p. 21 (a fiducial found by Zauner, 1999, and by
+arXiv:quant-ph/0412001v2, §8 ("Dimension 4"), eq. (149), p. 21 (a fiducial found by Zauner, 1999, and by
 Renes–Blume-Kohout–Scott–Caves, 2004):
 `ψ = √((5 − √5)/40) (2 cos(π/8) e₀ + i (e^{−iπ/8} + √(2 + √5) e^{iπ/8}) e₁ + 2i sin(π/8) e₂
   + i (e^{−iπ/8} − √(2 + √5) e^{iπ/8}) e₃)`.
@@ -21,7 +21,7 @@ displacement operators `D_{(a,b)} = τ^{ab} S^a T^b`, Eqs. (6)–(8), without th
 (`s4_vr`, `s4_vi`, through the index arithmetic of the Mathlib-free leaf `QuantumDesigns.SIC4Tables`), with the real
 and imaginary parts `s4_ipRe`, `s4_ipIm` of their inner products and the squared modulus `s4_osq`. Weyl–Heisenberg
 covariance, `s4_wh`: for arbitrary `ur, ui`, the squared overlap of the translates `k` and `l` is that of `u` with its
-translate of index `s4_diff k l` (sixteen row lemmas `s4_wh_k`, by `interval_cases`, `simp +decide` and `ring`);
+translate of index `s4_diff k l` (sixteen row lemmas `s4_wh_k`, by `interval_cases`, `simp +decide only` and `ring`);
 `s4_diff_bounds` (kernel evaluation) places that index in `1, …, 15` when `k ≠ l`. The fifteen overlaps of `u`,
 `s4_base`: `|⟨u, S^a T^b u⟩|² = (6 + 2q²)²/5`, by `linear_combination` from the relations `c² + s² = 1`,
 `c² − s² = 2cs` and `q⁴ = 4q² + 1` with explicit polynomial coefficients; the norms, `s4_norm`. The bridge to `ℂ⁴`
@@ -370,7 +370,7 @@ theorem s4_sic (c s q N : ℝ) (h1 : c ^ 2 + s ^ 2 = 1) (h2 : c ^ 2 - s ^ 2 = 2 
     rw [he, hN]
     norm_num
 
-/-- A SIC-POVM in dimension 4: the sixteen Weyl–Heisenberg translates of Appleby's fiducial (2005, Eq. (149)),
+/-- A SIC-POVM in dimension 4: the sixteen Weyl–Heisenberg translates of Appleby's fiducial (2005, eq. (149)),
 `c = cos(π/8)`, `s = sin(π/8)`, `q = √(2 + √5)`, `N = √((5 − √5)/40)`. -/
 theorem hasSICPOVM_four_internal : HasSICPOVM 4 := by
   have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)

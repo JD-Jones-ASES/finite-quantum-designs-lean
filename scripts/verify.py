@@ -76,8 +76,7 @@ def check_replay():
 def check_yaml():
     """formalization.yaml parses; its title is within the registry's limit; its main_results match
     comparator.json; its alignment lists the compared theorems in comparator.json's order; comparator.json lists no definition
-    holes; no original-proof source. With jsonschema installed and scripts/formalization.schema.json
-    present, also validates the schema."""
+    holes; no original-proof source."""
     path = ROOT / "formalization.yaml"
     if not path.exists():
         return step("formalization.yaml", False, "missing")

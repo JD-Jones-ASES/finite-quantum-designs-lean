@@ -114,8 +114,8 @@ for every `N`, even or odd (`ch_chi_add`). `ch_orth` (the orthogonality relation
 `hasCompleteMUBs_of_odd_char_internal` applies. In `Main.lean` every `IsMaxMUBCount` is the pair of the construction and
 `hasMUBs_le_internal` (with `2 ≤ pᵏ` from `Nat.Prime.two_le` and `Nat.le_self_pow`): `isMaxMUBCount_odd_prime_pow_internal`,
 `isMaxMUBCount_two_pow_internal`, `isMaxMUBCount_prime_pow_internal`, and `isMaxMUBCount_two_internal`, `isMaxMUBCount_four_internal`, `isMaxMUBCount_eight_internal`
-from `Small.lean`'s tables; `hasCompleteMUBs_iff_isMaxMUBCount_internal` is the same pair in one direction and the
-first component in the other.
+from `Small.lean`'s tables; `hasCompleteMUBs_iff_isMaxMUBCount_internal` is the same pair in one direction and
+the `HasMUBs` component of `IsMaxMUBCount` in the other.
 
 ## 8. Gerzon's bound and the equality case (`QuantumDesigns/Gerzon.lean`)
 
@@ -166,7 +166,7 @@ the complement of the traceless parts of the `d` diagonal algebras, are used as 
 `w_{r,k}/√d` of each traceless part. Its Lemma 3.1 takes the Schwarz inequality for 2-positive maps and the
 multiplicative domain from Choi 1974; here the Kadison–Schwarz defect of the Kraus form is written out as a sum of
 squares of commutators, so a fixed point commutes with the Kraus operators, the step that openai/math's
-`Completion/Kraus.lean` (commit `adc7f12`, 2026-10-06) takes for general `n` (`commutator_trace_identity`,
+`Completion/Kraus.lean` (commit `adc7f1241b`, 2026-10-06) takes for general `n` (`commutator_trace_identity`,
 `commute_of_kraus_fixed`); that file was read after the route here was pinned. Its Proposition 3.3 (the complement is
 a maximal abelian subalgebra, by a double-commutant argument) is not proved: a common eigenbasis of the commuting Kraus
 operators gives the missing basis directly. Corollary 3.4 is proved for every `d`, in its extension form (the given

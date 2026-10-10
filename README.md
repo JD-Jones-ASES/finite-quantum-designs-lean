@@ -36,7 +36,7 @@ pairwise squared overlap `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's c
   bases exist in every dimension; for a prime power `q`, `HasMUBs q m ↔ m ≤ q + 1`; formal-conjectures'
   `mutuallyUnbiasedBases_dim6_bounds` (`3 ≤ μ(6) ≤ 7`, left with `sorry` there) is proved verbatim;
 - **Gerzon's bound over `ℂ`:** `N` unit vectors of `ℂ^d` with the same squared overlap `c ≠ 1` on every pair have
-  `N ≤ d²` (the absolute bound of Delsarte–Goethals–Seidel 1975, the complex form of Gerzon's real bound); sharp: with
+  `N ≤ d²` (the absolute bound of Delsarte–Goethals–Seidel 1975, not read, as stated in Roy's thesis, Corollary 3.3.2; the complex form of Gerzon's real bound); sharp: with
   `c = 1` the family may be any length (`d ≥ 1`);
 - **the equality case:** for `d ≥ 2`, `d²` such vectors have `c = 1/(d + 1)` and resolve the identity,
   `Σ_i (1/d)|φ_i⟩⟨φ_i| = 1`; so every SIC family is a POVM (Renes–Blume-Kohout–Scott–Caves 2004, §II), `HasSICPOVM d`
@@ -65,7 +65,7 @@ pairwise squared overlap `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's c
 Not claimed: anything about dimension six beyond `3 ≤ μ(6) ≤ 7` and `μ(6) ≠ 6`; SICs in dimensions 5–7; any first
 formalization. In dimension six openai/math goes further, in its own vocabulary: its `N6_le_five` (`μ(6) ≤ 5`) implies
 `μ(6) ≠ 6` and `μ(6) ≤ 7`, and its `six_extend_to_seven` is the extension form of Weiner's gap at `d = 6`. The
-general-`n` lemmas of its `lean/OAI/Analysis/MutuallyUnbiased/Completion` (commit `adc7f12`, 2026-10-06) make the same
+general-`n` lemmas of its `lean/OAI/Analysis/MutuallyUnbiased/Completion` (commit `adc7f1241b`, 2026-10-06) make the same
 elementary move as the route here: the Kadison–Schwarz defect of a Kraus map as squared Hilbert–Schmidt norms of
 commutators (`commutator_trace_identity`, `commute_of_kraus_fixed` in `Completion/Kraus.lean`), a joint eigenbasis
 (`exists_joint_projection_basis`), fixed rank-one projectors (`exists_fixed_projection_basis`). Those files were read

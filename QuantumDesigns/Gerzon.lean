@@ -22,7 +22,7 @@ summing over `j`, `S (1 − c + N c) = 0`; for `N ≥ 2`, `c ≥ 0` (a squared n
 
 **Sharpness.** `Φ i = EuclideanSpace.single 0 1` for all `i` (`d ≥ 1`): normalized, every overlap `1`.
 
-**Equality** (`gz_core`, `N = d²`, `d ≥ 2`): the `P_i` span (`LinearIndependent.span_eq_top_of_card_eq_finrank`), so
+**Equality** (`gz_core`, `N = d²`, `d ≥ 2`): the `P_i` span (`LinearIndependent.span_eq_top_of_card_eq_finrank'`), so
 `1 = Σ_i a_i • P_i`; pairing with each `Φ_j` gives `(1 − c) a_j + c A = 1` with `A = Σ a_i`, and the trace gives `A = d`;
 summing the pairing equations over `j`, `d³ c + (1 − c) d = d²`, i.e. `d (d − 1)(c (d + 1) − 1) = 0`, so `c = 1/(d + 1)`;
 then each `a_j = 1/d`, which is the frame identity. `hasSICPOVM_iff_equiangular`: `→` with `c = 1/(d + 1) ≠ 1`

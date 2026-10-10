@@ -216,7 +216,7 @@ sources:
     location: "Philips Research Reports 30 (1975) 91*-105*; reprinted in Geometry and Combinatorics: Selected Works of J. J. Seidel, Academic Press, 1991, 193-207"
     relationship: "background"
     author_endorsement: "n/a"
-    note: "The origin of the absolute bound (at most d^2 equiangular lines in C^d) and of the relative bound. Not read; the attributions and the statements are taken from Roy's thesis, Theorem 3.3.1 and Corollary 3.3.2, Theorem 3.5.2 and Corollary 3.5.5."
+    note: "The origin of the absolute bound (at most d^2 equiangular lines in C^d) and of the relative bound. Not read; the attributions and the statements are taken from Roy's thesis, Theorem 3.3.1 and Corollary 3.3.2, and Corollary 3.5.5."
   - title: "Equiangular lines"
     authors: ["P. W. H. Lemmens", "J. J. Seidel"]
     id: "doi:10.1016/0021-8693(73)90123-3"
@@ -267,7 +267,7 @@ sources:
     relationship: "background"
     author_endorsement: "not-contacted"
     note: >-
-      Complete sets in every prime-power dimension, the first proof (per Klappenecker-Rötteler, p. 3), the d + 1
+      Complete sets in every prime-power dimension (the construction Klappenecker-Rötteler, p. 3, credit to this paper), the d + 1
       bound, and optimal state determination by mutually unbiased measurements; the formula of
       mub_reconstruction is stated here in the form of Scott 2006, eq. (9), which cites this paper. Not read.
   - title: "All teleportation and dense coding schemes"
@@ -461,7 +461,7 @@ related_formalizations:
     note: "mutuallyUnbiasedBases_dim2 (mu(2) = 3, by the Bloch-vector argument). isMaxMUBCount_two here is the same statement in this namespace, re-proved by a kernel-checked table and the general bound; mutuallyUnbiasedBases_dim6_bounds (3 <= mu(6) <= 7), left with sorry there, is proved here in this namespace from the general bound and three bases."
   - id: "https://github.com/XC0R/formal-conjectures/blob/c8733543568e8011288a9fa7ef33375f5e5907d3/FormalConjectures/OpenQuantumProblems/13.lean"
     relationship: "adapts"
-    note: "The dimension-6 bound mu(6) <= 7 (dim6_upper_bound) and the Kronecker lemma hasMUBs_mul; adapted here as recorded in NOTICE, generalized to every dimension with the identity term. formal-conjectures marks mutuallyUnbiasedBases_dim6_bounds solved with the proof at line 1168 there."
+    note: "The dimension-6 bound mu(6) <= 7 (dim6_upper_bound) and the Kronecker lemma hasMUBs_mul; adapted here as listed in NOTICE, generalized to every dimension with the identity term. formal-conjectures marks mutuallyUnbiasedBases_dim6_bounds solved with the proof at line 1168 there."
   - id: "https://github.com/zblore/csd-lean4/tree/27e97330c524366e78d8f32fde0b67bd58135ac6/CsdLean4/Empirical/CSD"
     relationship: "independent"
     note: "The dimension-2 and 3 SIC overlaps and four mutually unbiased bases of C^3, in another vocabulary."
@@ -553,7 +553,7 @@ status:
     angle has at most d^2 members; a SIC family determines every matrix; Welch's bound sum_{i,j} |<phi_i,
     phi_j>|^2 >= N^2/d, its constant-overlap form, the relative bound and N <= d^2 at or below the SIC angle;
     HasSICPOVM 2, 3, 4 and 8. Not claimed: anything about dimension 6 beyond 3 <= mu(6) <= 7 and mu(6) != 6, SICs
-    in dimensions 5 to 7, any first. The intentional placeholders of Challenge.lean are excluded from proof counts; Solution.lean does
+    in dimensions 5 to 7, any first formalization. The intentional placeholders of Challenge.lean are excluded from proof counts; Solution.lean does
     not import Challenge.lean.
   sorry_count: 0
   sorry_in_definitions: 0
@@ -790,7 +790,6 @@ status:
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "comparator.json"
-# END-MAIN-RESULTS
 
 automation:
   methods:
@@ -821,8 +820,7 @@ fidelity:
     The fourteen definitions are formal-conjectures' own, restated verbatim inside a noncomputable section as
     there; their CoeFun instance on StateVector is not restated since Mathlib's PiLp instance gives the same
     coordinates. The bound is stated for d >= 2 where Bandyopadhyay-Boykin-Roychowdhury-Vatan state it for every
-    d; it fails at d = 0 and d = 1 in this encoding (every two bases of C^1 are unbiased), which hasMUBs_one_dim
-    records. The tensor bound is stated for every k (including k = 0) and every m, n (including 0, where every
+    d; it fails at d = 0 and d = 1 in this encoding (every two bases of C^1 are unbiased), which hasMUBs_one_dim states. The tensor bound is stated for every k (including k = 0) and every m, n (including 0, where every
     family is vacuously unbiased); its corollary is stated over the factorization of d != 0 rather than for a
     single prime divisor (the single-prime form, HasMUBs d (q + 1) for every prime p dividing d, is not known to
     hold: for d = 6, p = 3 it would assert four mutually unbiased bases in C^6, an open question). The odd-characteristic statement is for any finite
@@ -1103,7 +1101,7 @@ alignment:
       module: "Solution"
       status: "proved"
       note: "At most d^2 unit vectors of C^d have every pairwise squared overlap at most 1/(d + 1)."
-    - source: "Appleby 2005, section 8, eq. (149) (the fiducial; Zauner 1999)"
+    - source: "Appleby 2005, section 8, eq. (149) (the fiducial, credited there to Zauner 1999 and Renes-Blume-Kohout-Scott-Caves 2004)"
       lean: "QuantumDesigns.hasSICPOVM_four"
       module: "Solution"
       status: "proved"
