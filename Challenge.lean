@@ -248,6 +248,11 @@ subspace (the orthogonal projection onto it has a Kraus form, whose Kadison–Sc
 commutators with zero trace), and the projectors of a common eigenbasis of that subspace give the missing basis. -/
 theorem hasCompleteMUBs_of_hasMUBs_self (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d := sorry
 
+/-- Weiner's Corollary 3.4 in its extension form: any `d` mutually unbiased bases of `ℂ^d` extend, by one more
+basis, to a complete set of `d + 1`, the given bases keeping their places (`C (r + 1) = B r`). -/
+theorem exists_isMUBFamily_extension {d : ℕ} (B : Fin d → UMat d) (hB : IsMUBFamily B) :
+    ∃ C : Fin (d + 1) → UMat d, IsMUBFamily C ∧ ∀ r : Fin d, C r.succ = B r := sorry
+
 /-- `k ≥ d` mutually unbiased bases of `ℂ^d` give a complete set of `d + 1`. -/
 theorem hasCompleteMUBs_of_le_hasMUBs {d k : ℕ} (hk : d ≤ k) (h : HasMUBs d k) : HasCompleteMUBs d := sorry
 

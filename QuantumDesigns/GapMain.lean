@@ -115,9 +115,10 @@ theorem gp_commute_proj_of_diag {d : ℕ} (W : UMat d) (X : Matrix (Fin d) (Fin 
 
 /-! ## Weiner's gap and its corollaries -/
 
-/-- Weiner's gap (Weiner 2013, Corollary 3.4): `d` mutually unbiased bases of `ℂ^d` extend to `d + 1`. -/
-theorem hasCompleteMUBs_of_hasMUBs_self_internal (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d := by
-  obtain ⟨B, hB⟩ := h
+/-- Weiner's Corollary 3.4 in its extension form: `d` mutually unbiased bases of `ℂ^d` extend, by one more basis,
+to a complete set of `d + 1`, the given bases keeping their places. -/
+theorem exists_isMUBFamily_extension_internal {d : ℕ} (B : Fin d → UMat d) (hB : IsMUBFamily B) :
+    ∃ C : Fin (d + 1) → UMat d, IsMUBFamily C ∧ ∀ r : Fin d, C r.succ = B r := by
   obtain ⟨K, hKo, hKr, hKs⟩ := gp_exists_kraus B hB
   -- the Kraus operators are flat
   have hflat : ∀ i, gp_Flat B (K i) := fun i s l =>
@@ -157,7 +158,7 @@ theorem hasCompleteMUBs_of_hasMUBs_self_internal (d : ℕ) (h : HasMUBs d d) : H
     apply Complex.ofReal_injective
     push_cast at h1 ⊢
     exact h1
-  refine ⟨Fin.cons W B, ?_⟩
+  refine ⟨Fin.cons W B, ?_, fun r => by simp⟩
   intro m n hmn
   induction m using Fin.cases with
   | zero =>
@@ -170,6 +171,12 @@ theorem hasCompleteMUBs_of_hasMUBs_self_internal (d : ℕ) (h : HasMUBs d d) : H
     | succ k' =>
       have hk : k ≠ k' := fun h => hmn (by rw [h])
       simpa using hB hk
+
+/-- Weiner's gap (Weiner 2013, Corollary 3.4): `d` mutually unbiased bases of `ℂ^d` give a complete set of `d + 1`. -/
+theorem hasCompleteMUBs_of_hasMUBs_self_internal (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d := by
+  obtain ⟨B, hB⟩ := h
+  obtain ⟨C, hC, -⟩ := exists_isMUBFamily_extension_internal B hB
+  exact ⟨C, hC⟩
 
 theorem hasCompleteMUBs_of_le_hasMUBs_internal {d k : ℕ} (hk : d ≤ k) (h : HasMUBs d k) :
     HasCompleteMUBs d :=
