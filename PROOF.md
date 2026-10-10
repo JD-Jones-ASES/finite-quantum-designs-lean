@@ -17,7 +17,7 @@ for a basis `r` and a frequency `k + 1 ∈ {1, …, d − 1}` the vector `w_{r,k
 `⟨w_{r,k}, w_{r,l}⟩ = Σ_x conj(ζ^{x(k+1)}) ζ^{x(l+1)}` (`bd_inner_w_same`), which is `d` for `k = l` and `0` otherwise
 (`bd_geom_zero`: the geometric sum of `ζ^n` over `x < d` vanishes when `d ∤ n`, and `bd_not_dvd`: `d ∤ (d−1)(k+1) +
 (l+1)` for `k ≠ l`); across two bases `r ≠ s` every `⟨P_j^r, P_l^s⟩ = 1/d`, so the inner product factors as
-`(1/d) Σ_j conj(ζ^{j(k+1)}) Σ_l ζ^{l(l'+1)} = 0` (`bd_inner_w_diff`); and `⟨1, w_{r,k}⟩ = Σ_j ζ^{j(k+1)} = 0`
+`(1/d) Σ_j conj(ζ^{j(k+1)}) Σ_y ζ^{y(l+1)} = 0` (`bd_inner_w_diff`); and `⟨1, w_{r,k}⟩ = Σ_j ζ^{j(k+1)} = 0`
 (`bd_inner_one_w`). The family `bd_fam B : Option (Fin m × Fin (d − 1)) → EuclideanSpace ℂ (Fin d × Fin d)` (the
 identity at `none`) is therefore pairwise orthogonal and nonzero, hence linearly independent
 (`linearIndependent_of_ne_zero_of_inner_eq_zero`), so `1 + m(d − 1) ≤ d · d`
@@ -54,7 +54,7 @@ inner sum is reindexed by `x = y + t` (`Fintype.sum_equiv (Equiv.addLeft t)`), `
 its primitivity at `1`), `e = Fintype.equivFin F`, and `of_M a` the matrix with entries `(√q)⁻¹ ψ(a x² + y x)`
 (row `x = e.symm i`, column `y = e.symm j`); `of_M_entry`: `(M_a† M_{a'})_{j j'} = q⁻¹ Σ_x ψ((a' − a) x² + (y' − y) x)`;
 `of_M_unitary` (the case `a = a'`, by `sum_mulShift`); unbiasedness to `1` by `AddChar.norm_apply` and
-`of_sqrt_inv_sq`; between `M_a` and `M_{a'}`, `a ≠ a'`, by `quadSum_normSq_internal` with `c = a' − a`. The family
+`Real.sq_sqrt`; between `M_a` and `M_{a'}`, `a ≠ a'`, by `quadSum_normSq_internal` with `c = a' − a`. The family
 `Fin.cons 1 (fun k => M (e.symm k)) : Fin (q + 1) → UMat q` is pairwise unbiased by nested `Fin.cases`
 (`of_isUnbiased_symm` for the symmetric cases).
 
@@ -66,15 +66,16 @@ Signs and powers of `i`: `tp_sgn v = ±1` on `ZMod 2` (multiplicative, `tp_sgn_a
 `tp_Q S x = Σ_{j,k} S̃_{jk} x̃_j x̃_k ∈ ℤ` and `tp_P S x t = Σ_{j,k} S̃_{jk} x̃_j t̃_k`; the ℤ/4 identity is exact over `ℤ`:
 `tp_Q S (x + t) = tp_Q S x + tp_Q S t + 2 tp_P S x t + 4 m` (`tp_Q_add`, from `tp_u_add` and the antisymmetry lemma
 `tp_antisym_sum`; symmetry of `S` is all it needs), so `tp_om_Q_add`: `i^{Q(x+t)} = i^{Q x} i^{Q t} tp_sgn(P(x, t))`
-(`tp_P_cast`). `tp_sum_sgn`: `Σ_y tp_sgn(w · y) = 2ⁿ [w = 0]`; `tp_normSq_sum`: for a symmetric `D` with `D t = 0 → t = 0`,
-`‖Σ_x i^{Q_D x} tp_sgn(c · x)‖² = 2ⁿ` by the substitution `x = y + t` (`y + z = y − z` on `Fin n → ZMod 2`,
-`tp_add_eq_sub`). The bases: `tp_e n : Fin (2ⁿ) ≃ (Fin n → ZMod 2)` (`Fintype.equivFinOfCardEq`, `tp_card_V`),
+(`tp_P_cast`). `tp_sum_sgn`: `Σ_y tp_sgn(w · y) = 2ⁿ [w = 0]`; `tp_normSq_sum`: for a matrix `D` with `D t = 0 → t = 0` and
+a unimodular `g` with `g(x + t) = g(x) g(t) tp_sgn(x · D t)`, `‖Σ_x g(x) tp_sgn(c · x)‖² = 2ⁿ`, by the substitution
+`x = y + t` (`tp_unbiased` applies it with `g = i^{Q_S − Q_{S'}}` and `D = S − S'`; `tp_add_eq_sub`, `y + z = y − z` on
+`Fin n → ZMod 2`, serves `tp_mat_unitary`). The bases: `tp_e n : Fin (2ⁿ) ≃ (Fin n → ZMod 2)` (`Fintype.equivFinOfCardEq`, `tp_card_V`),
 `tp_mat S` with entry `(√2ⁿ)⁻¹ i^{Q_S x} tp_sgn(b · x)` at row `x`, column `b` (`tp_c_sq`, `tp_gram`, `tp_mat_unitary`,
 `tp_norm_entry` against the standard basis, `tp_unbiased` for two symmetric `S`, `S'` whose difference is injective).
 `tp_mubs_of_symmetric_spread`: a family `S : Fin (2ⁿ) → Matrix … (ZMod 2)` of symmetric matrices with
 `(S a − S a') t = 0 → t = 0` for `a ≠ a'` gives `HasCompleteMUBs (2ⁿ)` (the family `Fin.cases 1 (fun a => tp_mat (S a))`),
 for every `n`. `tp_exists_spread` (`n ≥ 1`): `K = GaloisField 2 n` (`Fintype.ofFinite`), a basis `β` of `K` over `ZMod 2`
-(`Module.finBasis`), `S_a j k = trace(a β_j β_k)`; `S_a − S_{a'} = S_{a − a'}`, and `S_c t = 0` forces `trace(c x y) = 0`
+(`Module.finBasisOfFinrankEq`, `GaloisField.finrank`), `S_a j k = trace(a β_j β_k)`; `S_a − S_{a'} = S_{a − a'}`, and `S_c t = 0` forces `trace(c x y) = 0`
 for all `y` with `x = Σ t_j β_j`, so `c x = 0` by `traceForm_nondegenerate` (finite fields are separable), so `t = 0`;
 `a` ranges over `K ≃ Fin (2ⁿ)` (`GaloisField.card`). `hasCompleteMUBs_two_pow_internal` combines the two.
 
@@ -86,12 +87,12 @@ column `b`, row `x`; the entry of the basis matrix is `c · i^E`, with `E = xᵀ
 definitions (`sm_re`, `sm_im`, `sm_sumRe`, `sm_sumIm`, `sm_all`, `sm_E`, `sm_pairOK`, `sm_check`): for every pair of
 columns `(a, b)`, `(a', b')` it sums `i^{3E + E'}` over the rows as integer real and imaginary parts and requires `(d, 0)`
 on the diagonal, `(0, 0)` for two columns of one basis, and `re² + im² = d` across bases. `sm_tab2_ok`, `sm_tab4_ok`,
-`sm_tab8_ok` are `decide +kernel` (nine seconds for all three). `Small.lean` turns the verdict into the statement over
+`sm_tab8_ok` are `decide +kernel`. `Small.lean` turns the verdict into the statement over
 `ℂ`: `sm_I_pow` (`i^k = re k + im k · i`), `sm_star_I_pow` (`conj(i^e) = i^{3e}`), `sm_sum_I_pow`, the matrix `sm_M`
 with entries `c · i^{E_a(b, x)}`, `sm_relEntry` (an entry of `M_a† M_{a'}` is `‖c‖² (re + im · i)`), `sm_unitary`,
 `sm_cross` (`‖·‖² = ‖c‖⁴ (re² + im²) = 1/d`), `sm_entry_normSq` (against the standard basis), and the generic
 `sm_hasMUBs`: a table passing `sm_check` with `‖c‖² = 1/d` gives `HasMUBs d (d + 1)` through the family `Fin.cons 1 U`.
-The three pins are one application each, with `c = (√2)⁻¹`, `1/2` and `(1 + i)/4`.
+The three theorems are one application each, with `c = (√2)⁻¹`, `1/2` and `(1 + i)/4`.
 
 ## 6. Three bases in every dimension, directly (`QuantumDesigns/Chirp.lean`)
 
@@ -112,7 +113,7 @@ for every `N`, even or odd (`ch_chi_add`). `ch_orth` (the orthogonality relation
 (`Fintype.ofFinite`) has `p ^ k` elements (`GaloisField.card`) and characteristic `p ≠ 2` (`ringChar.eq`), so
 `hasCompleteMUBs_of_odd_char_internal` applies. In `Main.lean` every `IsMaxMUBCount` is the pair of the construction and
 `hasMUBs_le_internal` (with `2 ≤ pᵏ` from `Nat.Prime.two_le` and `Nat.le_self_pow`): `isMaxMUBCount_odd_prime_pow_internal`,
-`isMaxMUBCount_two_pow_internal`, `isMaxMUBCount_prime_pow_internal`, and `isMaxMUBCount_two/four/eight_internal`
+`isMaxMUBCount_two_pow_internal`, `isMaxMUBCount_prime_pow_internal`, and `isMaxMUBCount_two_internal`, `isMaxMUBCount_four_internal`, `isMaxMUBCount_eight_internal`
 from `Small.lean`'s tables; `hasCompleteMUBs_iff_isMaxMUBCount_internal` is the same pair in one direction and the
 first component in the other.
 
@@ -120,8 +121,9 @@ first component in the other.
 
 `gz_P ψ = vecMulVec ψ (star ∘ ψ)` is the matrix `|ψ⟩⟨ψ|`, and `gz_pair ψ : Matrix (Fin d) (Fin d) ℂ →ₗ[ℂ] ℂ` is the
 pairing `A ↦ Σ_{k,l} A k l · conj(ψ k) ψ l`, linear so that it passes through `Σ g_i • P_i` (`map_sum`, `map_smul`).
-`gz_pairing`: `gz_pair ψ (gz_P φ) = overlapSq φ ψ` as a complex number (`Finset.sum_mul_sum`, `Complex.mul_conj`);
-`gz_normalized`: `Σ_k conj(ψ k) ψ k = 1` for a unit vector (`EuclideanSpace.norm_eq`, `Real.sqrt_eq_one`); hence
+`gz_pairing`, `gz_pair_P`: `gz_pair ψ (gz_P φ) = overlapSq φ ψ` as a complex number (`Finset.sum_mul_sum`,
+`Complex.normSq_eq_conj_mul_self`);
+`gz_normalized`: `Σ_k conj(ψ k) ψ k = 1` for a unit vector (`EuclideanSpace.norm_sq_eq`, `Complex.normSq_eq_norm_sq`); hence
 `gz_pair_one` (`gz_pair ψ 1 = 1`), `gz_overlap_self` and `gz_trace_P` (`trace (gz_P ψ) = 1`). `gz_pair_eq`: pairing
 `Σ_i g_i • P_i` with `Φ_j` gives `c S + (1 − c) g_j` where `S = Σ g_i` (the `i = j` term is `g_j`, the others `c g_i`).
 `gz_linIndep`: for `N ≥ 2` and `c ≠ 1` the `P_i` are linearly independent — from `Σ g_i • P_i = 0` every
@@ -129,7 +131,7 @@ pairing `A ↦ Σ_{k,l} A k l · conj(ψ k) ψ l`, linear so that it passes thro
 `gerzon_bound_internal`: `N ≤ 1` is immediate when `d ≥ 1`, and `N = 1`, `d = 0` is impossible since no vector of `ℂ⁰`
 is normalized (`gz_not_normalized_zero`); for `N ≥ 2`, `LinearIndependent.fintype_card_le_finrank` in
 `Matrix (Fin d) (Fin d) ℂ`, of finrank `d · d`. `gerzon_sharp_internal`: `EuclideanSpace.single 0 1` repeated.
-`gz_core` (`N = d²`, `d ≥ 2`): the `P_i` are a basis (`LinearIndependent.span_eq_top_of_card_eq_finrank`), so
+`gz_core` (`N = d²`, `d ≥ 2`): the `P_i` span (`LinearIndependent.span_eq_top_of_card_eq_finrank'`), so
 `1 = Σ a_i • P_i`; pairing with each `Φ_j` gives `c A + (1 − c) a_j = 1` with `A = Σ a_i`, and the trace gives `A = d`;
 summing the pairing equations over `j`: `d³ c + (1 − c) d = d²`, i.e. `d (d − 1)(c (d + 1) − 1) = 0`, so
 `c = 1/(d + 1)` (`gerzon_equality_internal`); then each `a_j = 1/d` by one linear combination, which is the frame
@@ -141,11 +143,11 @@ identity (`gerzon_frame_internal`). `isSICFamily_frame_internal`: `sicOverlapSq 
 
 **Dimension 8.** `SICTables.lean` is a leaf with no imports: the 64 vectors `v_i(x) = sign · ψ(x ⊕ ⌊i/8⌋)` with
 `ψ = (−1 + 2i, 1, 1, 1, 1, 1, 1, 1)`, the sign the parity of `(i mod 8) ∧ (x ⊕ ⌊i/8⌋)` (a 3-bit xor of shifts), the real
-and imaginary parts of the Gaussian-integer inner products `ipRe`, `ipIm` as integer functions on `ℕ` with the 8-term
-sums written out; `hg_diag` (`ipRe i i = 12`, `ipIm i i = 0`) and `hg_overlaps` (`re² + im² = 16` for `i ≠ j`, all
-4032 ordered pairs) are `decide +kernel` (seconds). `SIC.lean`: `hg_hoggar i = toLp 2 (fun x => (√12)⁻¹ (vr + vi · I))`;
+and imaginary parts of the Gaussian-integer inner products `hg_ipRe`, `hg_ipIm` as integer functions on `ℕ` with the 8-term
+sums written out; `hg_diag` (`hg_ipRe i i = 12`, `hg_ipIm i i = 0`) and `hg_overlaps` (`re² + im² = 16` for `i ≠ j`, all
+4032 ordered pairs) are `decide +kernel`. `SIC.lean`: `hg_hoggar i = toLp 2 (fun x => (√12)⁻¹ (vr + vi · I))`;
 `hg_term` (the generic product `conj(r + s i)(r' + s' i)` as integer real and imaginary parts), `hg_sum_z` (the eight
-terms, `Fin.sum_univ_eight`), `hg_inner` (the inner sum is `(1/12)(ipRe + ipIm · i)`); normalization through
+terms, `Fin.sum_univ_eight`), `hg_inner` (the inner sum is `(1/12)(hg_ipRe + hg_ipIm · i)`); normalization through
 `EuclideanSpace.norm_eq` and `Real.mul_self_sqrt`, the overlaps through `Complex.normSq_add_mul_I`:
 `16/144 = 1/9 = sicOverlapSq 8` (`hasSICPOVM_eight_internal`).
 
@@ -153,5 +155,5 @@ terms, `Fin.sum_univ_eight`), `hg_inner` (the inner sum is `(1/12)(ipRe + ipIm �
 the Hesse family `hg_hesse s r` (the nine vectors `(0, s, −s ω^m)`, `(−s ω^m, 0, s)`, `(s, −s ω^m, 0)`), with explicit
 real and imaginary parts, adapt formal-conjectures' `qubitSICFamily` and `hesseFamily`; `hg_qubit_sic` and
 `hg_hesse_sic` prove the SIC property for any parameters with `a² = 1/3`, `b² = 2/3`, `r² = 3` (resp. `s² = 1/2`,
-`r² = 3`) by `fin_cases`, `simp`, `ring_nf`, the square relations and `norm_num`; the pins supply the parameters with
+`r² = 3`) by `fin_cases`, `simp`, `ring_nf`, the square relations and `norm_num`; the final theorems supply the parameters with
 `Real.sq_sqrt` (`hasSICPOVM_two_internal`, `hasSICPOVM_three_internal`).

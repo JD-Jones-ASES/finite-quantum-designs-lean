@@ -3,7 +3,8 @@ module
 /-!
 # The exponent tables in dimensions 2, 4 and 8 and their kernel check
 
-A leaf importing nothing beyond `Init`. `sm_tabD[a][b][x]` is the exponent `E` of the entry `i^E / √d` of basis `a`,
+A leaf importing nothing beyond `Init`. `sm_tabD[a][b][x]` is the exponent `E` of the entry `c · i^E` (`‖c‖² = 1/d`; `Small.lean` takes
+`c = (√2)⁻¹`, `1/2`, `(1 + i)/4`) of basis `a`,
 column `b`, row `x` (the trace-form construction over `𝔽_{2ⁿ}` in the polynomial basis). `sm_check tab d` evaluates,
 for every pair of columns `(a, b)`, `(a', b')`, the Gaussian integer `Σ_x i^{3 E_a(b,x) + E_{a'}(b',x)}`
 (`3 E ≡ −E mod 4`) as the pair `(Σ re, Σ im)` and asserts: `= (d, 0)` on the diagonal, `= (0, 0)` for two columns

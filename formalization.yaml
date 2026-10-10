@@ -193,7 +193,7 @@ sources:
     authors: ["The Formal Conjectures Authors"]
     id: "https://github.com/google-deepmind/formal-conjectures/tree/1646ca16afd6cc7a693d3bdc9f066c4d3cc01a89/FormalConjectures/OpenQuantumProblems"
     type: "other"
-    location: "13.lean (mutuallyUnbiasedBases_dim2 proved; the general statement and dimensions 6, 10, 12, 14, 15 open) and 23.lean (the witness families qubitSICFamily and hesseFamily; hasSICPOVM_two and hasSICPOVM_three left with sorry); Apache-2.0; the IQOQI Open Quantum Problems pages 13 and 23 these files cite returned HTTP 500 on 2026-10-10"
+    location: "13.lean (mutuallyUnbiasedBases_dim2 proved; mutuallyUnbiasedBases_dim6_bounds, 3 <= mu(6) <= 7, marked solved with its proof in the XC0R fork; the general statement and dimensions 6, 10, 12, 14, 15 open) and 23.lean (the witness families qubitSICFamily and hesseFamily; hasSICPOVM_two and hasSICPOVM_three left with sorry); Apache-2.0; the files cite the IQOQI Open Quantum Problems pages 13 and 23"
     relationship: "adapts"
     author_endorsement: "not-contacted"
     note: >-
@@ -420,7 +420,6 @@ status:
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "comparator.json"
-# END-MAIN-RESULTS
 
 automation:
   methods:
@@ -450,10 +449,10 @@ fidelity:
     records. The tensor bound is stated for every k (including k = 0) and every m, n (including 0, where every
     family is vacuously unbiased); its corollary is stated over the factorization of d != 0 rather than for a
     single prime divisor (the single-prime form, HasMUBs d (q + 1) for every prime p dividing d, is not known to
-    hold: for d = 6, p = 3 it would assert four mutually unbiased bases in C^6, an open question). The odd-characteristic construction is stated for any
-    finite field F of odd characteristic with Fintype.card F as the dimension and any nontrivial additive
-    character (Klappenecker-Rötteler fix the trace character); the quadratic-phase sum is proved by Weyl
-    differencing, not by the Weil bound they cite. The 2^n bases are written over the vector space (Fin n -> ZMod 2)
+    hold: for d = 6, p = 3 it would assert four mutually unbiased bases in C^6, an open question). The odd-characteristic statement is for any finite
+    field F of odd characteristic, with Fintype.card F as the dimension; its proof uses Mathlib's primitive character
+    (Klappenecker-Rötteler use the trace character), and quadSum_normSq holds for every nontrivial additive
+    character; the quadratic-phase sum is proved by Weyl differencing, not by the Weil bound they cite. The 2^n bases are written over the vector space (Fin n -> ZMod 2)
     with a Z/4-valued quadratic form from the trace form of GaloisField 2 n in a chosen basis, equivalent to
     Klappenecker-Rötteler's Galois-ring bases up to the relabelling a -> a^2 of the bases and the order of columns
     (Godsil-Roy, section 6); the identity
@@ -481,9 +480,9 @@ review:
     proofs and audited them in separate passes; the statements were checked against the arXiv texts of
     Klappenecker-Rötteler, Bandyopadhyay-Boykin-Roychowdhury-Vatan, Renes-Blume-Kohout-Scott-Caves, Jedwab-Wiebe,
     Godsil-Roy and Roy's thesis (the pages named in the sources); Delsarte-Goethals-Seidel, Hoggar, Ivanović,
-    Wootters-Fields and Zauner were not read. Every construction (odd prime powers q <= 27, 2^n <= 16, the Hoggar
-    vectors with their frame identity, the tetrahedron and the Hesse configuration) was recomputed outside Lean
-    in exact arithmetic by two independent scripts. Mechanical correctness and agreement of formal statements do
+    Wootters-Fields and Zauner were not read. Every construction behind a compared statement (odd prime powers 3, 5, 7, 9, 11, 13, 25, 27; 2^n <= 16; the
+    Hoggar vectors with their frame identity; the tetrahedron and the Hesse configuration) was recomputed outside
+    Lean in exact arithmetic by scripts/check_designs.py and, before it, by a second replay written independently. Mechanical correctness and agreement of formal statements do
     not establish priority or significance.
 
 alignment:

@@ -181,7 +181,8 @@ theorem isMaxMUBCount_prime_pow (p k : ℕ) (hp : p.Prime) (hk : 1 ≤ k) :
 theorem hasCompleteMUBs_iff_isMaxMUBCount (d : ℕ) (hd : 2 ≤ d) :
     HasCompleteMUBs d ↔ IsMaxMUBCount d (d + 1) := sorry
 
-/-- `μ(2) = 3` (formal-conjectures' `mutuallyUnbiasedBases_dim2`, re-proved here as the case `n = 1`). -/
+/-- `μ(2) = 3` (formal-conjectures' `mutuallyUnbiasedBases_dim2`, re-proved here by a kernel-checked table; also the
+case `n = 1` of `isMaxMUBCount_two_pow`). -/
 theorem isMaxMUBCount_two : IsMaxMUBCount 2 3 := sorry
 
 /-- `μ(4) = 5`: the standard basis and four bases of `ℂ⁴` with entries in `{±1, ±i}/2`, kernel-checked. -/
