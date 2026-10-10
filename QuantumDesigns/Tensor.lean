@@ -6,7 +6,7 @@ public import QuantumDesigns.Bound
 /-!
 # The tensor bound and the prime-power-divisor corollary
 
-Lane **tensor**. `hasMUBs_mul`: if `B : Fin k → UMat m` and `C : Fin k → UMat n` are families of mutually unbiased
+`hasMUBs_mul`: if `B : Fin k → UMat m` and `C : Fin k → UMat n` are families of mutually unbiased
 bases, the Kronecker products `B r ⊗ C r`, reindexed along `finProdFinEquiv : Fin m × Fin n ≃ Fin (m * n)`, form `k`
 mutually unbiased bases of `ℂ^{mn}`: `(B r ⊗ C r)^* (B s ⊗ C s) = (B r^* B s) ⊗ (C r^* C s)` (`Matrix.mul_kronecker_mul`,
 `Matrix.conjTranspose` of a Kronecker product), so every entry of the relative unitary is a product of entries with
