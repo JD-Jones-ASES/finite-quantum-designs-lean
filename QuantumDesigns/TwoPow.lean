@@ -5,33 +5,27 @@ public import QuantumDesigns.Defs
 /-!
 # Complete sets of mutually unbiased bases in dimension `2ⁿ`
 
-Lane **twopow** (the stretch; kill criterion in ARCH.md). Let `K = GaloisField 2 n` (`Fintype.ofFinite`;
-`GaloisField.card 2 n (hn : n ≠ 0) : Nat.card K = 2 ^ n`), `V = Fin n → ZMod 2` with a basis
-`β : Basis (Fin n) (ZMod 2) K` (`Module.finBasis`; `Module.finrank (ZMod 2) K = n` from the cardinality, or
-`GaloisField.finrank`). For `a : K` let `B_a (x, y) = Algebra.trace (ZMod 2) K (a * β x * β y)`, a symmetric bilinear
-form on `V` with Gram matrix `S_a : Matrix (Fin n) (Fin n) (ZMod 2)`, `S_a j k = trace (a β_j β_k)`. The map
-`a ↦ S_a` is additive, and `S_a` is nonsingular for `a ≠ 0`: the trace form of a finite separable extension is
-nondegenerate (`Algebra.traceForm_nondegenerate (ZMod 2) K`, `IsSeparable`/`IsGalois` of `GaloisField`), and
-`x ↦ a x` is a bijection.
+Write `V = Fin n → ZMod 2` and lift `ZMod 2` to `ℤ` by `v ↦ v.val ∈ {0, 1}` (`tp_u`). For a symmetric
+`S : Matrix (Fin n) (Fin n) (ZMod 2)` put `Q_S(x) = Σ_{j,k} S̃ j k · x̃ j · x̃ k ∈ ℤ` (`tp_Q`) and let the basis
+attached to `S` have, in row `x` and column `b` (both enumerated by `Fin (2 ^ n)`), the entry
+`i^{Q_S(x)} (−1)^{b·x} / √2ⁿ` (`tp_mat`).
 
-**The ℤ/4 lift.** For `x : Fin n → ZMod 2` write `x̃ : Fin n → ℤ` with entries `0, 1` (`ZMod.val`) and
-`Q_a(x) = Σ_{j,k} S̃_a j k · x̃ j · x̃ k ∈ ℤ` (the symmetric `0/1` lift of `S_a`, `S̃ = ZMod.val ∘ S`). Entries of the
-basis `a`, column `b : V`, row `x : V`: `(√2ⁿ)⁻¹ · i^{Q_a(x)} · (−1)^{b · x}` with `b · x = Σ_j b̃_j x̃_j ∈ ℤ`
-(powers of `Complex.I` with integer exponents, `zpow`, or `i^{(Q mod 4)}`). The key identity, over ℤ then mod 4:
-`Q_a(x + y) = Q_a(x) + Q_a(y) + 2 B̃_a(x, y) − 4 (…)` where `x + y` in `V` is the xor, `(x + y)~ = x̃ + ỹ − 2 x̃ ỹ`
-coordinatewise, so `Q_a(x + y) ≡ Q_a(x) + Q_a(y) + 2 Σ_{j,k} S̃ j k x̃ j ỹ k (mod 4)`, every other term carrying a factor
-`4` (the cross terms `−2 x̃_j ỹ_j` enter `Q` with coefficient `2 S̃ … · (x̃_k + ỹ_k)`, hence `≡ 0 mod 4` once
-multiplied out: check by expanding `(u − 2w)ᵀ S (u − 2w)` with `u = x̃ + ỹ`, `w = x̃ ỹ`). Then, as in the odd case, with `f = Q_a − Q_{a'}` (NOT `Q_{a−a'}`: the `0/1` lift of a difference is not the difference of
-lifts on the diagonal, mod 4; the identity that holds is `f(x ⊕ t) ≡ f(x) + f(t) + 2 xᵀ(S_a − S_{a'}) t (mod 4)`, which
-follows from the one above applied to `Q_a` and `Q_{a'}`): `‖Σ_x i^{f(x)} (−1)^{c·x}‖² = Σ_t i^{f(t)} (−1)^{c·t}
-Σ_y (−1)^{ỹᵀ(S̃_a − S̃_{a'}) t̃}` and the inner sum is `2ⁿ · [(S_a − S_{a'}) t = 0]`, which for `a ≠ a'` forces `t = 0`; so
-the squared norm is `2ⁿ`, and the entry of the relative unitary has squared norm `2ⁿ / 4ⁿ = 1/2ⁿ`. Unitarity of each basis is the case `a = a'` (`Σ_y (−1)^{c·y} = 2ⁿ [c = 0]`).
-The desk's exact replay (`bench/rt-069-finite-quantum-designs/lanes/desk/replay.py`) confirms the construction for
-`n ≤ 4`, including nonsingularity of every difference `S_a − S_{a'}`.
+**The ℤ/4 identity** (`tp_Q_add`, `tp_om_Q_add`). Coordinatewise `(x + y)~ = x̃ + ỹ − 2 x̃ ỹ`; expanding and using the
+symmetry of `S̃`, every term other than `Q_S(x) + Q_S(y) + 2 x̃ᵀ S̃ ỹ` carries a factor `4`, so
+`i^{Q_S(x + y)} = i^{Q_S(x)} i^{Q_S(y)} (−1)^{xᵀ S y}`.
 
-If the identity in ℤ/4 is awkward, an equivalent route is to work in `ZMod 4` from the start with `x̃ : Fin n → ZMod 4`
-taking values in `{0, 1}` (`ZMod.castHom`? no: lift by `ZMod.val`), and the character `k ↦ Complex.I ^ k.val` on
-`ZMod 4` (`ZMod.stdAddChar` at `N = 4` is this character up to the choice of root).
+**The character sums.** `Σ_x (−1)^{x·w} = 2ⁿ [w = 0]` (`tp_sum_sgn`) gives unitarity of every basis. For two
+symmetric `S, S'` and `g(x) = conj(i^{Q_S(x)}) i^{Q_{S'}(x)} (−1)^{c·x}`, the identity gives
+`g(x + t) = g(x) g(t) (−1)^{xᵀ (S − S') t}`, hence `|Σ_x g(x)|² = Σ_t g(t) Σ_x (−1)^{xᵀ(S − S')t} = 2ⁿ` when `S − S'`
+is nonsingular (`tp_normSq_sum`); every entry of the relative unitary then has squared modulus `2ⁿ / 4ⁿ = 1/2ⁿ`
+(`tp_unbiased`). With the standard basis this proves `tp_mubs_of_symmetric_spread`: `2ⁿ` symmetric binary matrices
+with nonsingular pairwise differences give `2ⁿ + 1` mutually unbiased bases.
+
+**The family.** Let `K = GaloisField 2 n` with a basis `β` over `ZMod 2` (`GaloisField.finrank`) and
+`S_a j k = Algebra.trace (ZMod 2) K (a β_j β_k)` for `a : K`. Each `S_a` is symmetric, `S_a − S_{a'} = S_{a − a'}`,
+and `S_c t = 0` with `c ≠ 0` forces `t = 0`: the linear form `z ↦ tr(c y z)`, `y = Σ t_k β_k`, vanishes on the basis,
+so `c y = 0` by nondegeneracy of the trace form of the separable extension `K / ZMod 2`
+(`traceForm_nondegenerate`), hence `y = 0` and `t = 0` (`tp_exists_spread`).
 -/
 
 @[expose] public section
@@ -156,8 +150,7 @@ theorem tp_sum_sgn {n : ℕ} (w : Fin n → ZMod 2) :
       if w = 0 then (Fintype.card (Fin n → ZMod 2) : ℂ) else 0 := by
   split_ifs with hw
   · subst hw; simp [tp_sgn_zero]
-  · obtain ⟨j, hj⟩ : ∃ j, w j ≠ 0 := by
-      by_contra h; push_neg at h; exact hw (funext h)
+  · obtain ⟨j, hj⟩ : ∃ j, w j ≠ 0 := Function.ne_iff.1 hw
     have hj1 : w j = 1 := (tp_zmod2_cases (w j)).resolve_left hj
     set y0 : Fin n → ZMod 2 := Pi.single j 1
     have hy : y0 ⬝ᵥ w = 1 := by simp [y0, single_dotProduct, hj1]
@@ -195,9 +188,176 @@ theorem tp_normSq_sum {n : ℕ} (D : Matrix (Fin n) (Fin n) (ZMod 2))
         rw [tp_sum_sgn]
         by_cases ht : t = 0
         · subst ht; simp [h0]
-        · rw [if_neg (fun h => ht (hD t h)), if_neg ht, mul_zero]
+        · have hDt : D *ᵥ t ≠ 0 := fun h => ht (hD t h)
+          simp only [hDt, ht, ↓reduceIte, mul_zero]
     _ = (Fintype.card (Fin n → ZMod 2) : ℂ) := by simp
 
-theorem hasCompleteMUBs_two_pow_internal (n : ℕ) (hn : 1 ≤ n) : HasCompleteMUBs (2 ^ n) := sorry
+/-! ## The bases -/
+
+theorem tp_card_V (n : ℕ) : Fintype.card (Fin n → ZMod 2) = 2 ^ n := by simp
+
+/-- An enumeration of `(ZMod 2)ⁿ` by `Fin (2 ^ n)`. -/
+def tp_e (n : ℕ) : Fin (2 ^ n) ≃ (Fin n → ZMod 2) :=
+  (Fintype.equivFinOfCardEq (tp_card_V n)).symm
+
+/-- The basis attached to `S`: row `x`, column `b`, entry `i^{Q(x)} (-1)^{b·x} / √2ⁿ`. -/
+def tp_mat {n : ℕ} (S : Matrix (Fin n) (Fin n) (ZMod 2)) :
+    Matrix (Fin (2 ^ n)) (Fin (2 ^ n)) ℂ :=
+  fun i j => (((Real.sqrt (2 ^ n : ℝ))⁻¹ : ℝ) : ℂ) *
+    (tp_om (tp_Q S (tp_e n i)) * tp_sgn (tp_e n j ⬝ᵥ tp_e n i))
+
+theorem tp_c_sq (n : ℕ) :
+    (((Real.sqrt (2 ^ n : ℝ))⁻¹ : ℝ) : ℂ) * (((Real.sqrt (2 ^ n : ℝ))⁻¹ : ℝ) : ℂ) =
+      (((2 : ℝ) ^ n)⁻¹ : ℝ) := by
+  rw [← Complex.ofReal_mul, ← mul_inv, Real.mul_self_sqrt (by positivity)]
+
+theorem tp_gram {n : ℕ} (S S' : Matrix (Fin n) (Fin n) (ZMod 2)) (i j : Fin (2 ^ n)) :
+    (star (tp_mat S) * tp_mat S') i j = ((((2 : ℝ) ^ n)⁻¹ : ℝ) : ℂ) *
+      ∑ x : Fin n → ZMod 2, star (tp_om (tp_Q S x)) * tp_om (tp_Q S' x) *
+        tp_sgn (x ⬝ᵥ (tp_e n i + tp_e n j)) := by
+  rw [Matrix.mul_apply, Finset.mul_sum]
+  refine Fintype.sum_equiv (tp_e n) _ _ (fun k => ?_)
+  simp only [Matrix.star_apply, tp_mat, star_mul', tp_star_sgn]
+  rw [← tp_c_sq n, show star ((((Real.sqrt (2 ^ n : ℝ))⁻¹ : ℝ) : ℂ)) =
+      (((Real.sqrt (2 ^ n : ℝ))⁻¹ : ℝ) : ℂ) from Complex.conj_ofReal _, dotProduct_add,
+    tp_sgn_add, dotProduct_comm (tp_e n k) (tp_e n i), dotProduct_comm (tp_e n k) (tp_e n j)]
+  ring
+
+theorem tp_add_eq_sub {n : ℕ} (y z : Fin n → ZMod 2) : y + z = y - z :=
+  funext fun k => by
+    simp only [Pi.add_apply, Pi.sub_apply, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
+
+theorem tp_mat_unitary {n : ℕ} (S : Matrix (Fin n) (Fin n) (ZMod 2)) :
+    tp_mat S ∈ Matrix.unitaryGroup (Fin (2 ^ n)) ℂ := by
+  rw [Matrix.mem_unitaryGroup_iff']
+  ext i j
+  rw [tp_gram]
+  have h1 : ∀ x : Fin n → ZMod 2, star (tp_om (tp_Q S x)) * tp_om (tp_Q S x) = 1 :=
+    fun x => tp_star_mul_self (tp_norm_om _)
+  simp only [h1, one_mul, tp_sum_sgn, tp_card_V, Matrix.one_apply]
+  have hij : tp_e n i + tp_e n j = 0 ↔ i = j := by
+    rw [tp_add_eq_sub, sub_eq_zero, (tp_e n).injective.eq_iff]
+  by_cases h : i = j
+  · subst h
+    simp only [hij.2 rfl, ↓reduceIte]
+    push_cast
+    exact inv_mul_cancel₀ (pow_ne_zero n (two_ne_zero' ℂ))
+  · have h' : tp_e n i + tp_e n j ≠ 0 := mt hij.1 h
+    simp only [h', h, ↓reduceIte, mul_zero]
+
+theorem tp_norm_entry {n : ℕ} (S : Matrix (Fin n) (Fin n) (ZMod 2)) (i j : Fin (2 ^ n)) :
+    ‖tp_mat S i j‖ ^ 2 = ((2 ^ n : ℕ) : ℝ)⁻¹ := by
+  simp only [tp_mat, norm_mul, tp_norm_om, tp_norm_sgn, mul_one, Complex.norm_real,
+    Real.norm_eq_abs]
+  rw [abs_of_nonneg (by positivity), inv_pow, Real.sq_sqrt (by positivity)]
+  push_cast
+  rfl
+
+theorem tp_unbiased {n : ℕ} (S S' : Matrix (Fin n) (Fin n) (ZMod 2)) (hS : S.IsSymm)
+    (hS' : S'.IsSymm) (hD : ∀ t, (S - S') *ᵥ t = 0 → t = 0) (i j : Fin (2 ^ n)) :
+    ‖(star (tp_mat S) * tp_mat S') i j‖ ^ 2 = ((2 ^ n : ℕ) : ℝ)⁻¹ := by
+  rw [tp_gram]
+  set c := tp_e n i + tp_e n j
+  set g : (Fin n → ZMod 2) → ℂ :=
+    fun x => star (tp_om (tp_Q S x)) * tp_om (tp_Q S' x) * tp_sgn (x ⬝ᵥ c) with hg_def
+  have hg1 : ∀ x, star (g x) * g x = 1 := fun x =>
+    tp_star_mul_self (by simp only [hg_def, norm_mul, norm_star, tp_norm_om, tp_norm_sgn, mul_one])
+  have hg : ∀ x t, g (x + t) = g x * g t * tp_sgn (x ⬝ᵥ ((S - S') *ᵥ t)) := by
+    intro x t
+    have hd : x ⬝ᵥ ((S - S') *ᵥ t) = x ⬝ᵥ (S *ᵥ t) + x ⬝ᵥ (S' *ᵥ t) := by
+      rw [sub_mulVec, dotProduct_sub, sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
+    simp only [hg_def, tp_om_Q_add S hS, tp_om_Q_add S' hS', add_dotProduct, tp_sgn_add,
+      star_mul', tp_star_sgn, hd]
+    ring
+  have hN := tp_normSq_sum (S - S') hD g hg1 hg
+  rw [tp_card_V] at hN
+  have hN' : ‖∑ x, g x‖ ^ 2 = (2 : ℝ) ^ n := by
+    have h3 := Complex.conj_mul' (∑ x, g x)
+    have h2 : ((‖∑ x, g x‖ ^ 2 : ℝ) : ℂ) = (((2 : ℝ) ^ n : ℝ) : ℂ) := by
+      rw [Complex.ofReal_pow, ← h3]
+      exact hN.trans (by push_cast; ring)
+    exact_mod_cast h2
+  rw [norm_mul, mul_pow, hN', Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg (by positivity)]
+  push_cast
+  have h2n : (2 : ℝ) ^ n ≠ 0 := by positivity
+  field_simp
+
+/-- **The combinatorial core.** A family of `2ⁿ` symmetric binary `n × n` matrices whose pairwise
+differences are nonsingular gives, with the standard basis, a complete set of `2ⁿ + 1` mutually
+unbiased bases in dimension `2ⁿ`. -/
+theorem tp_mubs_of_symmetric_spread (n : ℕ) (S : Fin (2 ^ n) → Matrix (Fin n) (Fin n) (ZMod 2))
+    (hsym : ∀ a, (S a).IsSymm)
+    (hspread : ∀ a a', a ≠ a' → ∀ t, (S a - S a') *ᵥ t = 0 → t = 0) :
+    HasCompleteMUBs (2 ^ n) := by
+  refine ⟨Fin.cases 1 (fun a => ⟨tp_mat (S a), tp_mat_unitary _⟩), ?_⟩
+  intro m m' hne
+  rcases Fin.eq_zero_or_eq_succ m with rfl | ⟨a, rfl⟩ <;>
+    rcases Fin.eq_zero_or_eq_succ m' with rfl | ⟨a', rfl⟩
+  · exact absurd rfl hne
+  · intro i j
+    simp only [Fin.cases_zero, Fin.cases_succ, relativeUnitary, OneMemClass.coe_one, star_one,
+      one_mul]
+    exact tp_norm_entry _ i j
+  · intro i j
+    simp only [Fin.cases_zero, Fin.cases_succ, relativeUnitary, OneMemClass.coe_one, mul_one,
+      Matrix.star_apply, norm_star]
+    exact tp_norm_entry _ j i
+  · intro i j
+    simp only [Fin.cases_succ, relativeUnitary]
+    exact tp_unbiased _ _ (hsym a) (hsym a')
+      (hspread a a' (fun h => hne (by rw [h]))) i j
+
+/-! ## The family from `GaloisField 2 n` -/
+
+/-- The trace forms `(x, y) ↦ tr(a x y)` of `GaloisField 2 n` in a basis are symmetric, and the
+difference of two of them is nonsingular. -/
+theorem tp_exists_spread (n : ℕ) (hn : 1 ≤ n) :
+    ∃ S : Fin (2 ^ n) → Matrix (Fin n) (Fin n) (ZMod 2),
+      (∀ a, (S a).IsSymm) ∧ ∀ a a', a ≠ a' → ∀ t, (S a - S a') *ᵥ t = 0 → t = 0 := by
+  classical
+  let _ : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have hn0 : n ≠ 0 := by omega
+  have hcard : Fintype.card (GaloisField 2 n) = 2 ^ n := by
+    rw [← Nat.card_eq_fintype_card]; exact GaloisField.card 2 n hn0
+  let e : Fin (2 ^ n) ≃ GaloisField 2 n := (Fintype.equivFinOfCardEq hcard).symm
+  let β : Module.Basis (Fin n) (ZMod 2) (GaloisField 2 n) :=
+    Module.finBasisOfFinrankEq (ZMod 2) (GaloisField 2 n) (GaloisField.finrank 2 hn0)
+  let T : GaloisField 2 n → Matrix (Fin n) (Fin n) (ZMod 2) :=
+    fun a j k => Algebra.trace (ZMod 2) (GaloisField 2 n) (a * β j * β k)
+  refine ⟨fun a => T (e a), fun a => ?_, fun a a' hne t ht => ?_⟩
+  · refine Matrix.IsSymm.ext fun j k => ?_
+    show Algebra.trace (ZMod 2) (GaloisField 2 n) (e a * β k * β j) =
+      Algebra.trace (ZMod 2) (GaloisField 2 n) (e a * β j * β k)
+    rw [mul_right_comm]
+  · have hc : e a - e a' ≠ 0 := sub_ne_zero.2 (e.injective.ne hne)
+    have hT : T (e a) - T (e a') = T (e a - e a') := by
+      ext j k
+      show T (e a) j k - T (e a') j k = T (e a - e a') j k
+      simp only [T, sub_mul]
+      exact (map_sub _ _ _).symm
+    simp only at ht
+    rw [hT] at ht
+    set c := e a - e a'
+    set y : GaloisField 2 n := ∑ k, t k • β k with hy_def
+    have hy : ∀ j, Algebra.trace (ZMod 2) (GaloisField 2 n) (c * y * β j) = 0 := by
+      intro j
+      have h := congrFun ht j
+      simp only [mulVec, dotProduct, T, Pi.zero_apply] at h
+      rw [← h, hy_def, Finset.mul_sum, Finset.sum_mul, map_sum]
+      refine Finset.sum_congr rfl fun k _ => ?_
+      rw [show c * (t k • β k) * β j = t k • (c * β j * β k) by
+        simp only [Algebra.smul_def]; ring, map_smul, smul_eq_mul, mul_comm]
+    have hL : Algebra.traceForm (ZMod 2) (GaloisField 2 n) (c * y) = 0 :=
+      β.ext (fun j => by rw [Algebra.traceForm_apply, hy j, LinearMap.zero_apply])
+    have hcy : c * y = 0 :=
+      (traceForm_nondegenerate (ZMod 2) (GaloisField 2 n)).1 (c * y)
+        (fun z => by rw [hL, LinearMap.zero_apply])
+    have hy0 : y = 0 := (mul_eq_zero.1 hcy).resolve_left hc
+    calc t = β.equivFun (β.equivFun.symm t) := (β.equivFun.apply_symm_apply t).symm
+      _ = 0 := by rw [Module.Basis.equivFun_symm_apply, ← hy_def, hy0, map_zero]
+
+theorem hasCompleteMUBs_two_pow_internal (n : ℕ) (hn : 1 ≤ n) : HasCompleteMUBs (2 ^ n) := by
+  obtain ⟨S, hsym, hspread⟩ := tp_exists_spread n hn
+  exact tp_mubs_of_symmetric_spread n S hsym hspread
 
 end QuantumDesigns
