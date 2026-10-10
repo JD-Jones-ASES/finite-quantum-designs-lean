@@ -9,13 +9,12 @@ public import QuantumDesigns.SICTables
 **Dimension 8.** The fiducial `ψ = (−1 + 2i, 1, 1, 1, 1, 1, 1, 1)` (unnormalized, `‖ψ‖² = 12`) and the
 64 vectors `v_{a,b}(x) = (−1)^{b·(x ⊕ a)} ψ(x ⊕ a)` for `a, b ∈ 𝔽₂³` (`x ⊕ a = x ^^^ a` on `Fin 8`, `b·y` the parity
 of `b &&& y`): an exact computation gives `‖v‖² = 12` and `‖⟨u, v⟩‖² = 16` on all 4032 ordered pairs of distinct
-vectors, so `overlapSq = 16/144 = 1/9 = sicOverlapSq 8`. Route: encode each vector as a function `Fin 8 → ℤ × ℤ`
-(Gaussian integers); a kernel-checked statement over all `64 × 64` ordered pairs that the integer inner product
-`Σ_x conj(u x) v x` has `re² + im² = 144` on the diagonal and `16` off it (`decide +kernel` in the Mathlib-free leaf
-`QuantumDesigns.SICTables`); a generic cast lemma from the integer pair to `ℂ`
-(`Complex.ext_iff`, `push_cast`; no case split); normalization `‖(√12)⁻¹ • ψ‖ = 1` through `EuclideanSpace.norm_eq`
-and `Real.sq_sqrt`; the family `Φ : Fin 64 → StateVector 8`, `Φ i = (√12)⁻¹ • v_{i / 8, i % 8}` as
-`WithLp.toLp 2 (fun x => …)`.
+vectors, so `overlapSq = 16/144 = 1/9 = sicOverlapSq 8`. Route: the real and imaginary parts of the vectors are the
+integer functions `hg_vr`, `hg_vi` of the Mathlib-free leaf `QuantumDesigns.SICTables`, whose `hg_diag` checks that the
+integer inner product of each vector with itself is `(12, 0)` and whose `hg_overlaps` checks `re² + im² = 16` on every
+ordered pair of distinct vectors (`decide +kernel`); `hg_term` casts a product of Gaussian integers to `ℂ`
+(`Complex.ext`); normalization through `EuclideanSpace.norm_eq` and `Real.mul_self_sqrt`; the family
+`Φ : Fin 64 → StateVector 8`, `Φ i = (√12)⁻¹ • v_{i / 8, i % 8}` as `WithLp.toLp 2 (fun x => …)`.
 
 **Dimensions 2 and 3.** The tetrahedral family `(1, 0)`, `(√(1/3), √(2/3) ω^m)` (`m = 0, 1, 2`, `ω = e^{2πi/3}`) and
 the Hesse family `(0, s, −s ω^m)`, `(−s ω^m, 0, s)`, `(s, −s ω^m, 0)` with `s = √(1/2)` (formal-conjectures'

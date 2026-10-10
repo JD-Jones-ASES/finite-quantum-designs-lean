@@ -16,11 +16,11 @@ namespace QuantumDesigns
 
 theorem hasCompleteMUBs_prime_pow_internal (p k : ℕ) (hp : p.Prime) (hk : 1 ≤ k) :
     HasCompleteMUBs (p ^ k) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases h2 : p = 2
   · subst h2
     exact hasCompleteMUBs_two_pow_internal k hk
-  · letI : Fintype (GaloisField p k) := Fintype.ofFinite _
+  · let _ : Fintype (GaloisField p k) := Fintype.ofFinite _
     have hcard : Fintype.card (GaloisField p k) = p ^ k := by
       rw [← Nat.card_eq_fintype_card]
       exact GaloisField.card p k (by omega)

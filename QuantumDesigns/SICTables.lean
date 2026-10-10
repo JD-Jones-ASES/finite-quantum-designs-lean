@@ -7,8 +7,8 @@ The 64 vectors `v_{a,b}(x) = (−1)^{b·(x ⊕ a)} ψ(x ⊕ a)` in `ℤ[i]⁸` (
 `b·y` the parity of `b &&& y`), with the fiducial `ψ = (−1 + 2i, 1, 1, 1, 1, 1, 1, 1)`, each Gaussian integer stored
 as its real and imaginary parts. The vector with index `i < 64` is `v_{i / 8, i % 8}`. The integer inner product
 `⟨u, v⟩ = Σ_x conj(u x) v x` has real part `Σ (ur vr + ui vi)` and imaginary part `Σ (ur vi − ui vr)`;
-`hg_overlaps` checks, by kernel evaluation, that its squared modulus is `144` on the diagonal and `16` off it, and
-that the diagonal value is the real number `12`. No imports.
+`hg_diag` checks, by kernel evaluation, that the inner product of each vector with itself is the real number `12`
+(imaginary part `0`), and `hg_overlaps` that its squared modulus is `16` on every ordered pair of distinct vectors. No imports.
 -/
 
 @[expose] public section

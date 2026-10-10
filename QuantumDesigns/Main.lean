@@ -19,7 +19,7 @@ sets; the three small dimensions from `Small.lean` (independent of the general `
 
 namespace QuantumDesigns
 
-theorem isMaxMUBCount_odd_prime_pow_internal (p k : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hk : 1 ≤ k) :
+theorem isMaxMUBCount_odd_prime_pow_internal (p k : ℕ) (hp : p.Prime) (_hp2 : p ≠ 2) (hk : 1 ≤ k) :
     IsMaxMUBCount (p ^ k) (p ^ k + 1) :=
   ⟨hasCompleteMUBs_prime_pow_internal p k hp hk,
     fun m hm => hasMUBs_le_internal _ (hp.two_le.trans (Nat.le_self_pow (by omega) p)) m hm⟩

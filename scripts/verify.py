@@ -13,7 +13,7 @@ any axiom beyond propext, Classical.choice and Quot.sound), the module-resolutio
 elaboration check of the compared definitions (printed with pp.all from the Challenge and from
 QuantumDesigns.Defs, which must agree exactly, as the registry's comparator demands), and Palomar's
 core-notation audit of the compared declarations. The compared definitions are read from
-Challenge.lean at run time: every `def` and `noncomputable def` at the start of a line, in namespace
+Challenge.lean at run time: every `def`, `noncomputable def` and `abbrev` at the start of a line, in namespace
 QuantumDesigns. `--fetch-cache` runs
 `lake exe cache get` first (network); `--skip-build` leaves out the four Lean steps. The last line
 is `VERIFY: PASS` or `VERIFY: FAIL`. Exit status 0 on PASS only.
@@ -30,7 +30,7 @@ TOOLCHAIN = "leanprover/lean4:v4.35.0-rc2"
 MATHLIB_REV = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
 TARGETS = ["QuantumDesigns", "Challenge", "Solution", "Test"]
 NAMESPACE = "QuantumDesigns"
-DEF_HEAD = re.compile(r"^(?:noncomputable )?def ([\w.']+)", flags=re.M)
+DEF_HEAD = re.compile(r"^(?:noncomputable )?(?:def|abbrev) ([\w.']+)", flags=re.M)
 
 
 def definitions():

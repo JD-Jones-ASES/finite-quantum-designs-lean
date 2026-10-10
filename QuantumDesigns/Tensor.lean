@@ -4,25 +4,23 @@ public import QuantumDesigns.PrimePow
 public import QuantumDesigns.Bound
 
 /-!
-# The tensor bound and the prime-power-divisor corollary
+# The tensor bound and the factorization corollary
 
-`hasMUBs_mul`: if `B : Fin k → UMat m` and `C : Fin k → UMat n` are families of mutually unbiased
-bases, the Kronecker products `B r ⊗ C r`, reindexed along `finProdFinEquiv : Fin m × Fin n ≃ Fin (m * n)`, form `k`
-mutually unbiased bases of `ℂ^{mn}`: `(B r ⊗ C r)^* (B s ⊗ C s) = (B r^* B s) ⊗ (C r^* C s)` (`Matrix.mul_kronecker_mul`,
-`Matrix.conjTranspose` of a Kronecker product), so every entry of the relative unitary is a product of entries with
-squared norms `1/m` and `1/n`. Unitarity: `Matrix.mul_kronecker_mul`, `Matrix.one_kronecker_one`
-(`Matrix.kronecker`, `Matrix.kroneckerMap`, `Matrix.reindex` through `Matrix.reindexAlgEquiv` or
-`Matrix.submatrix` with the equivalence; a reindexed unitary is unitary). XC0R's `hasMUBs_mul` is prior public Lean
-for this statement (adapted; credited in NOTICE).
+`tn_kroneckerUMat`: the Kronecker product of two unitary matrices, reindexed along `finProdFinEquiv` to `Fin (m * n)`,
+is unitary (`Matrix.mul_kronecker_mul`, `Matrix.one_kronecker_one`, `Matrix.submatrix`). `tn_relativeUnitary_kronecker`:
+the relative unitary of two Kronecker products is the Kronecker product of the relative unitaries, so
+(`tn_isUnbiased_kronecker`) every entry of the relative unitary of two products is a product of entries with squared
+norms `1/m` and `1/n`, of squared norm `1/(mn)`; `hasMUBs_mul_internal` applies this to the `k` pairs of a family. These
+four adapt XC0R's `kroneckerUMat`, `relativeUnitary_kronecker`, `isUnbiased_kronecker` and `hasMUBs_mul`.
 
-`hasMUBs_of_forall_primePow`: induction over the factorization (`Nat.recOnPosPrimePosCoprime`, or
-`Nat.prod_primeFactors_pow_factorization`): for a prime power `q = p ^ j`, `j ≥ 1`, `HasMUBs q (q + 1)` is
-`hasCompleteMUBs_prime_pow_internal` (a black box of `PrimePow.lean`) and restriction gives `HasMUBs q k` for
-`k ≤ q + 1` (`hasMUBs_of_le_internal`, a black box of `Bound.lean`); for coprime `a * b` the factorizations split
-(`Nat.factorization_mul_of_coprime`, `Nat.primeFactors_mul`), so the hypothesis passes to both factors and
-`hasMUBs_mul_internal` finishes; the case `d = 1` is `hasMUBs_one_dim_internal`. The statement for a single prime
-divisor (`HasMUBs d (q + 1)` for every `p ∣ d`) is false in general: `d = 6`, `p = 3` would give four bases in
-dimension six, an open question. `hasMUBs_three_internal`: every exact prime-power divisor is `≥ 2`, so `3 ≤ q + 1`.
+`hasMUBs_of_forall_primePow_internal` inducts with `Nat.recOnPosPrimePosCoprime`: `d = 1` is `hasMUBs_one_dim_internal`;
+for a prime power `pʲ`, `j ≥ 1`, the prime factors are `{p}` with exponent `j` (`Nat.primeFactors_prime_pow`,
+`Nat.Prime.factorization_pow`), so `k ≤ pʲ + 1` and restriction (`hasMUBs_of_le_internal`) of the complete set
+(`hasCompleteMUBs_prime_pow_internal`) gives `HasMUBs pʲ k`; for coprime `a * b` the exponents add
+(`Nat.factorization_mul`) and a prime dividing both factors would divide their gcd, so each factor inherits the
+hypothesis and `hasMUBs_mul_internal` finishes. The statement for a single prime divisor (`HasMUBs d (q + 1)` for every
+`p ∣ d`) is false in general: `d = 6`, `p = 3` would give four bases in dimension six, an open question.
+`hasMUBs_three_internal`: every exact prime-power divisor is `≥ 2` (`Nat.Prime.factorization_pos_of_dvd`), so `3 ≤ q + 1`.
 -/
 
 @[expose] public section

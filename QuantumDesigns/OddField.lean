@@ -5,24 +5,21 @@ public import QuantumDesigns.Defs
 /-!
 # Complete sets of mutually unbiased bases over a finite field of odd characteristic
 
-Fix a finite field `F` with `ringChar F ≠ 2`, `q = Fintype.card F`, a nontrivial additive
-character `ψ : AddChar F ℂ` (`AddChar.FiniteField.primitiveChar_to_Complex` with `..._isPrimitive`, or any `ψ ≠ 1`:
-over a field a nontrivial character is primitive, `AddChar.IsPrimitive.of_ne_one`), and an equivalence
-`e : F ≃ Fin q` (`Fintype.equivFin`).
+Fix a finite field `F` with `ringChar F ≠ 2`, `q = Fintype.card F`, the primitive additive character
+`ψ = AddChar.FiniteField.primitiveChar_to_Complex F`, and `e = Fintype.equivFin F : F ≃ Fin q`.
 
-**`quadSum_normSq`.** With `S = Σ_x ψ(c x² + e x)`: `‖S‖² = S * conj S`; `conj (ψ y) = ψ (−y)`
-(`AddChar.map_neg_eq_conj`); reindex the inner sum by `x = y + t` (`Equiv.addRight`); `c(y+t)² + e(y+t) − c y² − e y
-= c t² + e t + 2 c t y`; so `‖S‖² = Σ_t ψ(c t² + e t) Σ_y ψ((2 c t) y) = Σ_t ψ(c t² + e t) · (if 2 c t = 0 then q else 0)`
-(`AddChar.sum_mulShift`); `2 c t = 0 ↔ t = 0` since `2 ≠ 0` (`ringChar F ≠ 2`: `Ring.two_ne_zero`) and `c ≠ 0`; the
-`t = 0` term is `ψ 0 = 1`, so `‖S‖² = q`. No Gauss sums, no quadratic characters.
+**`quadSum_normSq`.** With `S = Σ_x ψ(c x² + e x)`: `‖S‖² = conj(S) · S` (`RCLike.conj_mul`); `conj(ψ A) ψ B = ψ(B − A)`
+(`of_conj_mul_apply`); the inner sum is reindexed by `x = y + t` (`Fintype.sum_equiv (Equiv.addLeft t)`), and
+`c(y + t)² + e(y + t) − c y² − e y = (c t² + e t) + (2 c t) y`, so `‖S‖² = Σ_t ψ(c t² + e t) Σ_y ψ((2 c t) y)`; the inner
+sum is `q` when `2 c t = 0` and `0` otherwise (`AddChar.sum_mulShift`, `AddChar.IsPrimitive.of_ne_one`), and `2 c t = 0`
+only at `t = 0` (`Ring.two_ne_zero`, `c ≠ 0`), where the term is `ψ 0 = 1`.
 
-**The bases.** For `a : F`, `M a : Matrix (Fin q) (Fin q) ℂ`, `M a i j = (√q)⁻¹ * ψ (a * x ^ 2 + y * x)` with
-`x = e.symm i` (row) and `y = e.symm j` (column). Unitarity: `(M a)^* (M a) = 1` entrywise is
-`(1/q) Σ_x ψ((y' − y) x) = δ` (`sum_mulShift`). Unbiasedness against the standard basis `1`: every entry has
-`‖·‖² = 1/q` (`AddChar.norm_apply`). Between `M a` and `M a'`, `a ≠ a'`: the `(j, j')` entry of `(M a)^* (M a')` is
-`(1/q) Σ_x ψ((a' − a) x² + (y' − y) x)`, of squared norm `q / q² = 1/q` by `quadSum_normSq`. The family
-`Fin (q + 1) → UMat q` is `Fin.cons 1 (fun a => ⟨M (e.symm a), _⟩)`; `IsMUBFamily` by cases on `Fin.cons`
-(`Fin.cases`), using `IsUnbiased.symm` (prove it locally: `relativeUnitary V U = star (relativeUnitary U V)`).
+**The bases.** `of_M ψ e a` is the matrix with entries `(√q)⁻¹ ψ(a x² + y x)` at row `x = e.symm i`, column
+`y = e.symm j`; `of_M_entry` computes an entry of `(M_a)† M_{a'}` as `q⁻¹ Σ_x ψ((a' − a) x² + (y' − y) x)`;
+`of_M_unitary` is the case `a = a'` (`sum_mulShift`); against the standard basis every entry has squared norm `1/q`
+(`AddChar.norm_apply`, `of_sqrt_inv_sq`); between `M_a` and `M_{a'}` with `a ≠ a'` the entry has squared norm `q/q² = 1/q`
+by `quadSum_normSq` with `c = a' − a`. The family `Fin.cons 1 (fun k => M (e.symm k)) : Fin (q + 1) → UMat q` is
+pairwise unbiased by nested `Fin.cases`, with `of_isUnbiased_symm` for the symmetric cases.
 -/
 
 @[expose] public section

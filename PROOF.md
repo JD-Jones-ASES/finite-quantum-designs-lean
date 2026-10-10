@@ -82,7 +82,7 @@ for all `y` with `x = Σ t_j β_j`, so `c x = 0` by `traceForm_nondegenerate` (f
 
 `SmallTables.lean` is a leaf importing only `Init`: the exponent tables `sm_tab2`, `sm_tab4`, `sm_tab8` (basis `a`,
 column `b`, row `x`; the entry of the basis matrix is `c · i^E`, with `E = xᵀS_a x + 2 b·x mod 4` from the trace form of
-`𝔽_{2ⁿ}` in the polynomial basis, as the desk's replay prints them) and a checker built from explicit `Nat.rec`
+`𝔽_{2ⁿ}` in the polynomial basis, as `scripts/check_designs.py` prints them) and a checker built from explicit `Nat.rec`
 definitions (`sm_re`, `sm_im`, `sm_sumRe`, `sm_sumIm`, `sm_all`, `sm_E`, `sm_pairOK`, `sm_check`): for every pair of
 columns `(a, b)`, `(a', b')` it sums `i^{3E + E'}` over the rows as integer real and imaginary parts and requires `(d, 0)`
 on the diagonal, `(0, 0)` for two columns of one basis, and `re² + im² = d` across bases. `sm_tab2_ok`, `sm_tab4_ok`,
@@ -146,7 +146,7 @@ sums written out; `hg_diag` (`ipRe i i = 12`, `ipIm i i = 0`) and `hg_overlaps` 
 4032 ordered pairs) are `decide +kernel` (seconds). `SIC.lean`: `hg_hoggar i = toLp 2 (fun x => (√12)⁻¹ (vr + vi · I))`;
 `hg_term` (the generic product `conj(r + s i)(r' + s' i)` as integer real and imaginary parts), `hg_sum_z` (the eight
 terms, `Fin.sum_univ_eight`), `hg_inner` (the inner sum is `(1/12)(ipRe + ipIm · i)`); normalization through
-`Complex.normSq_eq_conj_mul_self` and `EuclideanSpace.norm_eq`, the overlaps through `Complex.normSq_add_mul_I`:
+`EuclideanSpace.norm_eq` and `Real.mul_self_sqrt`, the overlaps through `Complex.normSq_add_mul_I`:
 `16/144 = 1/9 = sicOverlapSq 8` (`hasSICPOVM_eight_internal`).
 
 **Dimensions 2 and 3.** The tetrahedral family `hg_qubit a b r` (`(1, 0)` and `(a, b ω^m)`, `ω = −1/2 + (r/2) i`) and
