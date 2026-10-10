@@ -60,7 +60,23 @@ its primitivity at `1`), `e = Fintype.equivFin F`, and `of_M a` the matrix with 
 
 ## 4. Complete sets in dimension `2ⁿ` (`QuantumDesigns/TwoPow.lean`)
 
-(filled from the lane report)
+Signs and powers of `i`: `tp_sgn v = ±1` on `ZMod 2` (multiplicative, `tp_sgn_add`), `tp_om m = iᵐ` for `m : ℤ`
+(`tp_om_add`, `tp_om_four_mul`, `tp_om_two_mul : i^{2m} = tp_sgn m`), `tp_u : ZMod 2 → ℤ` the `{0, 1}` lift with
+`tp_u (a + b) = tp_u a + tp_u b − 2 tp_u a tp_u b` (`tp_u_add`). For a symmetric `S : Matrix (Fin n) (Fin n) (ZMod 2)`,
+`tp_Q S x = Σ_{j,k} S̃_{jk} x̃_j x̃_k ∈ ℤ` and `tp_P S x t = Σ_{j,k} S̃_{jk} x̃_j t̃_k`; the ℤ/4 identity is exact over `ℤ`:
+`tp_Q S (x + t) = tp_Q S x + tp_Q S t + 2 tp_P S x t + 4 m` (`tp_Q_add`, from `tp_u_add` and the antisymmetry lemma
+`tp_antisym_sum`; symmetry of `S` is all it needs), so `tp_om_Q_add`: `i^{Q(x+t)} = i^{Q x} i^{Q t} tp_sgn(P(x, t))`
+(`tp_P_cast`). `tp_sum_sgn`: `Σ_y tp_sgn(w · y) = 2ⁿ [w = 0]`; `tp_normSq_sum`: for a symmetric `D` with `D t = 0 → t = 0`,
+`‖Σ_x i^{Q_D x} tp_sgn(c · x)‖² = 2ⁿ` by the substitution `x = y + t` (`y + z = y − z` on `Fin n → ZMod 2`,
+`tp_add_eq_sub`). The bases: `tp_e n : Fin (2ⁿ) ≃ (Fin n → ZMod 2)` (`Fintype.equivFinOfCardEq`, `tp_card_V`),
+`tp_mat S` with entry `(√2ⁿ)⁻¹ i^{Q_S x} tp_sgn(b · x)` at row `x`, column `b` (`tp_c_sq`, `tp_gram`, `tp_mat_unitary`,
+`tp_norm_entry` against the standard basis, `tp_unbiased` for two symmetric `S`, `S'` whose difference is injective).
+`tp_mubs_of_symmetric_spread`: a family `S : Fin (2ⁿ) → Matrix … (ZMod 2)` of symmetric matrices with
+`(S a − S a') t = 0 → t = 0` for `a ≠ a'` gives `HasCompleteMUBs (2ⁿ)` (the family `Fin.cases 1 (fun a => tp_mat (S a))`),
+for every `n`. `tp_exists_spread` (`n ≥ 1`): `K = GaloisField 2 n` (`Fintype.ofFinite`), a basis `β` of `K` over `ZMod 2`
+(`Module.finBasis`), `S_a j k = trace(a β_j β_k)`; `S_a − S_{a'} = S_{a − a'}`, and `S_c t = 0` forces `trace(c x y) = 0`
+for all `y` with `x = Σ t_j β_j`, so `c x = 0` by `traceForm_nondegenerate` (finite fields are separable), so `t = 0`;
+`a` ranges over `K ≃ Fin (2ⁿ)` (`GaloisField.card`). `hasCompleteMUBs_two_pow_internal` combines the two.
 
 ## 5. Dimensions 2, 4, 8 by tables (`QuantumDesigns/Small.lean`, `SmallTables.lean`)
 
@@ -92,7 +108,13 @@ for every `N`, even or odd (`ch_chi_add`). `ch_orth` (the orthogonality relation
 
 ## 7. The assembly (`QuantumDesigns/PrimePow.lean`, `QuantumDesigns/Main.lean`)
 
-(filled by the desk)
+`hasCompleteMUBs_prime_pow_internal`: `p = 2` is `hasCompleteMUBs_two_pow_internal`; otherwise `GaloisField p k`
+(`Fintype.ofFinite`) has `p ^ k` elements (`GaloisField.card`) and characteristic `p ≠ 2` (`ringChar.eq`), so
+`hasCompleteMUBs_of_odd_char_internal` applies. In `Main.lean` every `IsMaxMUBCount` is the pair of the construction and
+`hasMUBs_le_internal` (with `2 ≤ pᵏ` from `Nat.Prime.two_le` and `Nat.le_self_pow`): `isMaxMUBCount_odd_prime_pow_internal`,
+`isMaxMUBCount_two_pow_internal`, `isMaxMUBCount_prime_pow_internal`, and `isMaxMUBCount_two/four/eight_internal`
+from `Small.lean`'s tables; `hasCompleteMUBs_iff_isMaxMUBCount_internal` is the same pair in one direction and the
+first component in the other.
 
 ## 8. Gerzon's bound and the equality case (`QuantumDesigns/Gerzon.lean`)
 

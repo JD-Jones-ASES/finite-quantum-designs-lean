@@ -13,8 +13,15 @@ What is derived:
    HasConstantOverlapSq, sicOverlapSq, IsSICFamily, HasSICPOVM (from FormalConjectures/OpenQuantumProblems/23.lean)
    in Challenge.lean and QuantumDesigns/Defs.lean are restated character for character, with the namespace changed
    and the docstrings kept.
-2. Lemmas whose docstrings say "adapts ... of formal-conjectures ..." or "adapts ... of XC0R ..." are modified
-   from those files (the declarations named in each docstring). Those docstrings are the modification notices.
+2. Lemmas whose docstrings say "adapts ... of ..." are modified from those files; those docstrings are the
+   modification notices. They are: in QuantumDesigns/Bound.lean, bd_proj, bd_vec, bd_inner_vec, bd_inner_proj,
+   bd_inner_proj_same, bd_inner_proj_unbiased and bd_w (from colProjector, matToEuc, inner_matToEuc,
+   colProjector_inner_eq_mul, colProjector_inner_self, colProjector_inner_diff, colProjector_inner_unbiased and
+   dftProjector of the XC0R fork's OpenQuantumProblems/13.lean, with the sixth root of unity replaced by a primitive
+   d-th root); in QuantumDesigns/Tensor.lean, tn_kroneckerUMat, tn_relativeUnitary_kronecker, tn_isUnbiased_kronecker
+   and hasMUBs_mul_internal (from kroneckerUMat, relativeUnitary_kronecker, isUnbiased_kronecker and hasMUBs_mul of
+   the same file); in QuantumDesigns/SIC.lean, hg_qubit and hg_hesse (from qubitSICFamily and hesseFamily of
+   google-deepmind/formal-conjectures' OpenQuantumProblems/23.lean, restated with real parameters).
 
 No other part of either repository is included. Unless required by applicable law or agreed to in writing, the
 derived portions are distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express

@@ -1,0 +1,620 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Finite quantum designs: at most d + 1 mutually unbiased bases for d >= 2 and exactly q + 1 in every prime-power dimension q, the tensor bound, Gerzon's bound N <= d^2 for complex equiangular lines with equality only at the SIC angle, and SIC-POVMs in dimensions 2, 3 and 8 (Hoggar's lines)"
+  description: >-
+    A Lean 4 development of two structures of finite-dimensional quantum information, in the vocabulary of
+    google-deepmind/formal-conjectures (Open Quantum Problems 13 and 23; the fourteen definitions restated
+    character for character under their Apache-2.0 license, see NOTICE). A basis of C^d is a unitary matrix
+    whose columns are the basis vectors; two bases U, V are mutually unbiased when every entry of U^* V has
+    squared norm 1/d; HasMUBs d k says k pairwise unbiased bases exist and IsMaxMUBCount d k that k is the
+    largest such number. Theorems: for d >= 2, HasMUBs d m implies m <= d + 1 (Wootters-Fields 1989;
+    Bandyopadhyay-Boykin-Roychowdhury-Vatan 2002, Theorem 3.5: the identity and the m(d - 1) traceless
+    combinations of the rank-one projectors are pairwise orthogonal in the d^2-dimensional matrix space), and
+    the hypothesis is sharp since in dimension 1 every two bases are unbiased; restriction to subfamilies; the
+    tensor bound HasMUBs m k and HasMUBs n k imply HasMUBs (m n) k (Klappenecker-Rötteler 2004, Lemma 3) and its
+    corollary over the factorization (HasMUBs d k whenever k <= q + 1 for every exact prime-power divisor q of
+    d), hence three mutually unbiased bases in every dimension d >= 2; for a finite field F of odd
+    characteristic and size q, the standard basis and the q bases with entries psi(a x^2 + b x)/sqrt q (psi a
+    nontrivial additive character) are q + 1 mutually unbiased bases (Klappenecker-Rötteler, Theorem 2), through
+    the identity |sum_x psi(c x^2 + e x)|^2 = q for c != 0 proved by Weyl differencing; for q = 2^n the bases with
+    entries i^(x^T S_a x) (-1)^(b . x)/sqrt q, S_a the {0, 1}-lifted Gram matrix of the trace form (x, y) ->
+    Tr(a x y) of the field with 2^n elements (an equivalent form of the Galois-ring bases of
+    Klappenecker-Rötteler, Theorem 3), through the mod-4 identity Q(x + y) = Q(x) + Q(y) + 2 x^T S y and the
+    nondegeneracy of the trace form; so IsMaxMUBCount (p^k) (p^k + 1) for every prime power, HasCompleteMUBs d
+    iff IsMaxMUBCount d (d + 1) for d >= 2, and the values 3, 5, 9 in dimensions 2, 4, 8 also by explicit
+    kernel-checked tables. A SIC family in C^d is d^2 unit vectors with pairwise squared overlap 1/(d + 1);
+    HasSICPOVM d says one exists. Theorems: N unit vectors of C^d with one squared overlap c != 1 on every pair
+    satisfy N <= d^2 (the absolute bound of Delsarte-Goethals-Seidel 1975, the complex form of Gerzon's bound;
+    the rank-one projectors are linearly independent), and with c = 1 the family may be any length; for d >= 2,
+    d^2 such vectors have c = 1/(d + 1) and resolve the identity, sum_i (1/d) |phi_i><phi_i| = 1, so every SIC
+    family is a POVM (Renes-Blume-Kohout-Scott-Caves 2004), HasSICPOVM d holds iff C^d has d^2 equiangular unit
+    vectors, and a family at the SIC angle has at most d^2 members; SIC-POVMs exist in dimensions 2 (the
+    tetrahedron), 3 (the Hesse configuration) and 8 (Hoggar's 64 lines: the orbit of (-1 + 2i, 1, 1, 1, 1, 1,
+    1, 1)/sqrt 12 under the three-qubit Pauli group, Jedwab-Wiebe 2015, Example 4, checked by the kernel over
+    all ordered pairs). Twenty-six compared statements, kernel-only. As of 2026-10-10 no formalization of the
+    general bound, of the prime-power constructions, of the factorization corollary or of the complex absolute
+    bound with its equality case was located in the Palomar registry, Mathlib, formal-conjectures, openai/math,
+    the other Lean repositories searched, the Isabelle AFP, the Rocq package index or arXiv; the dimension-2 MUB
+    case is formal-conjectures' mutuallyUnbiasedBases_dim2, the dimension-6 projector bound and the Kronecker
+    lemma are in the XC0R fork of formal-conjectures (adapted here, see NOTICE), the dimension-2 and 3 SIC
+    overlaps are in zblore/csd-lean4, and the-omega-institute/trureturing kernel-checks the same 64 Hoggar
+    vectors and the Hesse SIC in its own vocabulary. Not claimed: anything about dimension 6 (openai/math holds
+    the bound of five bases in Lean), Weiner's completion gap, SICs in dimensions 4 to 7, any first formalization.
+  authors: ["JD Jones"]
+  responsible_maintainers: ["JD Jones"]
+  license: "MIT"
+
+classification:
+  arxiv: ["quant-ph", "math.CO"]
+  msc2020: ["81P15", "05B30", "52C35", "11T24"]
+
+sources:
+  - title: "Constructions of Mutually Unbiased Bases"
+    authors: ["Andreas Klappenecker", "Martin Rötteler"]
+    id: "doi:10.1007/978-3-540-24633-6_10"
+    type: "paper"
+    location: "Finite Fields and Applications (Fq7), Lecture Notes in Computer Science 2948, Springer, 2004, 137-144; the text read is arXiv:quant-ph/0309120v1: p. 2 (Lemma 1, Weil sums), p. 3 (Theorem 2, odd characteristic), p. 4 (Lemma 2; Theorem 3, the Galois-ring bases for 2^n), p. 6 (Lemma 3, N(d) >= the minimum of N(p_i^{a_i}) over the prime-power factors, N(nm) >= min{N(n), N(m)}, and the remark N(d) >= 3 for d >= 2)"
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: >-
+      Theorem 2 is hasCompleteMUBs_of_odd_char (the basis index on x^2, the column index on x), stated here for
+      every finite field of odd characteristic and derived for every odd prime power through GaloisField; its
+      Lemma 1 (the Weil sum) is quadSum_normSq, proved here by Weyl differencing instead of the cited Weil bound.
+      Lemma 3 and its remarks are hasMUBs_mul, hasMUBs_of_forall_primePow and hasMUBs_three. The bases of
+      hasCompleteMUBs_two_pow are those of Theorem 3 written over the vector space of the field with 2^n elements
+      with a Z/4-valued quadratic form from the trace form, the same family up to the order of each basis's
+      columns (cf. Godsil-Roy 2009, section 6); the proof here is direct in those coordinates. The paper cites
+      the d + 1 bound and does not prove it.
+  - title: "A New Proof for the Existence of Mutually Unbiased Bases"
+    authors: ["Somshubhro Bandyopadhyay", "P. Oscar Boykin", "Vwani Roychowdhury", "Farrokh Vatan"]
+    id: "doi:10.1007/s00453-002-0980-7"
+    type: "paper"
+    location: "Algorithmica 34 (2002), no. 4, 512-528; the text read is arXiv:quant-ph/0103162v3: pp. 9-10 (Theorem 3.4), p. 11 (Theorem 3.5)"
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: >-
+      Theorem 3.5 (at most d + 1 bases) is hasMUBs_le, by the argument of Theorem 3.4: the identity and the
+      m(d - 1) traceless unitaries diagonal in each basis are pairwise orthogonal in the d^2-dimensional matrix
+      space. The source states Theorem 3.5 for every d; its last step divides by d - 1, and the statement fails
+      at d = 1 (hasMUBs_one_dim), so the formal statement assumes d >= 2.
+  - title: "Complex Lines with Restricted Angles"
+    authors: ["Aidan Roy"]
+    id: "https://arxiv.org/abs/1306.0978"
+    type: "other"
+    location: "PhD thesis, University of Waterloo, 2005 (arXiv:1306.0978): p. 28 (Theorem 3.3.1, the absolute bound, credited to Delsarte, Goethals and Seidel; Corollary 3.3.2, at most d^2 equiangular lines in C^d), p. 35 (Corollary 3.5.15: for d^2 lines, equiangular and 2-design are equivalent)"
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: >-
+      Corollary 3.3.2 is gerzon_bound and card_le_of_sicOverlapSq, by the linear independence of the rank-one
+      projectors (the degree-1 case of the zonal-polynomial argument of Theorem 3.3.1), for every common squared
+      overlap c != 1. Corollary 3.5.15 is the context of gerzon_equality and hasSICPOVM_iff_equiangular.
+  - title: "Symmetric informationally complete quantum measurements"
+    authors: ["Joseph M. Renes", "Robin Blume-Kohout", "A. J. Scott", "Carlton M. Caves"]
+    id: "doi:10.1063/1.1737053"
+    type: "paper"
+    location: "Journal of Mathematical Physics 45 (2004), no. 6, 2171-2180; the text read is arXiv:quant-ph/0310075v1: p. 1 (eq. (1), the SIC definition; the known analytic solutions d = 2, 3, 8), pp. 2-3 (section II: a SIC is a tight frame, hence a POVM; its Gram matrix is nonsingular)"
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: "Section II is isSICFamily_frame and gerzon_frame (the resolution of the identity); eq. (1) is formal-conjectures' IsSICFamily."
+  - title: "A Simple Construction of Complex Equiangular Lines"
+    authors: ["Jonathan Jedwab", "Amy Wiebe"]
+    id: "doi:10.1007/978-3-319-17729-8_13"
+    type: "paper"
+    location: "Algebraic Design Theory and Hadamard Matrices (ADTHM 2014), Springer Proceedings in Mathematics & Statistics, 2015, 159-169; the text read is arXiv:1408.2492v3: p. 2 (the equivalence with Hoggar's lines), p. 4 (the set H(v)), pp. 5-6 (Example 4, d = 8, v = -1 + 2i), p. 7 (Theorem 1)"
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: >-
+      Example 4 is hasSICPOVM_eight: the 64 vectors of H(v) for the order-8 Sylvester matrix and v = -1 + 2i,
+      normalized by 1/sqrt 12, are up to sign the three-qubit Pauli orbit of (-1 + 2i, 1, ..., 1) used here. The
+      identification with Hoggar's lines is the source's (p. 2, with Godsil-Roy 2009, section 3).
+  - title: "Bounds for systems of lines, and Jacobi polynomials"
+    authors: ["P. Delsarte", "J. M. Goethals", "J. J. Seidel"]
+    id: "doi:10.1016/B978-0-12-189420-7.50020-7"
+    type: "paper"
+    location: "Philips Research Reports 30 (1975) 91*-105*; reprinted in Geometry and Combinatorics: Selected Works of J. J. Seidel, Academic Press, 1991, 193-207"
+    relationship: "background"
+    author_endorsement: "n/a"
+    note: "The origin of the absolute bound (at most d^2 equiangular lines in C^d). Not read; the attribution and the statement are taken from Roy's thesis, Theorem 3.3.1 and Corollary 3.3.2."
+  - title: "Equiangular lines"
+    authors: ["P. W. H. Lemmens", "J. J. Seidel"]
+    id: "doi:10.1016/0021-8693(73)90123-3"
+    type: "paper"
+    location: "Journal of Algebra 24 (1973) 494-512"
+    relationship: "background"
+    author_endorsement: "n/a"
+    note: "The usual reference for Gerzon's real bound d(d + 1)/2, of which the complex bound is the analogue. Not read."
+  - title: "Two Quaternionic 4-Polytopes"
+    authors: ["S. G. Hoggar"]
+    id: "doi:10.1007/978-1-4612-5648-9_14"
+    type: "paper"
+    location: "The Geometric Vein: The Coxeter Festschrift, Springer, 1981, 219-230"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: "The original 64 equiangular lines in C^8. Not read; cited through Jedwab-Wiebe and Godsil-Roy."
+  - title: "64 Lines from a Quaternionic Polytope"
+    authors: ["S. G. Hoggar"]
+    id: "doi:10.1023/A:1005009727232"
+    type: "paper"
+    location: "Geometriae Dedicata 69 (1998), no. 3, 287-289"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: "Not read; cited through Renes-Blume-Kohout-Scott-Caves."
+  - title: "Equiangular lines, mutually unbiased bases, and spin models"
+    authors: ["Chris Godsil", "Aidan Roy"]
+    id: "doi:10.1016/j.ejc.2008.01.002"
+    type: "paper"
+    location: "European Journal of Combinatorics 30 (2009) 246-262; the text read is arXiv:quant-ph/0511004v3: p. 1, p. 5 (section 3, Hoggar's lines as a Pauli orbit), p. 12 (Lemma 5.4, Z/4 characters through the {0, 1} lift), p. 16 (section 6, Klappenecker-Rötteler's Theorem 3 bases rewritten as i^{tr(a x^2 + 2 y x)})"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: "Context for the Z/4 coordinates of hasCompleteMUBs_two_pow and for the Pauli-orbit form of Hoggar's lines."
+  - title: "Geometrical description of quantal state determination"
+    authors: ["I. D. Ivanović"]
+    id: "doi:10.1088/0305-4470/14/12/019"
+    type: "paper"
+    location: "Journal of Physics A: Mathematical and General 14 (1981), no. 12, 3241-3245"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: "p + 1 mutually unbiased bases in prime dimension p. Not read."
+  - title: "Optimal state-determination by mutually unbiased measurements"
+    authors: ["William K. Wootters", "Brian D. Fields"]
+    id: "doi:10.1016/0003-4916(89)90322-9"
+    type: "paper"
+    location: "Annals of Physics 191 (1989) 363-381"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: "Complete sets in every prime-power dimension, the first proof (per Klappenecker-Rötteler, p. 3), and the d + 1 bound. Not read."
+  - title: "A gap for the maximum number of mutually unbiased bases"
+    authors: ["Mihály Weiner"]
+    id: "doi:10.1090/S0002-9939-2013-11487-5"
+    type: "paper"
+    location: "Proceedings of the American Mathematical Society 141 (2013) 1963-1969; arXiv:0902.0635 (the abstract read)"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: "States the d + 1 bound for d > 1, the hypothesis used here. Weiner's completion theorem is not formalized."
+  - title: "Quantum designs: foundations of a noncommutative design theory"
+    authors: ["Gerhard Zauner"]
+    id: "doi:10.1142/S0219749911006776"
+    type: "paper"
+    location: "International Journal of Quantum Information 9 (2011), no. 1, 445-507 (the 1999 Vienna thesis in translation)"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: "Zauner's conjecture, HasSICPOVM d for every d, of which the dimensions 2, 3, 8 here are instances. Not read."
+  - title: "On mutually unbiased bases"
+    authors: ["Thomas Durt", "Berthold-Georg Englert", "Ingemar Bengtsson", "Karol Życzkowski"]
+    id: "doi:10.1142/S0219749910006502"
+    type: "paper"
+    location: "International Journal of Quantum Information 8 (2010) 535-640; arXiv:1004.3348 (the abstract read)"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: "The review of the subject."
+  - title: "Formal Conjectures: OpenQuantumProblems/13.lean and 23.lean"
+    authors: ["The Formal Conjectures Authors"]
+    id: "https://github.com/google-deepmind/formal-conjectures/tree/1646ca16afd6cc7a693d3bdc9f066c4d3cc01a89/FormalConjectures/OpenQuantumProblems"
+    type: "other"
+    location: "13.lean (mutuallyUnbiasedBases_dim2 proved; the general statement and dimensions 6, 10, 12, 14, 15 open) and 23.lean (the witness families qubitSICFamily and hesseFamily; hasSICPOVM_two and hasSICPOVM_three left with sorry); Apache-2.0; the IQOQI Open Quantum Problems pages 13 and 23 these files cite returned HTTP 500 on 2026-10-10"
+    relationship: "adapts"
+    author_endorsement: "not-contacted"
+    note: >-
+      The fourteen definitions are restated character for character (NOTICE), and hg_qubit and hg_hesse restate
+      the dimension-2 and 3 witness families with real parameters. hasSICPOVM_two and hasSICPOVM_three here
+      prove the statements left with sorry there, in this namespace.
+  - title: "XC0R/formal-conjectures: OpenQuantumProblems/13.lean at c8733543"
+    authors: ["The Formal Conjectures Authors"]
+    id: "https://github.com/XC0R/formal-conjectures/blob/c8733543568e8011288a9fa7ef33375f5e5907d3/FormalConjectures/OpenQuantumProblems/13.lean"
+    type: "other"
+    location: "lines 511-583 (kroneckerUMat, relativeUnitary_kronecker, isUnbiased_kronecker, hasMUBs_mul), 912-998 (colProjector, matToEuc, inner_matToEuc, colProjector_inner_eq_mul, colProjector_inner_self, colProjector_inner_diff, colProjector_inner_unbiased), 1049-1160 (dftProjector, the dimension-6 bound); Apache-2.0"
+    relationship: "adapts"
+    author_endorsement: "not-contacted"
+    note: >-
+      The lemmas adapted are listed in NOTICE: the projector machinery of QuantumDesigns/Bound.lean (with the
+      sixth root of unity replaced by a primitive d-th root and the identity added, which the dimension-6 bound
+      there omits) and the Kronecker lemmas of QuantumDesigns/Tensor.lean.
+  - title: "the-omega-institute/trureturing: HoggarSicSumNegativity.lean and HesseSicCertificate.lean"
+    authors: ["The Omega Institute"]
+    id: "https://github.com/the-omega-institute/trureturing/tree/dev/D5/S3"
+    type: "other"
+    location: "D5/S3/Quantum/Measurement/HoggarSicSumNegativity.lean (commit 798420dc, 2026-10-01: the same 64 vectors, norms and overlaps by decide +kernel); D5/S3/QuantumContext/HesseSicCertificate.lean (1588d054, 2026-10-09); Apache-2.0"
+    relationship: "other"
+    author_endorsement: "not-contacted"
+    note: "Prior kernel-checked certificates of the Hoggar vectors (overlap 1/9) and of the Hesse SIC, outside formal-conjectures' vocabulary. No code is shared."
+  - title: "zblore/csd-lean4: Empirical/CSD SICVolume, SIC3Volume, MUB3Volume"
+    authors: ["Zayn Blore"]
+    id: "https://github.com/zblore/csd-lean4/tree/27e97330c524366e78d8f32fde0b67bd58135ac6/CsdLean4/Empirical/CSD"
+    type: "other"
+    location: "SICVolume.lean (sic_inner_normSq, sic_complete), SIC3Volume.lean (sic3_complete), MUB3Volume.lean (mub3_unbiased, mub3_complete); Apache-2.0"
+    relationship: "other"
+    author_endorsement: "not-contacted"
+    note: "Prior Lean proofs of the dimension-2 and 3 SIC overlaps and of four mutually unbiased bases of C^3. No code is shared."
+  - title: "openai/math, item 266: Exactly three mutually unbiased bases in dimension six"
+    authors: ["OpenAI"]
+    id: "https://github.com/openai/math/blob/fd4aeeb/lean/docs/266.md"
+    type: "other"
+    location: "lean/docs/266.md; ComparatorChallenges/MUBSix.lean (a bound of five bases in C^6); Apache-2.0"
+    relationship: "background"
+    author_endorsement: "n/a"
+    note: "The general bound here gives only seven bases in dimension six; the bound of five is formalized there. Nothing is taken from it."
+  - title: "The Lean 4 Theorem Prover and Programming Language"
+    authors: ["Leonardo de Moura", "Sebastian Ullrich"]
+    id: "doi:10.1007/978-3-030-79876-5_37"
+    type: "paper"
+    location: "Automated Deduction - CADE 28, Lecture Notes in Computer Science 12699, Springer, 2021, 625-635"
+    relationship: "background"
+    author_endorsement: "n/a"
+    note: "The proof assistant (leanprover/lean4:v4.35.0-rc2). Nothing mathematical is taken from it."
+  - title: "The Lean mathematical library"
+    authors: ["The mathlib Community"]
+    id: "doi:10.1145/3372885.3373824"
+    type: "paper"
+    location: "Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP 2020), 367-381"
+    relationship: "background"
+    author_endorsement: "n/a"
+    note: "The library the development imports (tag v4.35.0-rc2, commit 065356127b1dc0016f66b7283ce0ce2c4055aa55)."
+
+related_formalizations:
+  - id: "https://github.com/google-deepmind/formal-conjectures/blob/1646ca16afd6cc7a693d3bdc9f066c4d3cc01a89/FormalConjectures/OpenQuantumProblems/13.lean"
+    relationship: "independent"
+    note: "mutuallyUnbiasedBases_dim2 (mu(2) = 3, by the Bloch-vector argument). isMaxMUBCount_two here is the same statement in this namespace, re-proved by a kernel-checked table and the general bound."
+  - id: "https://github.com/XC0R/formal-conjectures/blob/c8733543568e8011288a9fa7ef33375f5e5907d3/FormalConjectures/OpenQuantumProblems/13.lean"
+    relationship: "independent"
+    note: "The dimension-6 bound mu(6) <= 7 (dim6_upper_bound) and the Kronecker lemma hasMUBs_mul; adapted here as recorded in NOTICE, generalized to every dimension with the identity term."
+  - id: "https://github.com/zblore/csd-lean4/tree/27e97330c524366e78d8f32fde0b67bd58135ac6/CsdLean4/Empirical/CSD"
+    relationship: "independent"
+    note: "The dimension-2 and 3 SIC overlaps and four mutually unbiased bases of C^3, in another vocabulary."
+  - id: "https://github.com/the-omega-institute/trureturing/blob/798420dc/D5/S3/Quantum/Measurement/HoggarSicSumNegativity.lean"
+    relationship: "independent"
+    note: "The same 64 Hoggar vectors with their norms and overlaps kernel-checked (2026-09-30), and the Hesse SIC (HesseSicCertificate.lean), in that repository's vocabulary."
+  - id: "https://github.com/openai/math/blob/fd4aeeb/lean/ComparatorChallenges/MUBSix.lean"
+    relationship: "independent"
+    note: "At most five mutually unbiased bases in dimension six; not covered here."
+
+status:
+  scope: >-
+    Twenty-six compared theorems over the fourteen definitions of Challenge.lean (formal-conjectures' UMat,
+    relativeUnitary, IsUnbiased, IsMUBFamily, HasMUBs, HasCompleteMUBs, IsMaxMUBCount, StateVector,
+    IsNormalized, overlapSq, HasConstantOverlapSq, sicOverlapSq, IsSICFamily, HasSICPOVM; none a hole). Mutually
+    unbiased bases: the bound m <= d + 1 for d >= 2 and its sharpness in dimension 1; restriction; the tensor
+    bound and its factorization corollary; three bases in every dimension d >= 2; the quadratic-phase sum over an
+    odd-characteristic finite field; complete sets over every finite field of odd characteristic, in every
+    dimension 2^n with n >= 1, hence IsMaxMUBCount (p^k) (p^k + 1) for every prime power and for odd p and for
+    p = 2 separately; HasCompleteMUBs d iff IsMaxMUBCount d (d + 1) for d >= 2; mu(2) = 3, mu(4) = 5, mu(8) = 9.
+    SIC-POVMs and equiangular lines: the complex absolute bound N <= d^2 for any common squared overlap c != 1
+    and its sharpness at c = 1; for d >= 2 and N = d^2 the overlap is 1/(d + 1) and the rank-one projectors
+    resolve the identity with weights 1/d; every SIC family is a POVM; HasSICPOVM d iff d^2 equiangular unit
+    vectors exist (d >= 2); a family at the SIC angle has at most d^2 members; HasSICPOVM 2, 3 and 8. Not
+    claimed: dimension 6, Weiner's gap, SICs in dimensions 4 to 7, any first. The intentional placeholders of
+    Challenge.lean are excluded from proof counts; Solution.lean does not import Challenge.lean.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+
+  main_results:
+    - declaration: "QuantumDesigns.hasMUBs_le"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasMUBs_one_dim"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasMUBs_of_le"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasMUBs_mul"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasMUBs_of_forall_primePow"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasMUBs_three"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.quadSum_normSq"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasCompleteMUBs_of_odd_char"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.isMaxMUBCount_odd_prime_pow"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasCompleteMUBs_two_pow"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.isMaxMUBCount_two_pow"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.isMaxMUBCount_prime_pow"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasCompleteMUBs_iff_isMaxMUBCount"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.isMaxMUBCount_two"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.isMaxMUBCount_four"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.isMaxMUBCount_eight"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.gerzon_bound"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.gerzon_sharp"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.gerzon_equality"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.gerzon_frame"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.isSICFamily_frame"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasSICPOVM_iff_equiangular"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.card_le_of_sicOverlapSq"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasSICPOVM_two"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasSICPOVM_three"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasSICPOVM_eight"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+# END-MAIN-RESULTS
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude Opus 5.5 (Anthropic)", "Claude Fable 5.1 (Anthropic)"]
+      framework: "Claude Code with parallel subagents"
+      tool_setup: >-
+        The project was directed by its author. Claude (Anthropic) in Claude Code was used throughout: the
+        statements and their fidelity check against the sources, the Lean proofs, the standard-library replay of
+        every construction, the literature and prior-art searches, and the repository text; Claude Fable 5.1
+        pinned the statements, merged the proof files and wrote the documents, Claude Opus 5.5 subagents wrote
+        the proofs, the checkers and the audits. Lean v4.35.0-rc2 and Mathlib v4.35.0-rc2 (commit
+        065356127b1dc0016f66b7283ce0ce2c4055aa55) are pinned by the committed manifest and lake update is never
+        run; there are no GitHub Actions workflows. There is no native_decide. The proofs use Mathlib's additive
+        characters (ZMod.stdAddChar, AddChar.FiniteField.primitiveChar_to_Complex, AddChar.sum_mulShift),
+        GaloisField with its trace form (traceForm_nondegenerate), Kronecker products, linear independence in
+        EuclideanSpace and in the matrix space, and decide +kernel over explicit integer tables in two leaves
+        without Mathlib (the bases in dimensions 2, 4, 8 and the Hoggar overlaps).
+      spend_usd: "not tracked"
+
+fidelity:
+  divergences: >-
+    The fourteen definitions are formal-conjectures' own, restated verbatim inside a noncomputable section as
+    there; their CoeFun instance on StateVector is not restated since Mathlib's PiLp instance gives the same
+    coordinates. The bound is stated for d >= 2 where Bandyopadhyay-Boykin-Roychowdhury-Vatan state it for every
+    d; it fails at d = 0 and d = 1 in this encoding (every two bases of C^1 are unbiased), which hasMUBs_one_dim
+    records. The tensor bound is stated for every k (including k = 0) and every m, n (including 0, where every
+    family is vacuously unbiased); its corollary is stated over the factorization of d != 0 rather than for a
+    single prime divisor (the single-prime form, HasMUBs d (q + 1) for every prime p dividing d, is false in
+    general: d = 6, p = 3 would settle an open question). The odd-characteristic construction is stated for any
+    finite field F of odd characteristic with Fintype.card F as the dimension and any nontrivial additive
+    character (Klappenecker-Rötteler fix the trace character); the quadratic-phase sum is proved by Weyl
+    differencing, not by the Weil bound they cite. The 2^n bases are written over the vector space (Fin n -> ZMod 2)
+    with a Z/4-valued quadratic form from the trace form of GaloisField 2 n in a chosen basis, equivalent to
+    Klappenecker-Rötteler's Galois-ring bases up to the order of columns (Godsil-Roy, section 6); the identity
+    Q(x + y) = Q(x) + Q(y) + 2 x^T S y + 4 m is proved over the integers. Gerzon's bound is stated for every
+    common squared overlap c != 1 (not only the SIC angle) and for every d and N (at N = 1 a normalized vector
+    forces d >= 1; the case c > 1 is covered by the same argument); the equality case and the frame identity are
+    stated for d >= 2 (at d = 1 the overlap condition is vacuous). The frame identity is stated as a matrix
+    equation with Matrix.vecMulVec, (k, l) entry phi_k conj(phi_l), and the scalar (d : C)^{-1}. The
+    dimension-2 and 3 SIC families are formal-conjectures' witness families restated with real parameters
+    a, b, r (resp. s, r) satisfying a^2 = 1/3, b^2 = 2/3, s^2 = 1/2, r^2 = 3 and omega = -1/2 + (r/2) i; the
+    dimension-8 family is the three-qubit Pauli orbit of (-1 + 2i, 1, ..., 1)/sqrt 12, which is Jedwab-Wiebe's
+    Example 4 up to one sign per vector. F : Type in the two field statements is universe-polymorphic in no way;
+    GaloisField p k lives in Type and suffices for every prime power.
+
+acknowledgements: >-
+  Ivanović, Wootters and Fields, Bandyopadhyay, Boykin, Roychowdhury and Vatan, Klappenecker and Rötteler, Delsarte,
+  Goethals and Seidel, Renes, Blume-Kohout, Scott and Caves, Hoggar, Jedwab and Wiebe, Godsil and Roy, and Roy for
+  the theorems and the constructions; the Formal Conjectures authors for the vocabulary and the XC0R fork for the
+  lemmas adapted; Lean, Mathlib, Comparator, lean4export, NanoDa, and the Palomar policy and verifier projects. AI
+  assistance is disclosed above.
+review:
+  status: "self-assessed"
+  notes: >-
+    No independent human expert review and no source-author endorsement is claimed; AI agents developed the
+    proofs and audited them in separate passes; the statements were checked against the arXiv texts of
+    Klappenecker-Rötteler, Bandyopadhyay-Boykin-Roychowdhury-Vatan, Renes-Blume-Kohout-Scott-Caves, Jedwab-Wiebe,
+    Godsil-Roy and Roy's thesis (the pages named in the sources); Delsarte-Goethals-Seidel, Hoggar, Ivanović,
+    Wootters-Fields and Zauner were not read. Every construction (odd prime powers q <= 27, 2^n <= 16, the Hoggar
+    vectors with their frame identity, the tetrahedron and the Hesse configuration) was recomputed outside Lean
+    in exact arithmetic by two independent scripts. Mechanical correctness and agreement of formal statements do
+    not establish priority or significance.
+
+alignment:
+  namespace: "QuantumDesigns"
+  statements:
+    - source: "Bandyopadhyay-Boykin-Roychowdhury-Vatan 2002, Theorem 3.5"
+      lean: "QuantumDesigns.hasMUBs_le"
+      module: "Solution"
+      status: "proved"
+      note: "At most d + 1 mutually unbiased bases in dimension d >= 2 (the source states it for every d; the formal statement needs d >= 2, see hasMUBs_one_dim)."
+    - source: "this development"
+      lean: "QuantumDesigns.hasMUBs_one_dim"
+      module: "Solution"
+      status: "proved"
+      note: "In dimension 1 every two bases are unbiased, so the hypothesis d >= 2 of the bound is necessary."
+    - source: "this development"
+      lean: "QuantumDesigns.hasMUBs_of_le"
+      module: "Solution"
+      status: "proved"
+      note: "A subfamily of mutually unbiased bases is one."
+    - source: "Klappenecker-Rötteler 2004, Lemma 3"
+      lean: "QuantumDesigns.hasMUBs_mul"
+      module: "Solution"
+      status: "proved"
+      note: "The tensor bound: Kronecker products of k unbiased bases of C^m and of C^n are k unbiased bases of C^(mn)."
+    - source: "Klappenecker-Rötteler 2004, Lemma 3"
+      lean: "QuantumDesigns.hasMUBs_of_forall_primePow"
+      module: "Solution"
+      status: "proved"
+      note: "N(d) >= min over the exact prime-power divisors q of d of (q + 1), stated as HasMUBs d k for every k below that minimum."
+    - source: "Klappenecker-Rötteler 2004, remark after Lemma 3"
+      lean: "QuantumDesigns.hasMUBs_three"
+      module: "Solution"
+      status: "proved"
+      note: "N(d) >= 3 for every d >= 2."
+    - source: "Klappenecker-Rötteler 2004, Lemma 1 (Weil sums), proved here by Weyl differencing"
+      lean: "QuantumDesigns.quadSum_normSq"
+      module: "Solution"
+      status: "proved"
+      note: "The squared norm of the quadratic-phase sum over an odd-characteristic finite field is the field's size, for c != 0."
+    - source: "Klappenecker-Rötteler 2004, Theorem 2"
+      lean: "QuantumDesigns.hasCompleteMUBs_of_odd_char"
+      module: "Solution"
+      status: "proved"
+      note: "The standard basis and the q bases psi(a x^2 + b x)/sqrt q are q + 1 mutually unbiased bases of C^q, for any finite field of odd characteristic."
+    - source: "Klappenecker-Rötteler 2004, Theorem 2, with Bandyopadhyay-Boykin-Roychowdhury-Vatan 2002, Theorem 3.5"
+      lean: "QuantumDesigns.isMaxMUBCount_odd_prime_pow"
+      module: "Solution"
+      status: "proved"
+      note: "mu(p^k) = p^k + 1 for odd p and k >= 1."
+    - source: "Klappenecker-Rötteler 2004, Theorem 3 (an equivalent family in Z/4 trace-form coordinates)"
+      lean: "QuantumDesigns.hasCompleteMUBs_two_pow"
+      module: "Solution"
+      status: "proved"
+      note: "2^n + 1 mutually unbiased bases of C^(2^n) for n >= 1."
+    - source: "Klappenecker-Rötteler 2004, Theorem 3, with Bandyopadhyay-Boykin-Roychowdhury-Vatan 2002, Theorem 3.5"
+      lean: "QuantumDesigns.isMaxMUBCount_two_pow"
+      module: "Solution"
+      status: "proved"
+      note: "mu(2^n) = 2^n + 1 for n >= 1."
+    - source: "Klappenecker-Rötteler 2004, Theorems 2 and 3, with Bandyopadhyay-Boykin-Roychowdhury-Vatan 2002, Theorem 3.5"
+      lean: "QuantumDesigns.isMaxMUBCount_prime_pow"
+      module: "Solution"
+      status: "proved"
+      note: "mu(p^k) = p^k + 1 for every prime power."
+    - source: "this development"
+      lean: "QuantumDesigns.hasCompleteMUBs_iff_isMaxMUBCount"
+      module: "Solution"
+      status: "proved"
+      note: "For d >= 2 a complete set exists iff d + 1 is the maximal number."
+    - source: "formal-conjectures OpenQuantumProblems/13.lean, mutuallyUnbiasedBases_dim2 (re-proved by a kernel-checked table)"
+      lean: "QuantumDesigns.isMaxMUBCount_two"
+      module: "Solution"
+      status: "proved"
+      note: "mu(2) = 3."
+    - source: "this development (a kernel-checked table)"
+      lean: "QuantumDesigns.isMaxMUBCount_four"
+      module: "Solution"
+      status: "proved"
+      note: "mu(4) = 5."
+    - source: "this development (a kernel-checked table)"
+      lean: "QuantumDesigns.isMaxMUBCount_eight"
+      module: "Solution"
+      status: "proved"
+      note: "mu(8) = 9."
+    - source: "Roy 2005, Corollary 3.3.2 (the absolute bound of Delsarte-Goethals-Seidel 1975)"
+      lean: "QuantumDesigns.gerzon_bound"
+      module: "Solution"
+      status: "proved"
+      note: "N unit vectors of C^d with one squared overlap c != 1 on every pair satisfy N <= d^2."
+    - source: "this development"
+      lean: "QuantumDesigns.gerzon_sharp"
+      module: "Solution"
+      status: "proved"
+      note: "With c = 1 the family may be any length, so c != 1 is necessary."
+    - source: "Roy 2005, Corollary 3.3.2 (the absolute bound of Delsarte-Goethals-Seidel 1975); Renes-Blume-Kohout-Scott-Caves 2004, section II"
+      lean: "QuantumDesigns.gerzon_equality"
+      module: "Solution"
+      status: "proved"
+      note: "For d >= 2, d^2 such vectors have c = 1/(d + 1)."
+    - source: "Renes-Blume-Kohout-Scott-Caves 2004, section II"
+      lean: "QuantumDesigns.gerzon_frame"
+      module: "Solution"
+      status: "proved"
+      note: "For d >= 2, d^2 such vectors resolve the identity with weights 1/d."
+    - source: "Renes-Blume-Kohout-Scott-Caves 2004, section II"
+      lean: "QuantumDesigns.isSICFamily_frame"
+      module: "Solution"
+      status: "proved"
+      note: "Every SIC family is a POVM."
+    - source: "Roy 2005, Corollary 3.3.2 (the absolute bound of Delsarte-Goethals-Seidel 1975), Corollary 3.5.15 (context)"
+      lean: "QuantumDesigns.hasSICPOVM_iff_equiangular"
+      module: "Solution"
+      status: "proved"
+      note: "For d >= 2, HasSICPOVM d iff d^2 equiangular unit vectors exist."
+    - source: "Roy 2005, Corollary 3.3.2 (the absolute bound of Delsarte-Goethals-Seidel 1975)"
+      lean: "QuantumDesigns.card_le_of_sicOverlapSq"
+      module: "Solution"
+      status: "proved"
+      note: "A family at the SIC angle has at most d^2 members."
+    - source: "formal-conjectures OpenQuantumProblems/23.lean (the witness families)"
+      lean: "QuantumDesigns.hasSICPOVM_two"
+      module: "Solution"
+      status: "proved"
+      note: "The tetrahedral SIC-POVM of the qubit (formal-conjectures' hasSICPOVM_two, left with sorry there)."
+    - source: "formal-conjectures OpenQuantumProblems/23.lean (the witness families)"
+      lean: "QuantumDesigns.hasSICPOVM_three"
+      module: "Solution"
+      status: "proved"
+      note: "The Hesse SIC-POVM of the qutrit (formal-conjectures' hasSICPOVM_three, left with sorry there)."
+    - source: "Jedwab-Wiebe 2015, Example 4"
+      lean: "QuantumDesigns.hasSICPOVM_eight"
+      module: "Solution"
+      status: "proved"
+      note: "Hoggar's 64 lines as the three-qubit Pauli orbit of (-1 + 2i, 1, ..., 1)/sqrt 12, kernel-checked."
