@@ -112,6 +112,10 @@ theorem hasSICPOVM_eight : HasSICPOVM 8 :=
 theorem hasCompleteMUBs_of_hasMUBs_self (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d :=
   hasCompleteMUBs_of_hasMUBs_self_internal d h
 
+theorem exists_isMUBFamily_extension {d : ℕ} (B : Fin d → UMat d) (hB : IsMUBFamily B) :
+    ∃ C : Fin (d + 1) → UMat d, IsMUBFamily C ∧ ∀ r : Fin d, C r.succ = B r :=
+  exists_isMUBFamily_extension_internal B hB
+
 theorem hasCompleteMUBs_of_le_hasMUBs {d k : ℕ} (hk : d ≤ k) (h : HasMUBs d k) : HasCompleteMUBs d :=
   hasCompleteMUBs_of_le_hasMUBs_internal hk h
 

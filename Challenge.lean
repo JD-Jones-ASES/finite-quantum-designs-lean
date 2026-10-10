@@ -278,6 +278,12 @@ common eigenbasis of the `K_i` are again fixed by the projection, hence have con
 to every basis of the family. -/
 theorem hasCompleteMUBs_of_hasMUBs_self (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d := sorry
 
+/-- Weiner's Corollary 3.4 in its extension form (Weiner 2013; the route as above): any `d` mutually unbiased bases
+of `ℂ^d` extend, by one more basis, to a complete set of `d + 1`, the given bases keeping their places
+(`C (r + 1) = B r`). -/
+theorem exists_isMUBFamily_extension {d : ℕ} (B : Fin d → UMat d) (hB : IsMUBFamily B) :
+    ∃ C : Fin (d + 1) → UMat d, IsMUBFamily C ∧ ∀ r : Fin d, C r.succ = B r := sorry
+
 /-- `k ≥ d` mutually unbiased bases of `ℂ^d` give a complete set of `d + 1` (restrict to `d` and apply Weiner's
 gap). -/
 theorem hasCompleteMUBs_of_le_hasMUBs {d k : ℕ} (hk : d ≤ k) (h : HasMUBs d k) : HasCompleteMUBs d := sorry

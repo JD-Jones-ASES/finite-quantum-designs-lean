@@ -48,6 +48,7 @@ run_cmd do
       `QuantumDesigns.card_le_of_sicOverlapSq, `QuantumDesigns.hasSICPOVM_two,
       `QuantumDesigns.hasSICPOVM_three, `QuantumDesigns.hasSICPOVM_eight,
       `QuantumDesigns.hasCompleteMUBs_of_hasMUBs_self,
+      `QuantumDesigns.exists_isMUBFamily_extension,
       `QuantumDesigns.hasCompleteMUBs_of_le_hasMUBs, `QuantumDesigns.isMaxMUBCount_ne_self,
       `QuantumDesigns.isMaxMUBCount_dichotomy, `QuantumDesigns.hasMUBs_two,
       `QuantumDesigns.hasMUBs_prime_pow_iff, `QuantumDesigns.isMaxMUBCount_unique,
