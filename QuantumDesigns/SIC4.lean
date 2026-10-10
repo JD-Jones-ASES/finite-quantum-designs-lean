@@ -370,7 +370,8 @@ theorem s4_sic (c s q N : ℝ) (h1 : c ^ 2 + s ^ 2 = 1) (h2 : c ^ 2 - s ^ 2 = 2 
     rw [he, hN]
     norm_num
 
-/-- A SIC-POVM in dimension 4. -/
+/-- A SIC-POVM in dimension 4: the sixteen Weyl–Heisenberg translates of Appleby's fiducial (2005, Eq. (149)),
+`c = cos(π/8)`, `s = sin(π/8)`, `q = √(2 + √5)`, `N = √((5 − √5)/40)`. -/
 theorem hasSICPOVM_four_internal : HasSICPOVM 4 := by
   have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
   have h5n : 0 ≤ Real.sqrt 5 := Real.sqrt_nonneg 5
