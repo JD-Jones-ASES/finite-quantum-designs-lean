@@ -1,0 +1,21 @@
+finite-quantum-designs-lean is licensed under the MIT License (see LICENSE).
+
+Portions derive from google-deepmind/formal-conjectures (https://github.com/google-deepmind/formal-conjectures),
+Copyright 2026 The Formal Conjectures Authors, licensed under the Apache License, Version 2.0, and from the fork
+XC0R/formal-conjectures (https://github.com/XC0R/formal-conjectures, commit c8733543568e8011288a9fa7ef33375f5e5907d3),
+under the same license. A copy of that license is in LICENSES/Apache-2.0.txt; it is also available at
+http://www.apache.org/licenses/LICENSE-2.0. Neither upstream repository carries a NOTICE file.
+
+What is derived:
+
+1. The fourteen definitions UMat, relativeUnitary, IsUnbiased, IsMUBFamily, HasMUBs, HasCompleteMUBs,
+   IsMaxMUBCount (from FormalConjectures/OpenQuantumProblems/13.lean) and StateVector, IsNormalized, overlapSq,
+   HasConstantOverlapSq, sicOverlapSq, IsSICFamily, HasSICPOVM (from FormalConjectures/OpenQuantumProblems/23.lean)
+   in Challenge.lean and QuantumDesigns/Defs.lean are restated character for character, with the namespace changed
+   and the docstrings kept.
+2. Lemmas whose docstrings say "adapts ... of formal-conjectures ..." or "adapts ... of XC0R ..." are modified
+   from those files (the declarations named in each docstring). Those docstrings are the modification notices.
+
+No other part of either repository is included. Unless required by applicable law or agreed to in writing, the
+derived portions are distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied, as the Apache License states.

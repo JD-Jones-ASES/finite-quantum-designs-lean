@@ -1,0 +1,39 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "QuantumDesigns.hasMUBs_le",
+    "QuantumDesigns.hasMUBs_one_dim",
+    "QuantumDesigns.hasMUBs_of_le",
+    "QuantumDesigns.hasMUBs_mul",
+    "QuantumDesigns.hasMUBs_of_forall_primePow",
+    "QuantumDesigns.hasMUBs_three",
+    "QuantumDesigns.quadSum_normSq",
+    "QuantumDesigns.hasCompleteMUBs_of_odd_char",
+    "QuantumDesigns.isMaxMUBCount_odd_prime_pow",
+    "QuantumDesigns.hasCompleteMUBs_two_pow",
+    "QuantumDesigns.isMaxMUBCount_two_pow",
+    "QuantumDesigns.isMaxMUBCount_prime_pow",
+    "QuantumDesigns.hasCompleteMUBs_iff_isMaxMUBCount",
+    "QuantumDesigns.isMaxMUBCount_two",
+    "QuantumDesigns.isMaxMUBCount_four",
+    "QuantumDesigns.isMaxMUBCount_eight",
+    "QuantumDesigns.gerzon_bound",
+    "QuantumDesigns.gerzon_sharp",
+    "QuantumDesigns.gerzon_equality",
+    "QuantumDesigns.gerzon_frame",
+    "QuantumDesigns.isSICFamily_frame",
+    "QuantumDesigns.hasSICPOVM_iff_equiangular",
+    "QuantumDesigns.card_le_of_sicOverlapSq",
+    "QuantumDesigns.hasSICPOVM_two",
+    "QuantumDesigns.hasSICPOVM_three",
+    "QuantumDesigns.hasSICPOVM_eight"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}
