@@ -28,6 +28,12 @@ with `W` by the above and its symmetry `of_isUnbiased_symm`).
 
 The corollaries: `d ≤ k` bases restrict to `d` (`hasMUBs_of_le_internal`); `IsMaxMUBCount d d` would put
 `d + 1 ≤ d`; the dichotomy from the bound `k ≤ d + 1` (`hasMUBs_le_internal`); dimension six as the instance `d = 6`.
+
+Neighbours: in openai/math's `lean/OAI/Analysis/MutuallyUnbiased/Completion/` (openai/math@adc7f124, Apache-2.0),
+`six_extend_to_seven` is the instance `d = 6` of the completion, in its own vocabulary (orthonormal bases of
+`EuclideanSpace ℂ (Fin 6)`), and its general-`n` lemmas `exists_joint_projection_basis` and
+`exists_fixed_projection_basis` are the counterparts of `gp_simultaneous_diag` and of the fixed projectors `Q_l`
+here; its `μ(6) ≤ 5` (`N6_le_five`) implies `not_isMaxMUBCount_six_six_internal`.
 -/
 
 @[expose] public section

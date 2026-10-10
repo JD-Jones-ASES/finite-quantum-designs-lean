@@ -10,9 +10,13 @@ For unit vectors `φ_1, …, φ_N` of `ℂ^d` with projectors `P_i = gz_P (φ_i)
 `S = Σ_i P_i`: `Tr S = N` (`gz_trace_P`) and `Tr(S^* S) = Σ_{i,j} Tr(P_i P_j) = Σ_{i,j} overlapSq (φ_i) (φ_j)`
 (`gz_pair_P`: the pairing of `P_j` with `φ_i` is the squared overlap). The Cauchy–Schwarz inequality in the
 flattened matrix space (`bd_vec`, `bd_inner_vec`; `inner_mul_inner_self_le`) for the identity and `S`:
-`|⟨1, S⟩|² ≤ ‖1‖² ‖S‖²` with `⟨1, S⟩ = N` and `‖1‖² = d` (`wl_main`), that is `N² ≤ d · Σ_{i,j} overlapSq (φ_i) (φ_j)` (`welch_bound_internal`; Welch 1974,
-the first bound, in the frame-potential form of Benedetto–Fickus 2003). With a constant overlap `c` on the `N(N − 1)`
-pairs: `N²/d ≤ N + N(N − 1) c`, so `c ≥ (N − d)/(d(N − 1))` for `N ≥ 2` (`welch_bound_of_constantOverlap_internal`;
+`|⟨1, S⟩|² ≤ ‖1‖² ‖S‖²` with `⟨1, S⟩ = N` and `‖1‖² = d` (`wl_main`), that is
+`N² ≤ d · Σ_{i,j} overlapSq (φ_i) (φ_j)` (`welch_bound_internal`; at `d = 0` the left side `N²/d` is `0`).
+This is the case `k = 1` of Welch's bounds on `Σ_{i,j} |⟨φ_i, φ_j⟩|^{2k}` (Welch 1974, as restated by
+Datta–Howard–Cochran, eq. (2), and by Mixon–Needham–Shonkwiler–Villar, Proposition 1), in the frame-potential form
+(the name of Benedetto–Fickus 2003).
+With a constant overlap `c` on the `N(N − 1)` pairs: `N²/d ≤ N + N(N − 1) c`, so `c ≥ (N − d)/(d(N − 1))` for
+`N ≥ 2` (`welch_bound_of_constantOverlap_internal`, Datta–Howard–Cochran's eq. (1) with `k = 1`;
 `c ≥ 0` is automatic, a squared norm). With every pairwise overlap at most `α` and `α d < 1`:
 `N²/d ≤ N + N(N − 1) α`, so `N (1 − α d) ≤ d (1 − α)` (`welch_card_bound_internal`; `N = 0` is immediate); at
 `α = 1/(d + 1)` this is `N ≤ d²` (`card_le_of_overlapSq_le_sic_internal`): the SIC angle is the smallest common

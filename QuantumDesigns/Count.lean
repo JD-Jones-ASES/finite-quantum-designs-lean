@@ -9,11 +9,13 @@ public import QuantumDesigns.Main
 # The maximal number `μ(d)`: existence, uniqueness, bounds, and the small statements
 
 Two bases in every dimension: `d ≥ 2` restricts three (`hasMUBs_three_internal`, `hasMUBs_of_le_internal`),
-`d = 1` is `hasMUBs_one_dim_internal`, `d = 0` has nothing to check. In a prime-power dimension `q`,
+`d = 1` is `hasMUBs_one_dim_internal`, and `d = 0` takes the constant family (unbiasedness over `Fin 0` is
+vacuous). In a prime-power dimension `q`,
 `HasMUBs q m ↔ m ≤ q + 1` (`isMaxMUBCount_prime_pow_internal` and restriction). The maximal number is unique (two
 maxima bound each other); for `d ≥ 2` it exists (`Nat.findGreatest` below the bound `d + 1`,
 `hasMUBs_le_internal`) and lies in `[3, d + 1]`; in dimension `1` there is none (`HasMUBs 1 (k + 1)`).
-formal-conjectures' `mutuallyUnbiasedBases_dim6_bounds` is the instance `d = 6` of three bases and the bound.
+formal-conjectures' `mutuallyUnbiasedBases_dim6_bounds`, stated verbatim, is the instance `d = 6` of three bases and
+the bound.
 -/
 
 @[expose] public section

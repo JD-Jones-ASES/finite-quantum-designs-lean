@@ -8,10 +8,17 @@ public import QuantumDesigns.GapCore
 For matrices `K_i` with `Σ_i K_i^* K_i = 1` and `C = Σ_i K_i^* X K_i`:
 `Σ_i (X K_i − K_i C)^* (X K_i − K_i C) = Σ_i K_i^* X^* X K_i − (Σ_i K_i^* X^* K_i) C − C^* (Σ_i K_i^* X K_i)
 + C^* (Σ_i K_i^* K_i) C`, and `Σ_i K_i^* X^* K_i = C^*`, so the right side is `Σ_i K_i^* X^* X K_i − C^* C`
-(`gp_schwarz_defect`; the inequality `Φ(X^* X) ≥ Φ(X)^* Φ(X)` of Kadison and Choi, with its defect written out).
-A sum of matrices `A_i^* A_i` with zero trace has every `A_i = 0`: `Tr(A^* A) = Σ_{a,b} ‖A_{ab}‖²`
+(`gp_schwarz_defect`; the inequality `Φ(X^* X) ≥ Φ(X)^* Φ(X)` of Kadison 1952 and Choi 1974, with its defect
+written out). A sum of matrices `A_i^* A_i` with zero trace has every `A_i = 0`: `Tr(A^* A) = Σ_{a,b} ‖A_{ab}‖²`
 (`gp_eq_zero_of_trace_sum_star_mul_self`). Hence if `C = X` (a fixed point) and the map preserves the trace of
 `X^* X`, the defect has zero trace and every `X K_i = K_i X` (`gp_commute_of_fixed`).
+
+In Weiner's Lemma 3.1 these two steps are Choi's Schwarz inequality for two-positive maps (Choi 1974, Corollary 2.8)
+and Choi's multiplicative-domain theorem (Theorem 3.1); for a Kraus map the defect identity and the trace replace
+both. The same elementary move, the squared Hilbert–Schmidt norm of each commutator in place of two-positivity and
+the multiplicative domain, is made for general `n` in openai/math's
+`lean/OAI/Analysis/MutuallyUnbiased/Completion/Kraus.lean` (openai/math@adc7f124, Apache-2.0;
+`commutator_trace_identity`, `commute_of_kraus_fixed`), which was read here after this route was pinned.
 -/
 
 @[expose] public section
@@ -36,7 +43,8 @@ theorem gp_eq_zero_of_sum_trace {d : ℕ} {ι : Type} [Fintype ι] (A : ι → M
   rw [Matrix.star_eq_conjTranspose] at h0
   exact Matrix.trace_conjTranspose_mul_self_eq_zero_iff.1 h0
 
-/-- The Kadison–Schwarz defect of a Kraus map with `Σ_i K_i^* K_i = 1` is a sum of squares. -/
+/-- The Kadison–Schwarz defect of a Kraus map with `Σ_i K_i^* K_i = 1` is a sum of squares: with
+`C = Σ_i K_i^* X K_i`, `Σ_i K_i^* X^* X K_i − C^* C = Σ_i (X K_i − K_i C)^* (X K_i − K_i C)`. -/
 theorem gp_schwarz_defect {d : ℕ} {ι : Type} [Fintype ι] (K : ι → Matrix (Fin d) (Fin d) ℂ)
     (hK : ∑ i, star (K i) * K i = 1) (X : Matrix (Fin d) (Fin d) ℂ) :
     ∑ i, star (K i) * (star X * X) * K i -
