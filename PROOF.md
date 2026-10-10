@@ -317,4 +317,58 @@ translate's inner product with itself is `‖u‖²` (`s4_diag`). The fifteen ba
 these relations and `N² (6 + 2q²) = 1` the sixteen vectors are unit vectors with squared overlaps
 `(N² (6 + 2q²))²/5 = 1/5 = sicOverlapSq 4`. `hasSICPOVM_four_internal` supplies `c` and `s` (`Real.cos_two_mul'`,
 `Real.sin_two_mul`, `cos_pi_div_four`, `sin_pi_div_four`), `q` and `N` (`Real.sq_sqrt`). No table of overlaps is
-kernel-checked; only the index arithmetic is.
+evaluated: the norms and overlaps are proved symbolically, and only the index arithmetic is decided (`s4_diff_bounds`;
+the row lemmas `s4_wh_k` over the indices).
+
+
+## 15. Second moments, norms and purity (`QuantumDesigns/Tomography.lean`)
+
+With `P_{s,l} = bd_proj (B s) l` (`rc_proj_eq`) and `P_i = gz_P (Φ i)`: pairing the reconstruction formulas of §12
+with a second matrix `Y` through `X ↦ Tr(X Y)` (`Matrix.trace_mul_comm` for the cyclic rearrangements) gives, for all
+complex matrices, `Σ_{s,l} Tr(X P_{s,l}) Tr(Y P_{s,l}) = Tr(XY) + Tr X · Tr Y` (`mub_second_moment_internal`); for a SIC
+family the reconstruction of `1` gives `Σ_i P_i = d·1` for every `d` (`tm_sic_sum_proj`, hence
+`Σ_i Tr(Y P_i) = d Tr Y`, `tm_sic_sum_pair`), and the same pairing `(d + 1) Σ_i Tr(X P_i) Tr(Y P_i) =
+d (Tr(XY) + Tr X · Tr Y)` (`sic_second_moment_internal`; at `d = 0` both sides vanish). These are the
+bilinear forms of the 2-design property of complete sets and SIC families (Klappenecker–Rötteler 2005, Theorems 3
+and 5; for SICs also Renes–Blume-Kohout–Scott–Caves 2004, p. 4 and eq. (16)): Scott 2006, eq. (8), traced against
+`Y`, with the weights `1/(d(d + 1))` and `1/d²`; none of these papers displays the identities in this form, and no Hermitian hypothesis is needed.
+The projectors are Hermitian (`gp_proj_star`, `tm_star_sic_proj`), so `Tr(X* P) = conj Tr(X P)`
+(`tm_trace_star_mul`), and `Tr(X* X) = Σ_{a,b} |X_{ab}|²` (`tm_trace_star_self`); with `X*` and `X` in the two slots
+both sides are real, and `Complex.ofReal_injective` gives `Σ_{s,l} |Tr(X P_{s,l})|² = ‖X‖²_HS + |Tr X|²`
+(`mub_hilbert_schmidt_internal`) and, for the SIC-POVM outcomes `p_i = Tr(X P_i)/d`,
+`d (d + 1) Σ_i |p_i|² = ‖X‖²_HS + |Tr X|²` (`tm_sic_hilbert_schmidt` without the division,
+`sic_hilbert_schmidt_internal`; at `d = 0` both sides vanish), `‖X‖²_HS` written as the entrywise sum of
+`Complex.normSq` (Scott 2006, eqs. (32) and (55), with the trace measures `1/(d + 1)` and `1/d`). At `X − Y` with
+`Tr X = Tr Y` the trace term vanishes (`mub_tomography_distance_internal`, `sic_tomography_distance_internal`; Scott
+2006, eq. (36)). For a Hermitian `ρ`, `Tr(ρ²) = ‖ρ‖²_HS` (`tm_purity_eq`), so `Tr ρ = 1` gives
+`Σ_{s,l} |Tr(ρ P_{s,l})|² = Tr(ρ²) + 1` and `d (d + 1) Σ_i |p_i|² = Tr(ρ²) + 1` (`mub_tomography_purity_internal`,
+`sic_tomography_purity_internal`); positivity is not used. For complete sets the purity identity is Larsen's (1990,
+not read, as stated by Wu–Yu–Mølmer 2009, §III); for a pure state and a SIC it is Appleby–Dang–Fuchs, eq. (4). For a
+state the data are the outcome probabilities, summing to one in each basis (`rc_sum_proj`) and over the SIC family
+(`tm_sic_sum_proj`).
+
+## 16. Welch's equality case (`QuantumDesigns/WelchEquality.lean`)
+
+With `S = wl_S Φ` and the inner products of §13 (`wl_inner_S_S`, `wl_inner_S_one`, `wl_inner_one_S`,
+`wl_inner_one_one`), expanding `⟨S − (N/d)·1, S − (N/d)·1⟩` gives, for unit vectors,
+`Σ_{i,j} overlapSq (φ_i) (φ_j) − N²/d = ‖S − (N/d)·1‖²_HS` (`we_deficit`; the identity in the proof of
+Mixon–Needham–Shonkwiler–Villar, Proposition 1), the norm written entrywise by `we_norm_sq`
+(`welch_deficit_internal`); the norm vanishes iff `S = (N/d)·1` (`we_equality_iff_tight`,
+`welch_equality_iff_tight_internal`). Neither needs a hypothesis on `d` or `N`: at `d = 0` both sides are `0`
+(`x/0 = 0`). With every pairwise overlap at most `α`, `Σ_{i,j} overlapSq ≤ N (1 + (N − 1) α)` (`wl_sum_le`, a sum of
+termwise bounds with diagonal `1`, `we_model_sum`); if `N (1 − α d) = d (1 − α)` this upper estimate equals `N²/d`,
+the Welch lower estimate, so every termwise slack vanishes (`Finset.sum_eq_sum_iff_of_le`, `we_constant_of_sum_eq`):
+every pairwise overlap is `α`, and the frame is tight by the equality case (`we_relative_equality`,
+`welch_relative_equality_internal`; `α d < 1` is not needed; at `d = 0` there is no unit vector, so `N = 0` and both
+conclusions are empty). This is the equality case of Strohmer–Heath 2003, Theorem 2.3, and of the relative bound in
+Roy's thesis, Theorem 3.5.2. At `N = d²` and `α = 1/(d + 1)` the equality `d² (1 − d/(d + 1)) = d (1 − 1/(d + 1))`
+holds for every `d`, so `d²` unit vectors with every pairwise squared overlap at most `1/(d + 1)` form a SIC family
+(`we_isSICFamily_of_overlapSq_le`, `isSICFamily_of_overlapSq_le_internal`), and `HasSICPOVM d` holds iff such vectors
+exist (`hasSICPOVM_iff_overlapSq_le_internal`; the forward direction weakens `=` to `≤`). With every pairwise overlap
+at most `1/(d + 1) + ε`, `Σ_{i,j} overlapSq ≤ d³ + d² (d² − 1) ε`; the deficit identity at `N = d²` and division by
+`d²` give `‖S/d − 1‖²_HS ≤ (d² − 1) ε` for `d ≥ 1` (`we_frame_defect_le`, `frame_defect_le_of_overlapSq_le_internal`;
+at `d = 0` the right side could be negative). No sign of `ε` is assumed: for `d ≥ 2` a negative `ε` contradicts the
+relative bound, and at `d = 1` both sides are `0`. The constant cannot be lowered: one unit vector repeated `d²` times
+has `ε = d/(d + 1)` and `‖d P − 1‖²_HS = d (d − 1) = (d² − 1) ε`; near a SIC the defect is of second order in the
+displacement of the vectors, and a tight frame of `d²` unit vectors has defect `0` without being a SIC family, so the
+bound says nothing about the distance to a SIC family.

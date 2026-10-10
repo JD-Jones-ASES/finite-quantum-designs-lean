@@ -1,6 +1,6 @@
 # Verification
 
-All forty-six statements of Challenge.lean have proofs. The local build, the axiom audit, the source guard, the
+All sixty statements of Challenge.lean have proofs. The local build, the axiom audit, the source guard, the
 definition and statement checks, the standard-library replay of the constructions behind the compared statements, the metadata check, the
 module-resolution check, the elaboration check and Palomar's core-notation audit of the statements pass;
 `python scripts/verify.py` runs them all and ends with `VERIFY: PASS`. The checks below were last run on the tree of the
@@ -59,13 +59,29 @@ the Challenge (formal-conjectures' own, restated), so the comparator checks the 
 | 44 | `welch_card_bound` — N unit vectors with every pairwise squared overlap at most α, α d < 1, have N (1 − α d) ≤ d (1 − α) | QuantumDesigns/Welch.lean |
 | 45 | `card_le_of_overlapSq_le_sic` — N unit vectors with every pairwise squared overlap at most 1/(d + 1) have N ≤ d² | QuantumDesigns/Welch.lean |
 | 46 | `hasSICPOVM_four` — the Weyl–Heisenberg orbit of Appleby's fiducial | QuantumDesigns/SIC4.lean |
+| 47 | `mub_second_moment` — for all X, Y, Σ_{s,l} Tr(X P_{s,l}) Tr(Y P_{s,l}) = Tr(XY) + Tr X Tr Y (a complete set is a 2-design) | QuantumDesigns/Tomography.lean |
+| 48 | `sic_second_moment` — (d + 1) Σ_i Tr(X P_i) Tr(Y P_i) = d (Tr(XY) + Tr X Tr Y) (a SIC family is a 2-design) | QuantumDesigns/Tomography.lean |
+| 49 | `mub_hilbert_schmidt` — Σ_{s,l} \|Tr(X P_{s,l})\|² = ‖X‖²_HS + \|Tr X\|² | QuantumDesigns/Tomography.lean |
+| 50 | `sic_hilbert_schmidt` — d(d + 1) Σ_i \|Tr(X P_i)/d\|² = ‖X‖²_HS + \|Tr X\|² | QuantumDesigns/Tomography.lean |
+| 51 | `mub_tomography_distance` — for Tr X = Tr Y, Σ_{s,l} \|Tr(X P_{s,l}) − Tr(Y P_{s,l})\|² = ‖X − Y‖²_HS | QuantumDesigns/Tomography.lean |
+| 52 | `sic_tomography_distance` — for Tr X = Tr Y, d(d + 1) Σ_i \|(Tr(X P_i) − Tr(Y P_i))/d\|² = ‖X − Y‖²_HS | QuantumDesigns/Tomography.lean |
+| 53 | `mub_tomography_purity` — for Hermitian ρ with Tr ρ = 1, Σ_{s,l} \|Tr(ρ P_{s,l})\|² = Tr(ρ²) + 1 | QuantumDesigns/Tomography.lean |
+| 54 | `sic_tomography_purity` — for Hermitian ρ with Tr ρ = 1, d(d + 1) Σ_i \|Tr(ρ P_i)/d\|² = Tr(ρ²) + 1 | QuantumDesigns/Tomography.lean |
+| 55 | `welch_deficit` — Σ_{i,j} \|⟨φ_i, φ_j⟩\|² − N²/d = ‖S − (N/d)·1‖²_HS for S = Σ_i \|φ_i⟩⟨φ_i\| | QuantumDesigns/WelchEquality.lean |
+| 56 | `welch_equality_iff_tight` — equality in Welch's bound iff S = (N/d)·1 | QuantumDesigns/WelchEquality.lean |
+| 57 | `welch_relative_equality` — at N (1 − α d) = d (1 − α), every pairwise squared overlap is α and S = (N/d)·1 | QuantumDesigns/WelchEquality.lean |
+| 58 | `isSICFamily_of_overlapSq_le` — d² unit vectors with every pairwise squared overlap at most 1/(d + 1) are a SIC family | QuantumDesigns/WelchEquality.lean |
+| 59 | `hasSICPOVM_iff_overlapSq_le` — HasSICPOVM d iff d² unit vectors with every pairwise squared overlap at most 1/(d + 1) exist | QuantumDesigns/WelchEquality.lean |
+| 60 | `frame_defect_le_of_overlapSq_le` — for d ≥ 1, d² unit vectors with pairwise squared overlaps at most 1/(d + 1) + ε have ‖S/d − 1‖²_HS ≤ (d² − 1) ε | QuantumDesigns/WelchEquality.lean |
 
 `QuantumDesigns/Small.lean` holds the explicit complete sets in dimensions 2, 4 and 8 (`hasMUBs_two_three`,
 `hasMUBs_four_five`, `hasMUBs_eight_nine`, kernel-checked tables in `QuantumDesigns/SmallTables.lean`), used by 14–16;
 `QuantumDesigns/Chirp.lean` proves `hasMUBs_three_chirp`, a second, field-free proof of 6 (the Fourier and chirped
 Fourier bases); `QuantumDesigns/PrimePow.lean` assembles 8 and 10 into `hasCompleteMUBs_prime_pow_internal`.
 `QuantumDesigns/GapCore.lean`, `GapPhi.lean`, `GapKraus.lean`, `GapDFT.lean`, `GapSchwarz.lean` and `GapDiag.lean` hold
-the steps of 27 and 28 (PROOF.md §10); `QuantumDesigns/SIC4Tables.lean` holds the kernel-checked index arithmetic of 46.
+the steps of 27 and 28 (PROOF.md §10); `QuantumDesigns/SIC4Tables.lean` holds the kernel-checked index arithmetic of 46;
+`QuantumDesigns/Tomography.lean` derives 47–54 from the reconstruction formulas (§15) and `QuantumDesigns/WelchEquality.lean`
+55–60 from Welch's deficit (§16).
 
 ## Checks
 
@@ -85,9 +101,10 @@ the steps of 27 and 28 (PROOF.md §10); `QuantumDesigns/SIC4Tables.lean` holds t
   as printed (eq. (149)) with its sixteen translates, in the ring ℚ[c, q, i] (all 16 norms and 120 pairs; a float
   check outside the verdict); `VERDICT: PASS`.
 - **Build and axioms:** `lake build` of every target; `Test/Axioms.lean` walks every constant of the project and every
-  compared theorem and fails on any axiom beyond `propext`, `Classical.choice`, `Quot.sound` (475 project constants,
-  no other axiom).
+  compared theorem and fails on any axiom beyond `propext`, `Classical.choice`, `Quot.sound` (518 project constants, no other axiom).
 - **Module resolution** (`scripts/check_module_resolution.py`): `Challenge` and `Solution` resolve to this repository's
   files first in Lake's source path.
-- **Core-notation audit** (`scripts/core_notation_audit.lean`, Palomar's): the 46 theorems and 14 definitions print
-  with Mathlib's definitions as opaque axioms (60 rows).
+- **Core-notation audit** (`scripts/core_notation_audit.lean`, Palomar's): the 60 theorems and 14 definitions print
+  with Mathlib's definitions as opaque axioms (74 rows).
+- **Abbreviated run:** `--skip-build` leaves out the four Lean steps, lists them, and ends with
+  `VERIFY (source/replay only)`; it does not check the proofs.

@@ -25,3 +25,5 @@ public import QuantumDesigns.Reconstruct
 public import QuantumDesigns.Count
 public import QuantumDesigns.SIC4Tables
 public import QuantumDesigns.SIC4
+public import QuantumDesigns.Tomography
+public import QuantumDesigns.WelchEquality

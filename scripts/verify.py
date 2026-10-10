@@ -16,7 +16,8 @@ core-notation audit of the compared declarations. The compared definitions are r
 Challenge.lean at run time: every `def`, `noncomputable def` and `abbrev` at the start of a line, in namespace
 QuantumDesigns. `--fetch-cache` runs
 `lake exe cache get` first (network); `--skip-build` leaves out the four Lean steps. The last line
-is `VERIFY: PASS` or `VERIFY: FAIL`. Exit status 0 on PASS only.
+is `VERIFY: PASS` or `VERIFY: FAIL` for a full run, and `VERIFY (source/replay only): PASS` or
+`VERIFY (source/replay only): FAIL` when Lean checks were skipped. Exit status 0 on PASS only.
 """
 
 from pathlib import Path
@@ -124,9 +125,17 @@ def check_build():
     ok = True
     for target in TARGETS:
         result = run(["lake", "build", target], capture_output=True)
-        bad = [line for line in result.stdout.splitlines() if "error" in line.lower()]
+        output = result.stdout + result.stderr
+        bad = [line for line in output.splitlines() if "error" in line.lower()]
+        detail = bad[0] if bad else (
+            "built" if result.returncode == 0 else f"exited with status {result.returncode}")
+        if target == "Test" and result.returncode == 0:
+            audit = re.search(r"Audited \d+ project constants; unexpected axiom dependencies: \d+\.",
+                              output)
+            if audit:
+                detail += "; " + audit.group()
         ok &= step(f"lake build {target}", result.returncode == 0 and not bad,
-                   bad[0] if bad else "built")
+                   detail)
     return ok
 
 
@@ -197,7 +206,11 @@ def main():
         ok &= check_module_resolution()
         ok &= check_definition_elaboration(names)
         ok &= check_notation_audit(names)
-    print("VERIFY: PASS" if ok else "VERIFY: FAIL")
+    else:
+        print("[SKIP] Lean build and axiom audit; module resolution; definition elaboration; "
+              "core-notation audit", flush=True)
+    scope = "VERIFY (source/replay only)" if skip_build else "VERIFY"
+    print(f"{scope}: {'PASS' if ok else 'FAIL'}")
     return 0 if ok else 1
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check that every theorem header of Challenge.lean (`theorem NAME ... :=`, whitespace normalised,
+"""Check that every theorem header of Challenge.lean (`theorem NAME ... := sorry` in the Challenge, `theorem NAME ... :=` before a line break in the Solution; whitespace normalised,
 comments removed) appears verbatim in Solution.lean, and that Solution.lean does not import Challenge.
 Exit status 0 means every header agrees."""
 
@@ -19,7 +19,7 @@ def strip_comments(text):
 
 def headers(text):
     out = {}
-    for m in re.finditer(r"\btheorem\s+([\w.']+)(.*?):=", strip_comments(text), flags=re.S):
+    for m in re.finditer(r"\btheorem\s+([\w.']+)(.*?):=[ \t]*(?:sorry\b|\n)", strip_comments(text), flags=re.S):
         out[m.group(1)] = " ".join(m.group(2).split())
     return out
 

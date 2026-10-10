@@ -2,7 +2,7 @@
 version: "v0.4"
 
 project:
-  name: "Finite quantum designs: at most d + 1 mutually unbiased bases for d >= 2 and exactly q + 1 in every prime-power dimension, Weiner's gap, reconstruction from complete sets and SIC families, the Welch and Gerzon bounds for complex equiangular lines, and SIC-POVMs in dimensions 2, 3, 4 and 8"
+  name: "Finite quantum designs: at most d + 1 mutually unbiased bases for d >= 2, exactly q + 1 for prime powers q, Weiner's gap, reconstruction and second moments of complete sets and SIC families, the Welch and Gerzon bounds with their equality cases, and SIC-POVMs in dimensions 2, 3, 4 and 8"
   description: >-
     A Lean 4 development of two structures of finite-dimensional quantum information, in the vocabulary of
     google-deepmind/formal-conjectures (Open Quantum Problems 13 and 23; the fourteen definitions restated
@@ -42,7 +42,13 @@ project:
     (9)): a complete set of d + 1 bases determines every matrix, X = sum_{s,l} Tr(X P_{s,l}) P_{s,l} - Tr(X) 1
     with P_{s,l} the projector onto column l of basis s (after Ivanović 1981 and Wootters-Fields 1989), and so
     does a SIC family, X = sum_i ((d + 1) Tr(X P_i) - Tr X)/d P_i (its projectors are linearly independent,
-    Renes-Blume-Kohout-Scott-Caves 2004, section II). A SIC family in C^d is d^2 unit vectors with pairwise
+    Renes-Blume-Kohout-Scott-Caves 2004, section II). Second moments (Klappenecker-Rötteler 2005, Theorems 3 and
+    5; Renes-Blume-Kohout-Scott-Caves 2004, p. 4; Scott 2006, eq. (8)): for all matrices X, Y, sum_{s,l} Tr(X
+    P_{s,l}) Tr(Y P_{s,l}) = Tr(XY) + Tr X Tr Y for a complete set and (d + 1) sum_i Tr(X P_i) Tr(Y P_i) = d (Tr(XY)
+    + Tr X Tr Y) for a SIC family; hence the data Tr(X P_{s,l}), and the SIC-POVM outcomes Tr(X P_i)/d with the
+    factor d(d + 1), give ||X||_HS^2 + |Tr X|^2, the Hilbert-Schmidt distance of two matrices with equal traces,
+    and the purity Tr(rho^2) of a Hermitian rho with Tr rho = 1 (Larsen 1990, not read, as stated by Wu-Yu-Mølmer
+    2009; Scott 2006, eqs. (32), (36), (55)). A SIC family in C^d is d^2 unit vectors with pairwise
     squared overlap 1/(d + 1); HasSICPOVM d says one exists. Theorems: N unit vectors of C^d with one squared
     overlap c != 1 on every pair satisfy N <= d^2 (the absolute bound of Delsarte-Goethals-Seidel 1975, the
     complex form of Gerzon's bound; the rank-one projectors are linearly independent), and with c = 1 the family
@@ -54,28 +60,39 @@ project:
     operator in the matrix space; hence N >= 2 unit vectors with one squared overlap c on every pair have c >= (N
     - d)/(d (N - 1)), pairwise squared overlaps at most alpha with alpha d < 1 give N (1 - alpha d) <= d (1 -
     alpha) (the relative bound), and at most d^2 unit vectors have every pairwise squared overlap at most 1/(d +
-    1). SIC-POVMs exist in dimensions 2 (the tetrahedron), 3 (the Hesse configuration), 4 (the sixteen
+    1). Welch's equality case (Mixon-Needham-Shonkwiler-Villar, Proposition 1 and its proof): sum_{i,j} |<phi_i,
+    phi_j>|^2 - N^2/d = ||S - (N/d) 1||_HS^2 for the frame operator S = sum_i |phi_i><phi_i|, so equality holds
+    exactly for a tight frame; at equality in the relative bound every pairwise squared overlap is alpha and S =
+    (N/d) 1 (Strohmer-Heath 2003, Theorem 2.3); d^2 unit vectors with every pairwise squared overlap at most 1/(d
+    + 1) are a SIC family, and HasSICPOVM d holds iff such vectors exist; and pairwise squared overlaps at most
+    1/(d + 1) + epsilon give ||S/d - 1||_HS^2 <= (d^2 - 1) epsilon for d >= 1, a bound on the resolution of the
+    identity only. SIC-POVMs exist in dimensions 2 (the tetrahedron), 3 (the Hesse configuration), 4 (the sixteen
     Weyl-Heisenberg translates of Appleby's exact fiducial, Appleby 2005, eq. (149), credited there to Zauner and
     to Renes et al.; covariance reduces the 240 overlaps to fifteen, proved by exact trigonometric and radical
     identities in cos(pi/8), sin(pi/8) and sqrt(2 + sqrt 5)) and 8 (Hoggar's 64 lines: the orbit of (-1 + 2i, 1,
     1, 1, 1, 1, 1, 1)/sqrt 12 under the three-qubit Pauli group, Jedwab-Wiebe 2015, Example 4, checked by the
-    kernel over all ordered pairs). Forty-six compared statements, kernel-only. As of 2026-10-10 no formalization
+    kernel over all ordered pairs). Sixty compared statements, kernel-only. As of 2026-10-10 no formalization
     of the general bound, of the prime-power constructions, of the factorization corollary, of the complex
     absolute bound with its equality case, of Weiner's gap for general d, of Welch's bound, of the two
     reconstruction formulas for every matrix or of a SIC-POVM in dimension 4 was located in the Palomar registry,
     Mathlib, formal-conjectures, openai/math, physlib, the other Lean repositories searched, the Isabelle AFP, the
-    Rocq package index or arXiv. The neighbours: the dimension-2 MUB case is formal-conjectures'
+    Rocq package index or arXiv; none of the second moment of a SIC family with its norm, distance and purity forms,
+    of Welch's deficit with its equality case, of the equality case of the relative bound, of the SIC family from
+    d^2 vectors at or below the SIC angle or of the frame-defect bound was located in the Palomar registry, Mathlib,
+    formal-conjectures, openai/math, physlib or the-omega-institute/trureturing. The neighbours: the dimension-2 MUB case is formal-conjectures'
     mutuallyUnbiasedBases_dim2; the dimension-6 projector bound and the Kronecker lemma are in the XC0R fork of
     formal-conjectures (adapted here, see NOTICE); the dimension-2 and 3 SIC overlaps are in zblore/csd-lean4;
     the-omega-institute/trureturing kernel-checks the same 64 Hoggar vectors and the Hesse SIC in its own
     vocabulary, proves that the trace pairings with a complete family of rank-one contexts determine every matrix,
-    and proves the density-matrix formula under an assumed completeness hypothesis; openai/math holds mu(6) <= 5
+    proves the density-matrix formula under an assumed completeness hypothesis, and proves the second moment of a
+    complete set in operator form with the purity identity for density matrices
+    (complete_context_collision_conservation, 2026-08-28); openai/math holds mu(6) <= 5
     and Weiner's gap at d = 6 (six_extend_to_seven), with lemmas for general n (commutator_trace_identity,
     commute_of_kraus_fixed, exists_joint_projection_basis) that make the same elementary move as the route here,
     the Schwarz defect of a Kraus map as a sum of squared commutators; the Kadison-Schwarz inequality for Kraus
     and completely positive maps is in physlib, QuAIR/Lean-QIT and kencyke/quantum-system. Not claimed: anything
     about dimension 6 beyond 3 <= mu(6) <= 7 and mu(6) != 6 (openai/math holds mu(6) <= 5), SICs in dimensions 5 to
-    7, any first formalization.
+    7, that a family near the SIC angle is close to a SIC family, any first formalization.
   authors: ["JD Jones"]
   responsible_maintainers: ["JD Jones"]
   license: "MIT"
@@ -141,30 +158,34 @@ sources:
     authors: ["Aidan Roy"]
     id: "https://arxiv.org/abs/1306.0978"
     type: "other"
-    location: "PhD thesis, University of Waterloo, 2005 (arXiv:1306.0978): p. 28 (Theorem 3.3.1, the absolute bound, credited to Delsarte, Goethals and Seidel), p. 29 (Corollary 3.3.2, at most d^2 equiangular lines in C^d), p. 32 (Corollary 3.5.5, the relative bound for equiangular lines at an angle below 1/d), p. 36 (Corollary 3.5.15: for d^2 lines, equiangular and 2-design are equivalent), p. 83 (Corollary 6.0.4, the relative bound solved for the angle, one case of the Welch bound)"
+    location: "PhD thesis, University of Waterloo, 2005 (arXiv:1306.0978): p. 28 (Theorem 3.3.1, the absolute bound, credited to Delsarte, Goethals and Seidel), p. 29 (Corollary 3.3.2, at most d^2 equiangular lines in C^d), p. 31 (Theorem 3.5.2, the relative bound for s-distance sets, credited to Delsarte, Goethals and Seidel, with its equality condition, and Corollary 3.5.3), p. 32 (Corollary 3.5.5, the relative bound for equiangular lines at an angle below 1/d), p. 36 (Corollary 3.5.15: for d^2 lines, equiangular and 2-design are equivalent), p. 83 (Corollary 6.0.4, the relative bound solved for the angle, one case of the Welch bound)"
     relationship: "formalizes"
     author_endorsement: "not-contacted"
     note: >-
       Corollary 3.3.2 is gerzon_bound and card_le_of_sicOverlapSq, by the linear independence of the rank-one
       projectors (the degree-1 case of the zonal-polynomial argument of Theorem 3.3.1), for every common squared
       overlap c != 1. Corollary 3.5.15 is the context of gerzon_equality and hasSICPOVM_iff_equiangular. Corollaries 3.5.5 and 6.0.4 are the equiangular cases of welch_card_bound and welch_bound_of_constantOverlap.
+      Theorem 3.5.2 with F(x) = x - alpha, the polynomial of Corollary 3.5.5, applies to lines with every angle at
+      most alpha < 1/d; its equality condition (every angle alpha, a 1-design) is welch_relative_equality in that
+      range, and at alpha = 1/(d + 1), N = d^2, isSICFamily_of_overlapSq_le.
   - title: "Symmetric informationally complete quantum measurements"
     authors: ["Joseph M. Renes", "Robin Blume-Kohout", "A. J. Scott", "Carlton M. Caves"]
     id: "doi:10.1063/1.1737053"
     type: "paper"
-    location: "Journal of Mathematical Physics 45 (2004), no. 6, 2171-2180; the text read is arXiv:quant-ph/0310075v1, pp. 1-8: p. 1 (eq. (1), the SIC definition; the known analytic solutions d = 2, 3, 8), p. 2 (eqs. (5)-(6), Theorem 1, the frame-potential bound of Benedetto and Fickus), pp. 2-3 (section II: a SIC is a tight frame, hence a POVM; the Gram matrix of its projectors is nonsingular, so they are linearly independent and the SIC is informationally complete; no expansion coefficients are given)"
+    location: "Journal of Mathematical Physics 45 (2004), no. 6, 2171-2180; the text read is arXiv:quant-ph/0310075v1, pp. 1-8: p. 1 (eq. (1), the SIC definition; the known analytic solutions d = 2, 3, 8), p. 2 (eqs. (5)-(6), Theorem 1, the frame-potential bound of Benedetto and Fickus), pp. 2-3 (section II: a SIC is a tight frame, hence a POVM; the Gram matrix of its projectors is nonsingular, so they are linearly independent and the SIC is informationally complete; no expansion coefficients are given), p. 4 (every SIC-POVM is a 2-design; eq. (16) with a = b = 1/(d(d + 1)), the unitarily invariant average of <psi|A_1|psi><psi|A_2|psi>)"
     relationship: "formalizes"
     author_endorsement: "not-contacted"
     note: >-
       Section II is isSICFamily_frame and gerzon_frame (the resolution of the identity) and the linear
       independence behind sic_reconstruction, whose coefficients are those of Scott 2006, eq. (9); eq. (1) is
       formal-conjectures' IsSICFamily. Appleby 2005 credits the dimension-4 fiducial of hasSICPOVM_four also to
-      this paper.
+      this paper. Theorem 1's equality case for N >= d is welch_equality_iff_tight; p. 4 and eq. (16) give
+      sic_second_moment for the d^2 projectors of a SIC.
   - title: "Tight informationally complete quantum measurements"
     authors: ["A. J. Scott"]
     id: "doi:10.1088/0305-4470/39/43/009"
     type: "paper"
-    location: "Journal of Physics A: Mathematical and General 39 (2006), no. 43, 13507-13530; the text read is arXiv:quant-ph/0604049v6: p. 2 (Definition 3, weighted t-designs), p. 3 (Theorem 4 and its proof, eq. (9): the expansion of every operator over the projectors of a weighted 2-design), p. 4 (its lower bound as a generalization of the Welch bound), p. 10 (eq. (56), the state-reconstruction formula of a tight rank-one IC-POVM), p. 11 (eq. (65): the d(d + 1) vectors of a complete set of mutually unbiased bases form a 2-design with uniform weight 1/(d(d + 1)), citing Ivanović and Wootters-Fields, with eq. (56) as its reconstruction formula)"
+    location: "Journal of Physics A: Mathematical and General 39 (2006), no. 43, 13507-13530; the text read is arXiv:quant-ph/0604049v6: p. 2 (Definition 3, weighted t-designs), p. 3 (Theorem 4 and its proof: eq. (8), the 2-design condition traced over one factor, sum_x w(x) Tr(pi(x) A) pi(x) = (Tr(A) 1 + A)/(d(d + 1)); eq. (9), the expansion of every operator over the projectors of a weighted 2-design), p. 4 (its lower bound as a generalization of the Welch bound), p. 7 (eqs. (32) and (36), the POVM superoperator evaluated on an operator and on a difference of states), p. 9 (Proposition 12, eq. (55): a tight rank-one IC-POVM has POVM superoperator (identity + |1)(1|)/(d + 1)), p. 10 (eq. (56), the state-reconstruction formula of a tight rank-one IC-POVM; a SIC-POVM has trace measure 1/d), p. 11 (eq. (65): the d(d + 1) vectors of a complete set of mutually unbiased bases, citing Ivanović and Wootters-Fields, form a 2-design with uniform weight 1/(d(d + 1)), credited to Klappenecker-Rötteler 2005 among others, with eq. (56) as its reconstruction formula)"
     relationship: "formalizes"
     author_endorsement: "not-contacted"
     note: >-
@@ -173,6 +194,26 @@ sources:
       mub_reconstruction, both for every matrix. The proofs here do not use the 2-design identity: the
       projectors of a SIC family are linearly independent, and those of a complete set with the identity span
       the matrix space (the family of the d + 1 bound), so each formula is checked on a spanning family.
+      Equation (8) traced against a second matrix Y gives sum_x w(x) Tr(X pi(x)) Tr(Y pi(x)) =
+      (Tr(XY) + Tr X Tr Y)/(d(d + 1)): with w = 1/(d(d + 1)) (p. 11) it is mub_second_moment, with w = 1/d^2
+      sic_second_moment, both proved here from the reconstruction formulas. Eqs. (32) and (55), with trace
+      measure 1/(d + 1) (p. 11) or 1/d (p. 10), give mub_hilbert_schmidt and sic_hilbert_schmidt, eq. (36)
+      their distance forms, and X = rho the purity forms; the SIC data here are Tr(rho P_i)/d, the paper's
+      trace measure times Tr(rho pi(x)).
+  - title: "Mutually Unbiased Bases are Complex Projective 2-Designs"
+    authors: ["Andreas Klappenecker", "Martin Rötteler"]
+    id: "doi:10.1109/ISIT.2005.1523643"
+    type: "paper"
+    location: "Proceedings of the 2005 IEEE International Symposium on Information Theory (ISIT 2005), 1740-1744; the text read is arXiv:quant-ph/0502031v2: p. 3 (Definition 2, t-designs by a cubature formula; Theorem 2, the uniform tight frames are the sets attaining Welch's bound for k = 1), p. 4 (Theorem 3, the d(d + 1) vectors of d + 1 mutually unbiased bases form a 2-design, Remark 2 crediting it also to Zauner's thesis, Theorem 2.19; Theorem 5, a SIC-POVM is a 2-design, credited to Renes-Blume-Kohout-Scott-Caves 2004)"
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: >-
+      Theorems 3 and 5 in bilinear form: over a 2-design the average of Tr(X P) Tr(Y P) is the unitarily
+      invariant (Tr(XY) + Tr X Tr Y)/(d(d + 1)) (Renes-Blume-Kohout-Scott-Caves 2004, eq. (16); Scott 2006,
+      eq. (8)), which this paper does not compute; with the d(d + 1) projectors of Theorem 3 it is
+      mub_second_moment, with the d^2 of Theorem 5 sic_second_moment. Theorem 2 is the set form of
+      welch_equality_iff_tight. The cubature definition (Definition 2) is not stated; the proofs here pair the
+      reconstruction formulas with a second matrix.
   - title: "Lower bounds on the maximum cross correlation of signals (Corresp.)"
     authors: ["L. R. Welch"]
     id: "doi:10.1109/TIT.1974.1055219"
@@ -216,7 +257,7 @@ sources:
     location: "Philips Research Reports 30 (1975) 91*-105*; reprinted in Geometry and Combinatorics: Selected Works of J. J. Seidel, Academic Press, 1991, 193-207"
     relationship: "background"
     author_endorsement: "n/a"
-    note: "The origin of the absolute bound (at most d^2 equiangular lines in C^d) and of the relative bound. Not read; the attributions and the statements are taken from Roy's thesis, Theorem 3.3.1 and Corollary 3.3.2, and Corollary 3.5.5."
+    note: "The origin of the absolute bound (at most d^2 equiangular lines in C^d) and of the relative bound. Not read; the attributions and the statements are taken from Roy's thesis, Theorem 3.3.1 and Corollary 3.3.2, Corollary 3.5.5, and Theorem 3.5.2 with its equality condition."
   - title: "Equiangular lines"
     authors: ["P. W. H. Lemmens", "J. J. Seidel"]
     id: "doi:10.1016/0021-8693(73)90123-3"
@@ -323,10 +364,10 @@ sources:
     authors: ["D. M. Appleby", "Hoan Bui Dang", "Christopher A. Fuchs"]
     id: "https://arxiv.org/abs/0707.2071"
     type: "paper"
-    location: "the text read is arXiv:0707.2071v2 (2010): p. 2 (eq. (3), the expansion of a density matrix over the projectors of a SIC family)"
+    location: "the text read is arXiv:0707.2071v2 (2010): p. 2 (eq. (3), the expansion of a density matrix over the projectors of a SIC family; eq. (4), for a pure state the SIC probabilities satisfy sum_i p(i)^2 = 2/(d(d + 1))), p. 4 (eq. (19), for a pure state the probabilities of a complete set of mutually unbiased bases satisfy sum p^2 = 2, credited there to Larsen 1990 among others)"
     relationship: "background"
     author_endorsement: "not-contacted"
-    note: "The state form (Tr X = 1) of sic_reconstruction."
+    note: "The state form (Tr X = 1) of sic_reconstruction; eqs. (4) and (19) are sic_tomography_purity and mub_tomography_purity at a pure state."
   - title: "Finite Normalized Tight Frames"
     authors: ["John J. Benedetto", "Matthew Fickus"]
     id: "doi:10.1023/A:1021323312367"
@@ -350,10 +391,42 @@ sources:
     authors: ["Dustin G. Mixon", "Tom Needham", "Clayton Shonkwiler", "Soledad Villar"]
     id: "https://arxiv.org/abs/2112.02916"
     type: "paper"
-    location: "the text read is arXiv:2112.02916v1: p. 2 (the frame potential; Proposition 1, Welch's bound for unit-norm frames, with equality exactly at the unit-norm tight frames), p. 3 (Proposition 2, the Benedetto-Fickus theorem)"
+    location: "the text read is arXiv:2112.02916v1: p. 2 (the frame potential FP(Z) = ||Z^* Z||_F^2; Proposition 1, Welch's bound for unit-norm frames, with equality exactly at the unit-norm tight frames, proved by the displayed identity 0 <= ||Z Z^* - (n/d) I||_F^2 = FP(Z) - n^2/d), p. 3 (Proposition 2, the Benedetto-Fickus theorem)"
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: >-
+      A second restatement of Welch 1974 and of the Benedetto-Fickus frame potential. The identity in the
+      proof of Proposition 1 is welch_deficit and its equality clause welch_equality_iff_tight; with
+      FP <= N + N(N - 1) alpha for pairwise squared overlaps at most alpha it gives welch_relative_equality
+      (Strohmer-Heath 2003, Theorem 2.3) and frame_defect_le_of_overlapSq_le, neither stated in this paper. Proposition 2 is the
+      Benedetto-Fickus theorem.
+  - title: "Grassmannian frames with applications to coding and communication"
+    authors: ["Thomas Strohmer", "Robert W. Heath Jr."]
+    id: "doi:10.1016/S1063-5203(03)00023-X"
+    type: "paper"
+    location: "Applied and Computational Harmonic Analysis 14 (2003), no. 3, 257-275; the text read is arXiv:math/0301135v1: p. 6 (Theorem 2.3, eqs. (12)-(13): the largest |<f_k, f_l>| of N unit vectors spanning E^m is at least sqrt((N - m)/(m(N - 1))), with equality exactly for equiangular tight frames; eq. (15), N <= m^2 at equality over C)"
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: >-
+      The equality case of Theorem 2.3 is welch_relative_equality (N (1 - alpha d) = d (1 - alpha) is the
+      bound (12) squared and rearranged), and at N = d^2 it is isSICFamily_of_overlapSq_le. The paper refers
+      the bound to Welch 1974; the proof here is Welch's deficit.
+  - title: "Superspace geometry: the exact uncertainty relationship between complementary aspects"
+    authors: ["U. Larsen"]
+    id: "doi:10.1088/0305-4470/23/7/013"
+    type: "paper"
+    location: "Journal of Physics A: Mathematical and General 23 (1990), no. 7, 1041-1061. Not read (closed access); the statement is taken from Wu-Yu-Mølmer 2009, p. 2"
     relationship: "background"
     author_endorsement: "not-contacted"
-    note: "A second restatement of Welch 1974 and of the Benedetto-Fickus frame potential."
+    note: "Credited by Wu-Yu-Mølmer 2009 (and, for pure states, by Appleby-Dang-Fuchs, eq. (19)) with the identity of mub_tomography_purity. Not read."
+  - title: "Entropic uncertainty relation for mutually unbiased bases"
+    authors: ["Shengjun Wu", "Sixia Yu", "Klaus Mølmer"]
+    id: "doi:10.1103/PhysRevA.79.022104"
+    type: "paper"
+    location: "Physical Review A 79 (2009), 022104; the text read is arXiv:0811.2298v2: p. 2 (section III, first paragraph: for d + 1 mutually unbiased bases the squared outcome probabilities sum to Tr(rho^2) + 1, credited there to Larsen 1990 among others)"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: "The statement of mub_tomography_purity for density matrices, as read here."
   - title: "Formal Conjectures: OpenQuantumProblems/13.lean and 23.lean"
     authors: ["The Formal Conjectures Authors"]
     id: "https://github.com/google-deepmind/formal-conjectures/tree/1646ca16afd6cc7a693d3bdc9f066c4d3cc01a89/FormalConjectures/OpenQuantumProblems"
@@ -380,15 +453,16 @@ sources:
     authors: ["The Omega Institute"]
     id: "https://github.com/the-omega-institute/trureturing/tree/1588d05416142e0600a00baa2265d61a72fb5d97/D5/S3"
     type: "other"
-    location: "D5/S3/Quantum/Measurement/HoggarSicSumNegativity.lean (commit 798420dc, 2026-10-01: the same 64 vectors, norms and overlaps by decide +kernel); D5/S3/QuantumContext/HesseSicCertificate.lean (1588d054, 2026-10-09); D5/S3/Quantum/Tomography/CompleteContextTomography.lean (aaf03b1c, 2026-08-20: complete_context_tomography); D5/S3/QuantumContext/CompleteBasisReconstruction.lean (8894e144, 2026-08-17: complete_basis_reconstruction); D5/S3/Quantum/Tomography/MutuallyUnbiasedDiagonalPlanes.lean (c179239e, 2026-08-23); D5/S3/QuantumBounds/Designs/CrossFrameWelchBoundRefutation.lean (4066dcca, 2026-10-03); D5/S3/Quantum/Tomography/MUB/UnitaryThreeFramePotential.lean (6b00c364, 2026-09-11); D5/S3/Quantum/Magic/ErewGoldsteinSICStabilizerRefutation.lean (22bd3425, 2026-10-07); Apache-2.0"
+    location: "D5/S3/Quantum/Measurement/HoggarSicSumNegativity.lean (commit 798420dc, 2026-10-01: the same 64 vectors, norms and overlaps by decide +kernel); D5/S3/QuantumContext/HesseSicCertificate.lean (1588d054, 2026-10-09); D5/S3/Quantum/Tomography/CompleteContextTomography.lean (aaf03b1c, 2026-08-20: complete_context_tomography); D5/S3/QuantumContext/CompleteBasisReconstruction.lean (8894e144, 2026-08-17: complete_basis_reconstruction); D5/S3/Quantum/Tomography/MutuallyUnbiasedDiagonalPlanes.lean (c179239e, 2026-08-23); D5/S3/QuantumBounds/Designs/CrossFrameWelchBoundRefutation.lean (4066dcca, 2026-10-03); D5/S3/Quantum/Tomography/MUB/UnitaryThreeFramePotential.lean (6b00c364, 2026-09-11); D5/S3/Quantum/Magic/ErewGoldsteinSICStabilizerRefutation.lean (22bd3425, 2026-10-07); D5/S3/Quantum/Measurements/CompleteContextCollisionConservation.lean (625b1879, 2026-08-28: complete_context_collision_conservation), D5/S3/Quantum/Measurements/CompleteContextPurityIdentities.lean (643b5b6c, 2026-08-27), D5/S3/QuantumBounds/Designs/CollisionConservation.lean (326e6477, 2026-08-16); Apache-2.0"
     relationship: "other"
     author_endorsement: "not-contacted"
     note: >-
       Prior kernel-checked certificates of the Hoggar vectors (overlap 1/9) and of the Hesse SIC; the
       injectivity of the trace pairings with a complete family of rank-one contexts for every n, and the
       density-matrix reconstruction under an assumed completeness hypothesis; the nearest files to Welch's bound
-      located (neither states it); a SIC-fiducial predicate for every d with no dimension-4 instance. All
-      outside formal-conjectures' vocabulary. No code is shared.
+      located (neither states it); a SIC-fiducial predicate for every d with no dimension-4 instance; the second
+      moment of a complete set in operator form (the sum of P tensor P is 1 + SWAP) with the purity identity for
+      density matrices. All outside formal-conjectures' vocabulary. No code is shared.
   - title: "zblore/csd-lean4: Empirical/CSD SICVolume, SIC3Volume, MUB3Volume"
     authors: ["Zayn Blore"]
     id: "https://github.com/zblore/csd-lean4/tree/27e97330c524366e78d8f32fde0b67bd58135ac6/CsdLean4/Empirical/CSD"
@@ -494,6 +568,16 @@ related_formalizations:
       complete set, every matrix whose trace pairings with all the projectors vanish is zero, and traceless
       Hermitian matrices decompose uniquely; the injectivity behind mub_reconstruction, in a trace-overlap
       vocabulary, without the explicit formula for every matrix (since 2026-08-20).
+  - id: "https://github.com/the-omega-institute/trureturing/blob/625b18799d2fe6406fb69cfbc22fd30ade5fe19a/D5/S3/Quantum/Measurements/CompleteContextCollisionConservation.lean"
+    relationship: "independent"
+    note: >-
+      complete_context_collision_conservation: for n + 2 rank-one contexts of C^(n + 1) with the trace overlaps
+      of a complete set, the sum of P tensor P is 1 + SWAP (the operator form of mub_second_moment) and, for a
+      density matrix, the squared probabilities sum to 1 + Tr(rho^2) (mub_tomography_purity for positive
+      trace-one rho; since 2026-08-28); CompleteContextPurityIdentities.lean (643b5b6c, 2026-08-27) adds the
+      centred form, and QuantumBounds/Designs/CollisionConservation.lean (326e6477, 2026-08-16) contracts an
+      assumed 2-design identity to the collision sum. No SIC second moment, Welch equality case or frame-defect
+      bound was located there.
   - id: "https://github.com/the-omega-institute/trureturing/blob/8894e14485ee3895e8d504284f3091298f8803b1/D5/S3/QuantumContext/CompleteBasisReconstruction.lean"
     relationship: "independent"
     note: >-
@@ -535,7 +619,7 @@ related_formalizations:
 
 status:
   scope: >-
-    Forty-six compared theorems over the fourteen definitions of Challenge.lean (formal-conjectures' UMat,
+    Sixty compared theorems over the fourteen definitions of Challenge.lean (formal-conjectures' UMat,
     relativeUnitary, IsUnbiased, IsMUBFamily, HasMUBs, HasCompleteMUBs, IsMaxMUBCount, StateVector, IsNormalized,
     overlapSq, HasConstantOverlapSq, sicOverlapSq, IsSICFamily, HasSICPOVM; none a hole). Mutually unbiased bases:
     the bound m <= d + 1 for d >= 2 and its sharpness in dimension 1; restriction; the tensor bound and its
@@ -552,8 +636,14 @@ status:
     every SIC family is a POVM; HasSICPOVM d iff d^2 equiangular unit vectors exist (d >= 2); a family at the SIC
     angle has at most d^2 members; a SIC family determines every matrix; Welch's bound sum_{i,j} |<phi_i,
     phi_j>|^2 >= N^2/d, its constant-overlap form, the relative bound and N <= d^2 at or below the SIC angle;
-    HasSICPOVM 2, 3, 4 and 8. Not claimed: anything about dimension 6 beyond 3 <= mu(6) <= 7 and mu(6) != 6, SICs
-    in dimensions 5 to 7, any first formalization. The intentional placeholders of Challenge.lean are excluded from proof counts; Solution.lean does
+    HasSICPOVM 2, 3, 4 and 8. Second moments of a complete set and of a SIC family for all matrices, with the
+    Hilbert-Schmidt norm, the distance of equal-trace matrices and the purity of Hermitian trace-one matrices
+    from the data; Welch's deficit sum_{i,j} |<phi_i, phi_j>|^2 - N^2/d = ||S - (N/d) 1||_HS^2 and equality
+    exactly for a tight frame; equality in the relative bound forces one overlap and a tight frame; d^2 unit
+    vectors at or below the SIC angle are a SIC family, and HasSICPOVM d iff such vectors exist; for d >= 1, pairwise squared
+    overlaps at most 1/(d + 1) + epsilon give ||S/d - 1||_HS^2 <= (d^2 - 1) epsilon. Not claimed: anything about
+    dimension 6 beyond 3 <= mu(6) <= 7 and mu(6) != 6, SICs in dimensions 5 to 7, that a family near the SIC angle
+    is close to a SIC family, any first formalization. The intentional placeholders of Challenge.lean are excluded from proof counts; Solution.lean does
     not import Challenge.lean.
   sorry_count: 0
   sorry_in_definitions: 0
@@ -790,6 +880,76 @@ status:
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.mub_second_moment"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.sic_second_moment"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.mub_hilbert_schmidt"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.sic_hilbert_schmidt"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.mub_tomography_distance"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.sic_tomography_distance"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.mub_tomography_purity"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.sic_tomography_purity"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.welch_deficit"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.welch_equality_iff_tight"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.welch_relative_equality"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.isSICFamily_of_overlapSq_le"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.hasSICPOVM_iff_overlapSq_le"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "QuantumDesigns.frame_defect_le_of_overlapSq_le"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
 
 automation:
   methods:
@@ -797,11 +957,13 @@ automation:
       models: ["Claude Opus 5.5 (Anthropic)", "Claude Fable 5.1 (Anthropic)"]
       framework: "Claude Code with parallel subagents"
       tool_setup: >-
-        The project was directed by its author over two sessions. Claude (Anthropic) in Claude Code was used throughout: the
+        The project was directed by its author. Claude (Anthropic) in Claude Code was used throughout: the
         statements and their fidelity check against the sources, the Lean proofs, the standard-library replay of
         every construction, the literature and prior-art searches, and the repository text; Claude Fable 5.1
-        pinned the statements, merged the proof files and wrote the documents, Claude Opus 5.5 subagents wrote
-        the proofs, the checkers and the audits, and in the second session the source checks and the document revisions. Lean v4.35.0-rc2 and Mathlib v4.35.0-rc2 (commit
+        pinned the statements, merged the proof files, rebuilt and revised the consult's statements below and
+        wrote the documents, and Claude Opus 5.5 subagents wrote the proofs, the checkers, the source checks and
+        the audits, including the audit of the consult's statements (two Lean skeptics, fidelity, registry
+        policy, sources). Lean v4.35.0-rc2 and Mathlib v4.35.0-rc2 (commit
         065356127b1dc0016f66b7283ce0ce2c4055aa55) are pinned by the committed manifest and lake update is never
         run; there are no GitHub Actions workflows. There is no native_decide. The proofs use Mathlib's additive
         characters (ZMod.stdAddChar, AddChar.FiniteField.primitiveChar_to_Complex, AddChar.sum_mulShift),
@@ -813,6 +975,16 @@ automation:
         cos(pi/8), sin(pi/8) and sqrt(2 + sqrt 5) for dimension 4, and decide +kernel over explicit integer tables
         in three leaves without Mathlib (the bases in dimensions 2, 4, 8, the Hoggar overlaps, and the index
         arithmetic of the dimension-4 orbit).
+    - method: "agent"
+      models: ["GPT-6 Pro (OpenAI)"]
+      framework: "ChatGPT"
+      tool_setup: >-
+        A pre-submission consult on 2026-10-10 reviewed the repository and contributed statements 47-58 and 60
+        (QuantumDesigns/Tomography.lean, QuantumDesigns/WelchEquality.lean) with their Lean proofs, the
+        --skip-build reporting of scripts/verify.py, explicit failures in place of assert in
+        scripts/check_designs.py, and two wording corrections; Claude rebuilt and audited these, dropped the
+        hypothesis d >= 1 from four of them, renamed one, added the packing form of HasSICPOVM, integrated them
+        and wrote the final documents.
   spend_usd: "not tracked"
 
 fidelity:
@@ -848,12 +1020,21 @@ fidelity:
     sum (at d = 0, where Lean's x/0 = 0, N = 0); its constant-overlap form for N >= 2; the relative bound
     multiplied out, N (1 - alpha d) <= d (1 - alpha) under alpha d < 1, which covers N = 0 and N = 1. The
     dimension-4 family omits the phase tau^(a b) of Appleby's displacement operators, which does not change the
-    projectors.
+    projectors. The second moments are stated as bilinear trace identities for all complex matrices, not through
+    the cubature definition of a 2-design (Klappenecker-Rötteler 2005, Definition 2; Scott 2006, Definition 3);
+    Hilbert-Schmidt norms are entrywise sums of Complex.normSq, purity is the real part of Tr(rho rho), the SIC
+    norm, distance and purity forms use the outcomes Tr(X P_i)/d (the bilinear form is denominator-free),
+    positivity of rho is not assumed, and no hypothesis on d is needed (at d = 0 both sides vanish, and the
+    purity forms hold vacuously since Tr rho = 0 there). welch_deficit and welch_equality_iff_tight have no hypothesis on d or N (at d = 0, N^2/d = 0 and the
+    matrices are empty); welch_relative_equality has none either (at d = 0 there is no unit vector).
+    frame_defect_le_of_overlapSq_le needs d >= 1 and no sign of epsilon; it bounds the error in the resolution of
+    the identity, not the distance to a SIC family.
 
 acknowledgements: >-
   Ivanović, Wootters and Fields, Bandyopadhyay, Boykin, Roychowdhury and Vatan, Klappenecker and Rötteler, Delsarte,
   Goethals and Seidel, Renes, Blume-Kohout, Scott and Caves, Hoggar, Jedwab and Wiebe, Godsil and Roy, Roy, Weiner,
-  Welch, Benedetto and Fickus, Appleby, and Zauner for the theorems and the constructions; the Formal Conjectures authors for the vocabulary and the XC0R fork for the
+  Welch, Benedetto and Fickus, Mixon, Needham, Shonkwiler and Villar, Strohmer and Heath, Larsen, Wu, Yu and Mølmer,
+  Appleby, Dang and Fuchs, and Zauner for the theorems and the constructions; the Formal Conjectures authors for the vocabulary and the XC0R fork for the
   lemmas adapted; Lean, Mathlib, Comparator, lean4export, NanoDa, and the Palomar policy and verifier projects. AI
   assistance is disclosed above.
 review:
@@ -861,16 +1042,17 @@ review:
   notes: >-
     No independent human expert review and no source-author endorsement is claimed; AI agents developed the
     proofs and audited them in separate passes; the statements were checked against the arXiv texts of
-    Klappenecker-Rötteler, Bandyopadhyay-Boykin-Roychowdhury-Vatan, Weiner (every page), Renes-Blume-Kohout-Scott-Caves,
+    Klappenecker-Rötteler (2004 and 2005), Bandyopadhyay-Boykin-Roychowdhury-Vatan, Weiner (every page), Renes-Blume-Kohout-Scott-Caves,
     Scott, Jedwab-Wiebe, Appleby, Godsil-Roy, Roy's thesis, Appleby-Dang-Fuchs, Datta-Howard-Cochran,
-    Mixon-Needham-Shonkwiler-Villar and Durt-Englert-Bengtsson-Życzkowski (the pages named in the sources);
-    Delsarte-Goethals-Seidel, Hoggar, Ivanović, Wootters-Fields, Zauner, Welch, Werner, Choi and Kadison were not
-    read, and Benedetto-Fickus only in its abstract. Every construction behind a compared statement (odd prime powers 3, 5, 7, 9, 11, 13, 25, 27; 2^n <= 16; the
+    Mixon-Needham-Shonkwiler-Villar, Strohmer-Heath, Wu-Yu-Mølmer and Durt-Englert-Bengtsson-Życzkowski (the
+    pages named in the sources); Delsarte-Goethals-Seidel, Hoggar, Ivanović, Wootters-Fields, Zauner, Welch,
+    Larsen, Werner, Choi and Kadison were not read, and Benedetto-Fickus only in its abstract. Every construction behind a compared statement (odd prime powers 3, 5, 7, 9, 11, 13, 25, 27; 2^n <= 16; the
     Hoggar vectors with their frame identity; the tetrahedron and the Hesse configuration) was recomputed outside
     Lean in exact arithmetic by scripts/check_designs.py and, before it, by a second replay written independently;
     the dimension-4 SIC (Appleby's fiducial and its sixteen translates) is replayed there exactly in Q[cos(pi/8),
-    sqrt(2 + sqrt 5), i] modulo the relations of SIC4.lean, and the reconstruction formulas and Welch's bounds were replayed numerically outside the repository on
-    formal-conjectures' witness families. Mechanical correctness and agreement of formal statements do
+    sqrt(2 + sqrt 5), i] modulo the relations of SIC4.lean, the reconstruction formulas, Welch's bounds and the second moments were replayed numerically outside the
+    repository on formal-conjectures' witness families, the dimension-3 bases and the dimension-3
+    Weyl-Heisenberg SIC, and Welch's deficit and the frame-defect bound on random families of unit vectors. Mechanical correctness and agreement of formal statements do
     not establish priority or significance.
 
 alignment:
@@ -1106,3 +1288,73 @@ alignment:
       module: "Solution"
       status: "proved"
       note: "A SIC-POVM in dimension 4: the Weyl-Heisenberg orbit of Appleby's exact fiducial, the overlaps by exact trigonometric and radical identities."
+    - source: "Klappenecker-Rötteler 2005, Theorem 3 (a complete set is a 2-design); Scott 2006, eq. (8) traced against a second matrix, weight 1/(d(d + 1)) (p. 11)"
+      lean: "QuantumDesigns.mub_second_moment"
+      module: "Solution"
+      status: "proved"
+      note: "For all matrices X, Y: sum_{s,l} Tr(X P_{s,l}) Tr(Y P_{s,l}) = Tr(XY) + Tr X Tr Y; proved from mub_reconstruction by pairing with Y."
+    - source: "Renes-Blume-Kohout-Scott-Caves 2004, p. 4 and eq. (16); Klappenecker-Rötteler 2005, Theorem 5; Scott 2006, eq. (8) traced against a second matrix, weight 1/d^2"
+      lean: "QuantumDesigns.sic_second_moment"
+      module: "Solution"
+      status: "proved"
+      note: "For all matrices X, Y: (d + 1) sum_i Tr(X P_i) Tr(Y P_i) = d (Tr(XY) + Tr X Tr Y), for every d; proved from sic_reconstruction by pairing with Y."
+    - source: "Scott 2006, eqs. (32) and (55), trace measure 1/(d + 1) (p. 11); mub_second_moment at X^* and X"
+      lean: "QuantumDesigns.mub_hilbert_schmidt"
+      module: "Solution"
+      status: "proved"
+      note: "sum_{s,l} |Tr(X P_{s,l})|^2 = ||X||_HS^2 + |Tr X|^2 for every matrix X."
+    - source: "Scott 2006, eqs. (32) and (55), trace measure 1/d (p. 10); sic_second_moment at X^* and X"
+      lean: "QuantumDesigns.sic_hilbert_schmidt"
+      module: "Solution"
+      status: "proved"
+      note: "d (d + 1) sum_i |Tr(X P_i)/d|^2 = ||X||_HS^2 + |Tr X|^2 for every matrix X and every d."
+    - source: "Scott 2006, eq. (36) with eq. (55); mub_hilbert_schmidt at X - Y"
+      lean: "QuantumDesigns.mub_tomography_distance"
+      module: "Solution"
+      status: "proved"
+      note: "For Tr X = Tr Y: sum_{s,l} |Tr(X P_{s,l}) - Tr(Y P_{s,l})|^2 = ||X - Y||_HS^2."
+    - source: "Scott 2006, eq. (36) with eq. (55); sic_hilbert_schmidt at X - Y"
+      lean: "QuantumDesigns.sic_tomography_distance"
+      module: "Solution"
+      status: "proved"
+      note: "For Tr X = Tr Y: d (d + 1) sum_i |(Tr(X P_i) - Tr(Y P_i))/d|^2 = ||X - Y||_HS^2, for every d."
+    - source: "Larsen 1990 (not read; as stated by Wu-Yu-Mølmer 2009, p. 2); Appleby-Dang-Fuchs, eq. (19) (pure states); mub_hilbert_schmidt at a Hermitian trace-one matrix"
+      lean: "QuantumDesigns.mub_tomography_purity"
+      module: "Solution"
+      status: "proved"
+      note: "For Hermitian rho with Tr rho = 1: sum_{s,l} |Tr(rho P_{s,l})|^2 = Tr(rho^2) + 1."
+    - source: "Appleby-Dang-Fuchs, eq. (4) (pure states); Scott 2006, eqs. (32) and (55), trace measure 1/d; sic_hilbert_schmidt at a Hermitian trace-one matrix"
+      lean: "QuantumDesigns.sic_tomography_purity"
+      module: "Solution"
+      status: "proved"
+      note: "For Hermitian rho with Tr rho = 1: d (d + 1) sum_i |Tr(rho P_i)/d|^2 = Tr(rho^2) + 1, for every d."
+    - source: "Mixon-Needham-Shonkwiler-Villar, p. 2, the identity in the proof of Proposition 1"
+      lean: "QuantumDesigns.welch_deficit"
+      module: "Solution"
+      status: "proved"
+      note: "N unit vectors: sum_{i,j} |<phi_i, phi_j>|^2 - N^2/d = ||S - (N/d) 1||_HS^2 with S = sum_i |phi_i><phi_i|, for every d and N."
+    - source: "Mixon-Needham-Shonkwiler-Villar, p. 2, Proposition 1 (equality exactly at unit-norm tight frames); Klappenecker-Rötteler 2005, Theorem 2; Renes-Blume-Kohout-Scott-Caves 2004, Theorem 1 (Benedetto-Fickus), for N >= d"
+      lean: "QuantumDesigns.welch_equality_iff_tight"
+      module: "Solution"
+      status: "proved"
+      note: "Equality in Welch's bound iff S = (N/d) 1, for every d and N."
+    - source: "Strohmer-Heath 2003, Theorem 2.3 (equality exactly for equiangular tight frames); Roy 2005, Theorem 3.5.2 with Corollary 3.5.3, F(x) = x - alpha (the relative bound of Delsarte-Goethals-Seidel); proved here from welch_deficit and wl_sum_le"
+      lean: "QuantumDesigns.welch_relative_equality"
+      module: "Solution"
+      status: "proved"
+      note: "Pairwise squared overlaps at most alpha with N (1 - alpha d) = d (1 - alpha) are all alpha, and S = (N/d) 1; no hypothesis on d."
+    - source: "Strohmer-Heath 2003, Theorem 2.3 at N = d^2; Roy 2005, Theorem 3.5.2 with Corollary 3.5.3 at alpha = 1/(d + 1)"
+      lean: "QuantumDesigns.isSICFamily_of_overlapSq_le"
+      module: "Solution"
+      status: "proved"
+      note: "d^2 unit vectors with every pairwise squared overlap at most 1/(d + 1) are a SIC family, for every d."
+    - source: "Corollary of isSICFamily_of_overlapSq_le and the definition of a SIC family (Zauner's conjecture as a packing problem)"
+      lean: "QuantumDesigns.hasSICPOVM_iff_overlapSq_le"
+      module: "Solution"
+      status: "proved"
+      note: "HasSICPOVM d iff d^2 unit vectors with every pairwise squared overlap at most 1/(d + 1) exist, for every d."
+    - source: "Corollary of the identity in the proof of Mixon-Needham-Shonkwiler-Villar, Proposition 1 (p. 2), with FP <= N + N(N - 1) alpha; not stated in a source read"
+      lean: "QuantumDesigns.frame_defect_le_of_overlapSq_le"
+      module: "Solution"
+      status: "proved"
+      note: "For d >= 1: d^2 unit vectors with every pairwise squared overlap at most 1/(d + 1) + epsilon have ||S/d - 1||_HS^2 <= (d^2 - 1) epsilon; a bound on the resolution of the identity, not on the distance to a SIC family."

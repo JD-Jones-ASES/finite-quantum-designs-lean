@@ -188,4 +188,110 @@ theorem card_le_of_overlapSq_le_sic {d N : ℕ} (Φ : Fin N → StateVector d) (
 theorem hasSICPOVM_four : HasSICPOVM 4 :=
   hasSICPOVM_four_internal
 
+theorem mub_second_moment {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (X Y : Matrix (Fin d) (Fin d) ℂ) :
+    let P := fun s l => Matrix.vecMulVec
+      (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+      (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))
+    (∑ s, ∑ l, Matrix.trace (X * P s l) * Matrix.trace (Y * P s l)) =
+      Matrix.trace (X * Y) + Matrix.trace X * Matrix.trace Y :=
+  mub_second_moment_internal B hB X Y
+
+theorem sic_second_moment {d : ℕ} (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ)
+    (X Y : Matrix (Fin d) (Fin d) ℂ) :
+    let P := fun i => Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))
+    ((d : ℂ) + 1) * (∑ i, Matrix.trace (X * P i) * Matrix.trace (Y * P i)) =
+      (d : ℂ) * (Matrix.trace (X * Y) + Matrix.trace X * Matrix.trace Y) :=
+  sic_second_moment_internal Φ h X Y
+
+theorem mub_hilbert_schmidt {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (X : Matrix (Fin d) (Fin d) ℂ) :
+    let P := fun s l => Matrix.vecMulVec
+      (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+      (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))
+    (∑ s, ∑ l, Complex.normSq (Matrix.trace (X * P s l))) =
+      (∑ a, ∑ b, Complex.normSq (X a b)) + Complex.normSq (Matrix.trace X) :=
+  mub_hilbert_schmidt_internal B hB X
+
+theorem sic_hilbert_schmidt {d : ℕ}
+    (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ) (X : Matrix (Fin d) (Fin d) ℂ) :
+    let P := fun i => Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))
+    (d : ℝ) * ((d : ℝ) + 1) * (∑ i, Complex.normSq (Matrix.trace (X * P i) / (d : ℂ))) =
+      (∑ a, ∑ b, Complex.normSq (X a b)) + Complex.normSq (Matrix.trace X) :=
+  sic_hilbert_schmidt_internal Φ h X
+
+theorem mub_tomography_distance {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (X Y : Matrix (Fin d) (Fin d) ℂ) (htr : Matrix.trace X = Matrix.trace Y) :
+    let P := fun s l => Matrix.vecMulVec
+      (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+      (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))
+    (∑ s, ∑ l, Complex.normSq (Matrix.trace (X * P s l) - Matrix.trace (Y * P s l))) =
+      ∑ a, ∑ b, Complex.normSq ((X - Y) a b) :=
+  mub_tomography_distance_internal B hB X Y htr
+
+theorem sic_tomography_distance {d : ℕ}
+    (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ)
+    (X Y : Matrix (Fin d) (Fin d) ℂ) (htr : Matrix.trace X = Matrix.trace Y) :
+    let P := fun i => Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))
+    (d : ℝ) * ((d : ℝ) + 1) *
+        (∑ i, Complex.normSq ((Matrix.trace (X * P i) - Matrix.trace (Y * P i)) / (d : ℂ))) =
+      ∑ a, ∑ b, Complex.normSq ((X - Y) a b) :=
+  sic_tomography_distance_internal Φ h X Y htr
+
+theorem mub_tomography_purity {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (ρ : Matrix (Fin d) (Fin d) ℂ) (hρ : Matrix.IsHermitian ρ) (htr : Matrix.trace ρ = 1) :
+    let P := fun s l => Matrix.vecMulVec
+      (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+      (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))
+    (∑ s, ∑ l, Complex.normSq (Matrix.trace (ρ * P s l))) = (Matrix.trace (ρ * ρ)).re + 1 :=
+  mub_tomography_purity_internal B hB ρ hρ htr
+
+theorem sic_tomography_purity {d : ℕ}
+    (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ)
+    (ρ : Matrix (Fin d) (Fin d) ℂ) (hρ : Matrix.IsHermitian ρ) (htr : Matrix.trace ρ = 1) :
+    let P := fun i => Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))
+    (d : ℝ) * ((d : ℝ) + 1) * (∑ i, Complex.normSq (Matrix.trace (ρ * P i) / (d : ℂ))) =
+      (Matrix.trace (ρ * ρ)).re + 1 :=
+  sic_tomography_purity_internal Φ h ρ hρ htr
+
+theorem welch_deficit {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i)) :
+    (∑ i, ∑ j, overlapSq (Φ i) (Φ j)) - (N : ℝ) ^ 2 / (d : ℝ) =
+      ∑ a : Fin d, ∑ b : Fin d, Complex.normSq
+        (((∑ i, Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) -
+          ((N : ℂ) / (d : ℂ)) • (1 : Matrix (Fin d) (Fin d) ℂ)) a b) :=
+  welch_deficit_internal Φ hn
+
+theorem welch_equality_iff_tight {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i)) :
+    (∑ i, ∑ j, overlapSq (Φ i) (Φ j) = (N : ℝ) ^ 2 / (d : ℝ)) ↔
+      (∑ i, Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) =
+        ((N : ℂ) / (d : ℂ)) • (1 : Matrix (Fin d) (Fin d) ℂ) :=
+  welch_equality_iff_tight_internal Φ hn
+
+theorem welch_relative_equality {d N : ℕ} {α : ℝ}
+    (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i))
+    (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ α)
+    (heq : (N : ℝ) * (1 - α * (d : ℝ)) = (d : ℝ) * (1 - α)) :
+    HasConstantOverlapSq α Φ ∧
+      (∑ i, Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) =
+        ((N : ℂ) / (d : ℂ)) • (1 : Matrix (Fin d) (Fin d) ℂ) :=
+  welch_relative_equality_internal Φ hn ho heq
+
+theorem isSICFamily_of_overlapSq_le {d : ℕ} (Φ : Fin (d ^ 2) → StateVector d)
+    (hn : ∀ i, IsNormalized (Φ i))
+    (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d) : IsSICFamily d Φ :=
+  isSICFamily_of_overlapSq_le_internal Φ hn ho
+
+theorem hasSICPOVM_iff_overlapSq_le (d : ℕ) :
+    HasSICPOVM d ↔ ∃ Φ : Fin (d ^ 2) → StateVector d,
+      (∀ i, IsNormalized (Φ i)) ∧ ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d :=
+  hasSICPOVM_iff_overlapSq_le_internal d
+
+theorem frame_defect_le_of_overlapSq_le {d : ℕ} (hd : 1 ≤ d) (ε : ℝ)
+    (Φ : Fin (d ^ 2) → StateVector d) (hn : ∀ i, IsNormalized (Φ i))
+    (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d + ε) :
+    ∑ a : Fin d, ∑ b : Fin d, Complex.normSq
+      (((d : ℂ)⁻¹ • (∑ i, Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) -
+        (1 : Matrix (Fin d) (Fin d) ℂ)) a b) ≤ ((d : ℝ) ^ 2 - 1) * ε :=
+  frame_defect_le_of_overlapSq_le_internal hd ε Φ hn ho
+
 end QuantumDesigns

@@ -3,7 +3,7 @@
  (1) odd prime powers q: the standard basis + q bases psi(a x^2 + b x)/sqrt q are q+1 MUBs (exact in Z[zeta_p]
      via polynomial representatives mod the cyclotomic polynomial; |.|^2 compared as cyclotomic integers);
  (2) 2^n: the Z/4 trace-form bases i^{x^T S_a x}(-1)^{b.x}/sqrt(2^n) are 2^n + 1 MUBs (exact in Z[i]);
- (3) Hoggar's 64 lines: |<u,v>|^2 = 16 on every ordered pair, |v|^2 = 12 (exact in Z[i]);
+ (3) Hoggar's 64 lines: |<u,v>|^2 = 16 on every distinct pair, |v|^2 = 12 (exact in Z[i]);
  (4) the frame identity sum v v^* = 96 I for Hoggar, and the Gerzon equality value 1/9 = 1/(8+1);
  (5) the tetrahedral and Hesse families (exact in Z[omega] with the scale removed);
  (6) the dimension-4 SIC: Appleby's fiducial (2005, arXiv:quant-ph/0412001v2, section 8, Eq. (149)) in the real form
@@ -99,14 +99,6 @@ def finite_field(p, k):
     elems = list(itertools.product(range(p), repeat=k))
     def add(a, b): return tuple((x+y) % p for x, y in zip(a, b))
     def mul(a, b): return polymulmod(a, b, m)
-    def trace(a):
-        t = (0,)*k; y = a
-        for _ in range(k):
-            t = add(t, y); y = mul(y, y)  # Frobenius x -> x^p
-            for _ in range(p-2):  # y = y^p needs p-1 multiplications
-                pass
-        return t
-    # proper Frobenius: x^p
     def frob(a):
         r = (1,)+(0,)*(k-1); b = a
         e = p
@@ -118,7 +110,8 @@ def finite_field(p, k):
         t = (0,)*k; y = a
         for _ in range(k):
             t = add(t, y); y = frob(y)
-        assert all(x == 0 for x in t[1:]), "trace not in prime field"
+        if not all(x == 0 for x in t[1:]):
+            raise ArithmeticError("trace not in prime field")
         return t[0]
     return elems, add, mul, trace
 
@@ -227,7 +220,7 @@ def hoggar():
             want = 144 if k1 == k2 else 16
             cnt += 1
             if n2 != want: bad += 1
-    report("Hoggar: 64 vectors (-1+2i,1^7) under X^aZ^b, |v|^2 = 12, |<u,v>|^2 = 16 on every ordered pair (overlapSq = 1/9)",
+    report("Hoggar: 64 vectors (-1+2i,1^7) under X^aZ^b, |v|^2 = 12, |<u,v>|^2 = 16 on distinct pairs (overlapSq = 1/9)",
            bad == 0, f"{cnt} ordered pairs, {bad} failures, {time.time()-t0:.1f}s")
     # frame identity: sum_v v v^* = 96 I (then sum (1/12)(1/8) v v^* = I)
     G = [[(0, 0)]*8 for _ in range(8)]
@@ -253,7 +246,10 @@ def eis():
         a, b = u
         return (a - b, -b)
     def norm(u):  # u * conj u, must be rational integer
-        r = mul(u, conj(u)); assert r[1] == 0; return r[0]
+        r = mul(u, conj(u))
+        if r[1] != 0:
+            raise ArithmeticError("Eisenstein norm is not rational")
+        return r[0]
     return mul, add, conj, norm
 mul, add, conj, norm = eis()
 w = (0, 1); w2 = mul(w, w); one = (1, 0); zero = (0, 0)

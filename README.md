@@ -1,4 +1,4 @@
-# Finite quantum designs: mutually unbiased bases in every prime-power dimension, Weiner's gap, reconstruction from complete sets and SIC families, the Welch and Gerzon bounds, and SIC-POVMs in dimensions 2, 3, 4 and 8
+# Finite quantum designs: mutually unbiased bases in every prime-power dimension, Weiner's gap, reconstruction and second moments of complete sets and SIC families, the Welch and Gerzon bounds with their equality cases, and SIC-POVMs in dimensions 2, 3, 4 and 8
 
 Two structures of finite-dimensional quantum information, in the vocabulary of the formal-conjectures repository
 (google-deepmind/formal-conjectures, Open Quantum Problems 13 and 23; Apache-2.0, restated character for character,
@@ -7,7 +7,7 @@ see [NOTICE](NOTICE)). A basis of `ℂ^d` is a unitary matrix whose columns are 
 exist, `IsMaxMUBCount d k` that `k` is the largest such number. A SIC family in `ℂ^d` is `d²` unit vectors with
 pairwise squared overlap `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's conjecture: for every `d`).
 
-[Challenge.lean](Challenge.lean) restates the fourteen definitions and states forty-six theorems;
+[Challenge.lean](Challenge.lean) restates the fourteen definitions and states sixty theorems;
 [Solution.lean](Solution.lean) proves them, kernel-only; the table in [VERIFICATION.md](VERIFICATION.md) names each:
 
 - **the bound:** for `d ≥ 2`, `HasMUBs d m → m ≤ d + 1` (Wootters–Fields 1989; Bandyopadhyay–Boykin–Roychowdhury–Vatan
@@ -47,11 +47,24 @@ pairwise squared overlap `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's c
   overlap at most `α` and `α d < 1`, `N (1 − α d) ≤ d (1 − α)`; and at most `d²` have every squared overlap at most
   `1/(d + 1)` (Welch 1974, closed access and not read, as stated by Datta–Howard–Cochran, eq. (2) with `k = 1`, and by
   Mixon–Needham–Shonkwiler–Villar, Proposition 1; the double sum is the frame potential of Benedetto–Fickus 2003);
+- **Welch's equality case:** with `S = Σ_i |φ_i⟩⟨φ_i|`, `Σ_{i,j} |⟨φ_i, φ_j⟩|² − N²/d = ‖S − (N/d)·1‖²_HS`, so equality
+  holds exactly for a tight frame (Mixon–Needham–Shonkwiler–Villar, Proposition 1 and its proof; Klappenecker–Rötteler
+  2005, Theorem 2); at equality in the relative bound every pairwise squared overlap is `α` and `S = (N/d)·1`
+  (Strohmer–Heath 2003, Theorem 2.3); so `d²` unit vectors with every pairwise squared overlap at most `1/(d + 1)` are a
+  SIC family, and `HasSICPOVM d` holds iff such vectors exist; and pairwise squared overlaps at most `1/(d + 1) + ε` give
+  `‖S/d − 1‖²_HS ≤ (d² − 1) ε` for `d ≥ 1` (a bound on the resolution of the identity, not on the distance to a SIC);
 - **reconstruction:** with `P` the rank-one projectors, a complete set of `d + 1` mutually unbiased bases determines
   every matrix, `X = Σ_{s,l} Tr(X P_{s,l}) P_{s,l} − Tr(X)·1`, and so does a SIC family,
   `X = Σ_i ((d + 1) Tr(X P_i) − Tr X)/d · P_i` (the coefficients as printed in Scott 2006, eq. (9); the informational
   completeness of SICs is Renes et al. 2004, §II; the MUB formula goes back to Ivanović 1981 and Wootters–Fields 1989,
   not read here);
+- **second moments:** for all matrices `X`, `Y`, a complete set has `Σ_{s,l} Tr(X P_{s,l}) Tr(Y P_{s,l}) = Tr(XY) + Tr X Tr Y`
+  and a SIC family `(d + 1) Σ_i Tr(X P_i) Tr(Y P_i) = d (Tr(XY) + Tr X Tr Y)` (both are complex projective 2-designs:
+  Klappenecker–Rötteler 2005, Theorems 3 and 5; Renes et al. 2004, p. 4; Scott 2006, eq. (8)); so the data (for a SIC
+  family, the outcomes `Tr(X P_i)/d` with the factor `d(d + 1)`) give `‖X‖²_HS + |Tr X|²`, the Hilbert–Schmidt distance
+  of two matrices with equal traces (Scott 2006, eqs. (32), (36), (55)), and the purity `Tr(ρ²)` of a Hermitian `ρ` with
+  `Tr ρ = 1` (Larsen 1990, not read, as stated by Wu–Yu–Mølmer 2009; for a pure state, Appleby–Dang–Fuchs, eqs. (4),
+  (19));
 - **SIC-POVMs in dimensions 2, 3 and 8:** the tetrahedron and the Hesse configuration (formal-conjectures' witness
   families, whose `hasSICPOVM_two` and `hasSICPOVM_three` are left with `sorry` there), and Hoggar's 64 lines: the orbit
   of `(−1 + 2i, 1, 1, 1, 1, 1, 1, 1)/√12` under the three-qubit Pauli group (Jedwab–Wiebe 2015, Example 4; equivalent to
@@ -59,8 +72,8 @@ pairwise squared overlap `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's c
 - **the SIC-POVM in dimension 4:** the sixteen Weyl–Heisenberg translates of Appleby's exact fiducial (Appleby 2005, §8,
   eq. (149), which credits Zauner 1999 and Renes et al. 2004),
   `ψ = √((5 − √5)/40) (2 cos(π/8), i(e^{−iπ/8} + √(2 + √5) e^{iπ/8}), 2i sin(π/8), i(e^{−iπ/8} − √(2 + √5) e^{iπ/8}))`;
-  covariance reduces the 240 overlaps to fifteen, proved by exact trigonometric and radical identities (only the index
-  arithmetic is kernel-checked).
+  covariance reduces the 240 overlaps to fifteen, proved symbolically by exact trigonometric and radical identities
+  (no table of overlaps: only the index arithmetic is decided by the kernel).
 
 Not claimed: anything about dimension six beyond `3 ≤ μ(6) ≤ 7` and `μ(6) ≠ 6`; SICs in dimensions 5–7; any first
 formalization. In dimension six openai/math goes further, in its own vocabulary: its `N6_le_five` (`μ(6) ≤ 5`) implies
@@ -72,8 +85,9 @@ commutators (`commutator_trace_identity`, `commute_of_kraus_fixed` in `Completio
 after the route here was pinned; this repository takes the step in formal-conjectures' vocabulary and for every `d`. The
 Kadison–Schwarz inequality for completely positive and Kraus maps is in physlib, Lean-QIT and kencyke/quantum-system;
 the-omega-institute/trureturing proves the injectivity of the diagonal map of a complete family (in its vocabulary of
-rank-one contexts) and a density-matrix reconstruction under an assumed completeness hypothesis, and kernel-checks the
-same 64 Hoggar vectors and the Hesse SIC; the dimension-2 MUB case is formal-conjectures' `mutuallyUnbiasedBases_dim2`,
+rank-one contexts), a density-matrix reconstruction under an assumed completeness hypothesis, and the second moment of a
+complete set in operator form with the purity identity for density matrices, and kernel-checks the same 64 Hoggar
+vectors and the Hesse SIC; the dimension-2 MUB case is formal-conjectures' `mutuallyUnbiasedBases_dim2`,
 the dimension-6 projector argument and the Kronecker lemma are XC0R's, and the dimension-2 and 3 SIC overlaps are in
 zblore/csd-lean4.
 
@@ -83,7 +97,8 @@ Lean `v4.35.0-rc2` with Mathlib at the same tag (pinned by `lake-manifest.json`)
 pins, the source guard, the definition and statement checks, the standard-library replay of the constructions
 (`scripts/check_designs.py`), the metadata check, the build with the axiom audit (`Test/Axioms.lean` rejects any axiom
 beyond `propext`, `Classical.choice`, `Quot.sound`), the module-resolution check, the `pp.all` elaboration check of the
-definitions and Palomar's core-notation audit, and ends with `VERIFY: PASS`. [PROOF.md](PROOF.md) gives the proofs
+definitions and Palomar's core-notation audit, and ends with `VERIFY: PASS` (`--skip-build` leaves out the Lean steps
+and ends with `VERIFY (source/replay only)`, which does not check the proofs). [PROOF.md](PROOF.md) gives the proofs
 with the Lean names; [DISCLOSURE.md](DISCLOSURE.md) says how the repository was made.
 
 License: [MIT](LICENSE) for the Lean files and scripts; the fourteen definitions and the lemmas listed in [NOTICE](NOTICE)

@@ -57,7 +57,15 @@ run_cmd do
       `QuantumDesigns.not_isMaxMUBCount_six_six, `QuantumDesigns.mub_reconstruction,
       `QuantumDesigns.sic_reconstruction, `QuantumDesigns.welch_bound,
       `QuantumDesigns.welch_bound_of_constantOverlap, `QuantumDesigns.welch_card_bound,
-      `QuantumDesigns.card_le_of_overlapSq_le_sic, `QuantumDesigns.hasSICPOVM_four] do
+      `QuantumDesigns.card_le_of_overlapSq_le_sic, `QuantumDesigns.hasSICPOVM_four,
+      `QuantumDesigns.mub_second_moment, `QuantumDesigns.sic_second_moment,
+      `QuantumDesigns.mub_hilbert_schmidt, `QuantumDesigns.sic_hilbert_schmidt,
+      `QuantumDesigns.mub_tomography_distance, `QuantumDesigns.sic_tomography_distance,
+      `QuantumDesigns.mub_tomography_purity, `QuantumDesigns.sic_tomography_purity,
+      `QuantumDesigns.welch_deficit, `QuantumDesigns.welch_equality_iff_tight,
+      `QuantumDesigns.welch_relative_equality, `QuantumDesigns.isSICFamily_of_overlapSq_le,
+      `QuantumDesigns.hasSICPOVM_iff_overlapSq_le,
+      `QuantumDesigns.frame_defect_le_of_overlapSq_le] do
     unless env.contains n do
       logError m!"Compared theorem is missing from the environment: {n}"
   logInfo m!"Audited {checked} project constants; unexpected axiom dependencies: {rejected}."

@@ -3,7 +3,7 @@ module
 public import Mathlib
 
 /-!
-# Finite quantum designs: mutually unbiased bases in every prime-power dimension, Weiner's gap, reconstruction from complete sets and SIC families, the Welch and Gerzon bounds, and SIC-POVMs in dimensions 2, 3, 4 and 8
+# Finite quantum designs: mutually unbiased bases in every prime-power dimension, Weiner's gap, reconstruction and second moments of complete sets and SIC families, the Welch and Gerzon bounds with their equality cases, and SIC-POVMs in dimensions 2, 3, 4 and 8
 
 Two structures of finite-dimensional quantum information, stated in the vocabulary of the
 formal-conjectures repository (google-deepmind/formal-conjectures, Apache-2.0; its Open Quantum Problems 13 and
@@ -41,7 +41,12 @@ that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d +
   formal-conjectures' `mutuallyUnbiasedBases_dim6_bounds`, stated verbatim: `HasMUBs 6 3 ∧ ∀ m : ℕ, HasMUBs 6 m → m ≤ 7`;
 * reconstruction: a complete set determines every matrix from its diagonals,
   `X = Σ_{s,l} Tr(X P_{s,l}) P_{s,l} − Tr(X)·1` with `P_{s,l}` the projector onto column `l` of basis `s` (after
-  Ivanović 1981 and Wootters–Fields 1989, in the form of Scott 2006, eqs. (9) and (56)).
+  Ivanović 1981 and Wootters–Fields 1989, in the form of Scott 2006, eqs. (9) and (56));
+* second moments: for all matrices `X`, `Y`, `Σ_{s,l} Tr(X P_{s,l}) Tr(Y P_{s,l}) = Tr(XY) + Tr X · Tr Y` (a complete
+  set is a complex projective 2-design: Klappenecker–Rötteler 2005, Theorem 3; Scott 2006, eq. (8)); hence
+  `Σ_{s,l} |Tr(X P_{s,l})|² = ‖X‖²_HS + |Tr X|²`, the Hilbert–Schmidt distance of two matrices with equal traces from
+  their data, and `Σ_{s,l} |Tr(ρ P_{s,l})|² = Tr(ρ²) + 1` for a Hermitian `ρ` with `Tr ρ = 1` (Larsen 1990, not read,
+  as stated by Wu–Yu–Mølmer 2009).
 
 **SIC-POVMs and equiangular lines.** A SIC family in `ℂ^d` is `d²` unit vectors with pairwise squared overlap
 `1/(d + 1)`; `HasSICPOVM d` says one exists (Zauner's conjecture: for every `d`). This file states, and
@@ -64,12 +69,21 @@ that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d +
 * reconstruction: a SIC family determines every matrix, `X = Σ_i ((d + 1) Tr(X P_i) − Tr X)/d · P_i` with
   `P_i = |φ_i⟩⟨φ_i|` (informational completeness: Renes–Blume-Kohout–Scott–Caves 2004, §II; the coefficients: Scott
   2006, eq. (9) in the proof of Theorem 4, and Appleby–Dang–Fuchs, eq. (3));
+* second moments: `(d + 1) Σ_i Tr(X P_i) Tr(Y P_i) = d (Tr(XY) + Tr X · Tr Y)` for all matrices `X`, `Y` (a SIC is a
+  2-design: Renes–Blume-Kohout–Scott–Caves 2004, p. 4; Klappenecker–Rötteler 2005, Theorem 5), with the same three
+  consequences for the SIC-POVM outcomes `Tr(X P_i)/d` and the factor `d(d + 1)` (Scott 2006, eqs. (32), (36), (55));
 * Welch's bound in the frame-potential form: `N` unit vectors of `ℂ^d` have `Σ_{i,j} |⟨φ_i, φ_j⟩|² ≥ N²/d` (Welch
   1974, as restated by Datta–Howard–Cochran and by Mixon–Needham–Shonkwiler–Villar; the frame potential is the
   name of Benedetto–Fickus 2003); with one squared overlap `c` on every pair of `N ≥ 2` unit vectors,
   `c ≥ (N − d)/(d(N − 1))`; with every pairwise squared overlap at most `α`, where `α d < 1`, the relative bound
   `N (1 − α d) ≤ d (1 − α)`; and at most `d²` unit vectors have every pairwise squared overlap at or below the SIC
-  angle `1/(d + 1)`.
+  angle `1/(d + 1)`;
+* Welch's equality case: `Σ_{i,j} |⟨φ_i, φ_j⟩|² − N²/d = ‖S − (N/d)·1‖²_HS` for the frame operator
+  `S = Σ_i |φ_i⟩⟨φ_i|`, so equality holds exactly for a tight frame (Mixon–Needham–Shonkwiler–Villar, Proposition 1
+  and its proof); at equality in the relative bound every pairwise squared overlap is `α` and `S = (N/d)·1`
+  (Strohmer–Heath 2003, Theorem 2.3); so `d²` unit vectors with every pairwise squared overlap at most `1/(d + 1)`
+  form a SIC family, and `HasSICPOVM d` holds iff such vectors exist; and with every pairwise squared overlap at
+  most `1/(d + 1) + ε`, `‖S/d − 1‖²_HS ≤ (d² − 1) ε` for `d ≥ 1`.
 
 Conventions: `Matrix.unitaryGroup (Fin d) ℂ` is the group of unitary `d × d` matrices (`star U * U = 1 = U * star U`);
 `‖z‖` is the complex absolute value; `EuclideanSpace ℂ (Fin d)` is `ℂ^d` with the `ℓ²` norm, a vector `ψ` having
@@ -383,5 +397,138 @@ Appleby's exact fiducial
 (Appleby 2005, §8, eq. (149), which credits Zauner 1999 and Renes–Blume-Kohout–Scott–Caves 2004); the squared
 overlaps `1/5` by exact trigonometric and radical identities. -/
 theorem hasSICPOVM_four : HasSICPOVM 4 := sorry
+
+/- ## Second moments: complete sets and SIC families are complex projective 2-designs -/
+
+/-- The second moment of a complete set of mutually unbiased bases: for all matrices `X`, `Y`,
+`Σ_{s,l} Tr(X P_{s,l}) Tr(Y P_{s,l}) = Tr(XY) + Tr X · Tr Y`, with `P_{s,l}` the projector onto column `l` of basis
+`s` (the 2-design property of a complete set, Klappenecker–Rötteler 2005, Theorem 3, in the form of Scott 2006,
+eq. (8) traced against `Y`). -/
+theorem mub_second_moment {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (X Y : Matrix (Fin d) (Fin d) ℂ) :
+    let P := fun s l => Matrix.vecMulVec
+      (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+      (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))
+    (∑ s, ∑ l, Matrix.trace (X * P s l) * Matrix.trace (Y * P s l)) =
+      Matrix.trace (X * Y) + Matrix.trace X * Matrix.trace Y := sorry
+
+/-- The second moment of a SIC family: for all matrices `X`, `Y`,
+`(d + 1) Σ_i Tr(X P_i) Tr(Y P_i) = d (Tr(XY) + Tr X · Tr Y)` with `P_i = |φ_i⟩⟨φ_i|` (the 2-design property of a
+SIC, Renes–Blume-Kohout–Scott–Caves 2004, p. 4 and eq. (16); Klappenecker–Rötteler 2005, Theorem 5; Scott 2006,
+eq. (8)); at `d = 0` both sides vanish. -/
+theorem sic_second_moment {d : ℕ} (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ)
+    (X Y : Matrix (Fin d) (Fin d) ℂ) :
+    let P := fun i => Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))
+    ((d : ℂ) + 1) * (∑ i, Matrix.trace (X * P i) * Matrix.trace (Y * P i)) =
+      (d : ℂ) * (Matrix.trace (X * Y) + Matrix.trace X * Matrix.trace Y) := sorry
+
+/-- `Σ_{s,l} |Tr(X P_{s,l})|² = ‖X‖²_HS + |Tr X|²` for every matrix `X`, with `‖X‖²_HS = Σ_{a,b} |X_{ab}|²` (Scott
+2006, eqs. (32) and (55), with the trace measure `1/(d + 1)` of a complete set). -/
+theorem mub_hilbert_schmidt {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (X : Matrix (Fin d) (Fin d) ℂ) :
+    let P := fun s l => Matrix.vecMulVec
+      (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+      (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))
+    (∑ s, ∑ l, Complex.normSq (Matrix.trace (X * P s l))) =
+      (∑ a, ∑ b, Complex.normSq (X a b)) + Complex.normSq (Matrix.trace X) := sorry
+
+/-- For a SIC family `φ_i`, with `P_i = |φ_i⟩⟨φ_i|` and the SIC-POVM outcomes `p_i(X) = Tr(X P_i)/d`:
+`d (d + 1) Σ_i |p_i(X)|² = ‖X‖²_HS + |Tr X|²` for every matrix `X` (Scott 2006, eqs. (32) and (55), with the trace
+measure `1/d` of a SIC-POVM); at `d = 0` both sides vanish. -/
+theorem sic_hilbert_schmidt {d : ℕ}
+    (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ) (X : Matrix (Fin d) (Fin d) ℂ) :
+    let P := fun i => Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))
+    (d : ℝ) * ((d : ℝ) + 1) * (∑ i, Complex.normSq (Matrix.trace (X * P i) / (d : ℂ))) =
+      (∑ a, ∑ b, Complex.normSq (X a b)) + Complex.normSq (Matrix.trace X) := sorry
+
+/-- For `Tr X = Tr Y`: `Σ_{s,l} |Tr(X P_{s,l}) − Tr(Y P_{s,l})|² = ‖X − Y‖²_HS` (Scott 2006, eqs. (36) and (55)). -/
+theorem mub_tomography_distance {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (X Y : Matrix (Fin d) (Fin d) ℂ) (htr : Matrix.trace X = Matrix.trace Y) :
+    let P := fun s l => Matrix.vecMulVec
+      (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+      (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))
+    (∑ s, ∑ l, Complex.normSq (Matrix.trace (X * P s l) - Matrix.trace (Y * P s l))) =
+      ∑ a, ∑ b, Complex.normSq ((X - Y) a b) := sorry
+
+/-- For a SIC family and `Tr X = Tr Y`: `d (d + 1) Σ_i |p_i(X) − p_i(Y)|² = ‖X − Y‖²_HS` with `p_i(X) = Tr(X P_i)/d`
+(Scott 2006, eqs. (36) and (55)). -/
+theorem sic_tomography_distance {d : ℕ}
+    (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ)
+    (X Y : Matrix (Fin d) (Fin d) ℂ) (htr : Matrix.trace X = Matrix.trace Y) :
+    let P := fun i => Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))
+    (d : ℝ) * ((d : ℝ) + 1) *
+        (∑ i, Complex.normSq ((Matrix.trace (X * P i) - Matrix.trace (Y * P i)) / (d : ℂ))) =
+      ∑ a, ∑ b, Complex.normSq ((X - Y) a b) := sorry
+
+/-- For a Hermitian `ρ` with `Tr ρ = 1`: `Σ_{s,l} |Tr(ρ P_{s,l})|² = Tr(ρ²) + 1` (Larsen 1990, not read, as stated
+by Wu–Yu–Mølmer 2009, §III); for a state the `Tr(ρ P_{s,l})` are the outcome probabilities of the `d + 1`
+measurements. -/
+theorem mub_tomography_purity {d : ℕ} (B : Fin (d + 1) → UMat d) (hB : IsMUBFamily B)
+    (ρ : Matrix (Fin d) (Fin d) ℂ) (hρ : Matrix.IsHermitian ρ) (htr : Matrix.trace ρ = 1) :
+    let P := fun s l => Matrix.vecMulVec
+      (fun a => (B s : Matrix (Fin d) (Fin d) ℂ) a l)
+      (fun b => star ((B s : Matrix (Fin d) (Fin d) ℂ) b l))
+    (∑ s, ∑ l, Complex.normSq (Matrix.trace (ρ * P s l))) = (Matrix.trace (ρ * ρ)).re + 1 := sorry
+
+/-- For a Hermitian `ρ` with `Tr ρ = 1`: `d (d + 1) Σ_i |Tr(ρ P_i)/d|² = Tr(ρ²) + 1` (for a pure state,
+Appleby–Dang–Fuchs, eq. (4)); for a state the `Tr(ρ P_i)/d` are the SIC-POVM outcome probabilities. -/
+theorem sic_tomography_purity {d : ℕ}
+    (Φ : Fin (d ^ 2) → StateVector d) (h : IsSICFamily d Φ)
+    (ρ : Matrix (Fin d) (Fin d) ℂ) (hρ : Matrix.IsHermitian ρ) (htr : Matrix.trace ρ = 1) :
+    let P := fun i => Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))
+    (d : ℝ) * ((d : ℝ) + 1) * (∑ i, Complex.normSq (Matrix.trace (ρ * P i) / (d : ℂ))) =
+      (Matrix.trace (ρ * ρ)).re + 1 := sorry
+
+/- ## Welch's equality case -/
+
+/-- Welch's deficit: `N` unit vectors of `ℂ^d` with frame operator `S = Σ_i |φ_i⟩⟨φ_i|` have
+`Σ_{i,j} |⟨φ_i, φ_j⟩|² − N²/d = ‖S − (N/d)·1‖²_HS` (the identity in the proof of Mixon–Needham–Shonkwiler–Villar,
+Proposition 1). -/
+theorem welch_deficit {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i)) :
+    (∑ i, ∑ j, overlapSq (Φ i) (Φ j)) - (N : ℝ) ^ 2 / (d : ℝ) =
+      ∑ a : Fin d, ∑ b : Fin d, Complex.normSq
+        (((∑ i, Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) -
+          ((N : ℂ) / (d : ℂ)) • (1 : Matrix (Fin d) (Fin d) ℂ)) a b) := sorry
+
+/-- Equality in Welch's bound holds exactly for a tight frame: `Σ_{i,j} |⟨φ_i, φ_j⟩|² = N²/d` iff
+`Σ_i |φ_i⟩⟨φ_i| = (N/d)·1` (Mixon–Needham–Shonkwiler–Villar, Proposition 1; Klappenecker–Rötteler 2005, Theorem 2). -/
+theorem welch_equality_iff_tight {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i)) :
+    (∑ i, ∑ j, overlapSq (Φ i) (Φ j) = (N : ℝ) ^ 2 / (d : ℝ)) ↔
+      (∑ i, Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) =
+        ((N : ℂ) / (d : ℂ)) • (1 : Matrix (Fin d) (Fin d) ℂ) := sorry
+
+/-- Equality in the relative bound: `N` unit vectors with every pairwise squared overlap at most `α` and
+`N (1 − α d) = d (1 − α)` have every pairwise squared overlap equal to `α` and `Σ_i |φ_i⟩⟨φ_i| = (N/d)·1`
+(Strohmer–Heath 2003, Theorem 2.3; the equality case of the relative bound of Delsarte–Goethals–Seidel, as stated in
+Roy's thesis, Theorem 3.5.2). -/
+theorem welch_relative_equality {d N : ℕ} {α : ℝ}
+    (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i))
+    (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ α)
+    (heq : (N : ℝ) * (1 - α * (d : ℝ)) = (d : ℝ) * (1 - α)) :
+    HasConstantOverlapSq α Φ ∧
+      (∑ i, Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) =
+        ((N : ℂ) / (d : ℂ)) • (1 : Matrix (Fin d) (Fin d) ℂ) := sorry
+
+/-- `d²` unit vectors of `ℂ^d` with every pairwise squared overlap at most `1/(d + 1)` form a SIC family; no
+equiangularity is assumed (Strohmer–Heath 2003, Theorem 2.3, at `N = d²`). -/
+theorem isSICFamily_of_overlapSq_le {d : ℕ} (Φ : Fin (d ^ 2) → StateVector d)
+    (hn : ∀ i, IsNormalized (Φ i))
+    (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d) : IsSICFamily d Φ := sorry
+
+/-- Zauner's conjecture as a packing problem: a SIC-POVM exists in `ℂ^d` iff `ℂ^d` has `d²` unit vectors with every
+pairwise squared overlap at most `1/(d + 1)`, for every `d`. -/
+theorem hasSICPOVM_iff_overlapSq_le (d : ℕ) :
+    HasSICPOVM d ↔ ∃ Φ : Fin (d ^ 2) → StateVector d,
+      (∀ i, IsNormalized (Φ i)) ∧ ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d := sorry
+
+/-- A bound on the resolution of the identity: for `d ≥ 1`, `d²` unit vectors of `ℂ^d` with every pairwise squared
+overlap at most `1/(d + 1) + ε` have `‖S/d − 1‖²_HS ≤ (d² − 1) ε` for `S = Σ_i |φ_i⟩⟨φ_i|` (a corollary of Welch's
+deficit: how far the effects `|φ_i⟩⟨φ_i|/d` are from summing to the identity, not the distance to a SIC family). -/
+theorem frame_defect_le_of_overlapSq_le {d : ℕ} (hd : 1 ≤ d) (ε : ℝ)
+    (Φ : Fin (d ^ 2) → StateVector d) (hn : ∀ i, IsNormalized (Φ i))
+    (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d + ε) :
+    ∑ a : Fin d, ∑ b : Fin d, Complex.normSq
+      (((d : ℂ)⁻¹ • (∑ i, Matrix.vecMulVec (fun k => Φ i k) (fun l => star (Φ i l))) -
+        (1 : Matrix (Fin d) (Fin d) ℂ)) a b) ≤ ((d : ℝ) ^ 2 - 1) * ε := sorry
 
 end QuantumDesigns
