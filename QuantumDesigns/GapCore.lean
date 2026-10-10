@@ -51,20 +51,33 @@ def gp_Flat {d : ℕ} (B : Fin d → UMat d) (X : Matrix (Fin d) (Fin d) ℂ) : 
 def gp_unvec {d : ℕ} (v : EuclideanSpace ℂ (Fin d × Fin d)) : Matrix (Fin d) (Fin d) ℂ :=
   Matrix.of fun a b => v (a, b)
 
-theorem gp_unvec_vec {d : ℕ} (A : Matrix (Fin d) (Fin d) ℂ) : gp_unvec (bd_vec A) = A := sorry
+/-- The rank-one projectors are Hermitian. -/
+theorem gp_proj_star {d : ℕ} (U : UMat d) (j : Fin d) : star (bd_proj U j) = bd_proj U j := by
+  ext a b
+  simp only [Matrix.star_apply, bd_proj, star_mul', star_star]
+  ring
 
-theorem gp_vec_unvec {d : ℕ} (v : EuclideanSpace ℂ (Fin d × Fin d)) : bd_vec (gp_unvec v) = v := sorry
+theorem gp_unvec_vec {d : ℕ} (A : Matrix (Fin d) (Fin d) ℂ) : gp_unvec (bd_vec A) = A := by
+  ext a b; rfl
+
+theorem gp_vec_unvec {d : ℕ} (v : EuclideanSpace ℂ (Fin d × Fin d)) : bd_vec (gp_unvec v) = v := by
+  ext p; rfl
 
 /-- The flattening of `gp_w` is `bd_w`. -/
 theorem gp_vec_w {d : ℕ} (B : Fin d → UMat d) (r : Fin d) (k : Fin (d - 1)) :
-    bd_vec (gp_w (B r) k) = bd_w B r k := sorry
+    bd_vec (gp_w (B r) k) = bd_w B r k := by
+  ext p
+  simp [gp_w, bd_w, bd_vec, Matrix.sum_apply]
 
 /-- The Hilbert–Schmidt inner product of two flattened matrices is `Tr(A^* X)`. -/
 theorem gp_inner_vec_eq_trace {d : ℕ} (A X : Matrix (Fin d) (Fin d) ℂ) :
-    inner ℂ (bd_vec A) (bd_vec X) = Matrix.trace (star A * X) := sorry
+    inner ℂ (bd_vec A) (bd_vec X) = Matrix.trace (star A * X) := by
+  rw [bd_inner_vec, Finset.sum_comm]
+  simp only [Matrix.trace, Matrix.diag, Matrix.mul_apply, Matrix.star_apply]
 
 /-- The diagonal entry is the Hilbert–Schmidt inner product with the projector (`P_j` is Hermitian). -/
 theorem gp_diag_eq_inner {d : ℕ} (U : UMat d) (X : Matrix (Fin d) (Fin d) ℂ) (j : Fin d) :
-    gp_diag U X j = inner ℂ (bd_vec (bd_proj U j)) (bd_vec X) := sorry
+    gp_diag U X j = inner ℂ (bd_vec (bd_proj U j)) (bd_vec X) := by
+  rw [gp_inner_vec_eq_trace, gp_proj_star, gp_diag]
 
 end QuantumDesigns
