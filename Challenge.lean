@@ -29,11 +29,12 @@ that `k` pairwise unbiased bases exist in `ℂ^d`, `HasCompleteMUBs d` that `d +
   `(x, y) ↦ Tr(a x y)` of `𝔽_{2ⁿ}`, lifted to `{0, 1}`; equivalent to the Galois-ring bases of Klappenecker–Rötteler
   Theorem 3, up to `a ↦ a²` and a relabelling of columns); so `IsMaxMUBCount (pᵏ) (pᵏ + 1)` for every prime power, and `HasCompleteMUBs d ↔
   IsMaxMUBCount d (d + 1)` for `d ≥ 2`; the cases `2, 4, 8` also by explicit kernel-checked tables;
-* Weiner's gap: `d` mutually unbiased bases of `ℂ^d` extend to a complete set of `d + 1`, for every `d` (Weiner 2013,
-  Corollary 3.4; the route of its proof, the operator-algebra steps written out: the orthogonal projection onto the matrices
-  with a constant diagonal in every basis of the family has a Kraus form, at a fixed point its Kadison–Schwarz defect
-  is a trace-zero sum of squares of commutators, and the missing basis is a common eigenbasis of the Kraus
-  operators); hence `k ≥ d` bases give a complete set, for `d ≥ 2` the maximal number is never `d` (so `μ(6) ≠ 6`),
+* Weiner's gap: for every `d`, any `d` mutually unbiased bases of `ℂ^d` extend by one more basis to a complete set
+  of `d + 1`, the given bases keeping their places, so `HasMUBs d d → HasCompleteMUBs d` (Weiner 2013, Corollary
+  3.4, in its extension and its existence form; the route of its proof, the operator-algebra steps written out: the
+  orthogonal projection onto the matrices with a constant diagonal in every basis of the family has a Kraus form, at
+  a fixed point its Kadison–Schwarz defect is a trace-zero sum of squares of commutators, and the missing basis is a
+  common eigenbasis of the Kraus operators); hence `k ≥ d` bases give a complete set, for `d ≥ 2` the maximal number is never `d` (so `μ(6) ≠ 6`),
   and Weiner's dichotomy: for `d ≥ 2` it is `d + 1` or below `d`;
 * the maximal number: two bases in every dimension; `HasMUBs q m ↔ m ≤ q + 1` in every prime-power dimension `q`;
   for `d ≥ 2`, `μ(d)` exists, is unique and lies in `[3, d + 1]`; in dimension `1` there is none; and
@@ -267,14 +268,14 @@ theorem hasSICPOVM_eight : HasSICPOVM 8 := sorry
 
 /- ## Weiner's gap: `d` bases complete to `d + 1` -/
 
-/-- Weiner's gap (Weiner 2013, Corollary 3.4; the operator-algebra steps of its proof written out): `d` mutually
-unbiased bases of `ℂ^d` extend to a complete set of `d + 1`. The orthogonal projection onto the matrices with a
-constant diagonal in every one of the `d` bases has a Kraus form `X ↦ Σ_i K_i^* X K_i` (Weiner's Lemma 3.2) whose
-operators `K_i` have constant diagonals themselves. At a fixed point `X` of the projection, such as any `K_i` or
-`K_i^*`, its Kadison–Schwarz defect is the trace-zero sum `Σ_i (X K_i − K_i X)^* (X K_i − K_i X)`, so `X` commutes
-with every `K_i`: the `K_i` commute with one another and with their adjoints, and the projectors of a common
-eigenbasis of the `K_i` are again fixed by the projection, hence have constant diagonals, hence are unbiased to every
-basis of the family. -/
+/-- Weiner's gap (Weiner 2013; the operator-algebra steps of its proof written out): `d` mutually unbiased bases of
+`ℂ^d` give a complete set of `d + 1` (the existence form of Corollary 3.4). The orthogonal projection onto the
+matrices with a constant diagonal in every one of the `d` bases has a Kraus form `X ↦ Σ_i K_i^* X K_i` (Weiner's
+Lemma 3.2) whose operators `K_i` have constant diagonals themselves. At a fixed point `X` of the projection, such as
+any `K_i` or `K_i^*`, its Kadison–Schwarz defect is the trace-zero sum `Σ_i (X K_i − K_i X)^* (X K_i − K_i X)`, so
+`X` commutes with every `K_i`: the `K_i` commute with one another and with their adjoints, and the projectors of a
+common eigenbasis of the `K_i` are again fixed by the projection, hence have constant diagonals, hence are unbiased
+to every basis of the family. -/
 theorem hasCompleteMUBs_of_hasMUBs_self (d : ℕ) (h : HasMUBs d d) : HasCompleteMUBs d := sorry
 
 /-- `k ≥ d` mutually unbiased bases of `ℂ^d` give a complete set of `d + 1` (restrict to `d` and apply Weiner's
@@ -292,7 +293,7 @@ theorem isMaxMUBCount_dichotomy (d : ℕ) (hd : 2 ≤ d) (k : ℕ) (h : IsMaxMUB
 
 /- ## The maximal number: existence, uniqueness, bounds -/
 
-/-- Two mutually unbiased bases in every dimension (the standard basis and the Fourier basis). -/
+/-- Two mutually unbiased bases in every dimension (e.g. the standard basis and the Fourier basis). -/
 theorem hasMUBs_two (d : ℕ) : HasMUBs d 2 := sorry
 
 /-- In a prime-power dimension `q = pᵏ`, `m` mutually unbiased bases exist iff `m ≤ q + 1`. -/
@@ -312,13 +313,13 @@ theorem not_exists_isMaxMUBCount_one : ¬ ∃ k, IsMaxMUBCount 1 k := sorry
 theorem isMaxMUBCount_bounds (d : ℕ) (hd : 2 ≤ d) (k : ℕ) (h : IsMaxMUBCount d k) :
     3 ≤ k ∧ k ≤ d + 1 := sorry
 
-/-- formal-conjectures' `mutuallyUnbiasedBases_dim6_bounds` (left with `sorry` there), stated verbatim:
-`3 ≤ μ(6) ≤ 7`, the instance `d = 6` of three bases and the bound (openai/math holds `μ(6) ≤ 5` in Lean, in its
-own vocabulary). -/
+/-- formal-conjectures' `mutuallyUnbiasedBases_dim6_bounds` (left with `sorry` there, marked solved with a
+`formal_proof` link to XC0R's fork at c8733543), stated verbatim: `3 ≤ μ(6) ≤ 7`, the instance `d = 6` of three
+bases and the bound. -/
 theorem mutuallyUnbiasedBases_dim6_bounds : HasMUBs 6 3 ∧ ∀ m : ℕ, HasMUBs 6 m → m ≤ 7 := sorry
 
-/-- The gap in dimension six: `μ(6) ≠ 6`, the instance `d = 6` (openai/math's `μ(6) ≤ 5`, in its own vocabulary,
-implies it). -/
+/-- The instance `d = 6` of Weiner's gap: `μ(6) ≠ 6` (also implied by the bound of five bases formalized in
+openai/math, `N6_le_five`). -/
 theorem not_isMaxMUBCount_six_six : ¬ IsMaxMUBCount 6 6 := sorry
 
 /- ## Reconstruction: complete sets and SIC families are informationally complete -/
@@ -356,15 +357,15 @@ theorem welch_bound_of_constantOverlap {d N : ℕ} {c : ℝ} (hN : 2 ≤ N) (Φ 
     (hn : ∀ i, IsNormalized (Φ i)) (ho : HasConstantOverlapSq c Φ) :
     ((N : ℝ) - d) / ((d : ℝ) * ((N : ℝ) - 1)) ≤ c := sorry
 
-/-- The relative bound: `N` unit vectors with every pairwise squared overlap at most `α`, where `α d < 1`, satisfy
-`N (1 − α d) ≤ d (1 − α)` (for `N ≥ 2`, Welch's bound `α ≥ (N − d)/(d(N − 1))` on the largest squared overlap,
-rearranged). -/
+/-- The relative bound, from Welch's inequality: `N` unit vectors with every pairwise squared overlap at most `α`,
+where `α d < 1`, satisfy `N (1 − α d) ≤ d (1 − α)`. -/
 theorem welch_card_bound {d N : ℕ} {α : ℝ} (hα : α * (d : ℝ) < 1) (Φ : Fin N → StateVector d)
     (hn : ∀ i, IsNormalized (Φ i)) (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ α) :
     (N : ℝ) * (1 - α * (d : ℝ)) ≤ (d : ℝ) * (1 - α) := sorry
 
 /-- At most `d²` unit vectors of `ℂ^d` have every pairwise squared overlap at most `1/(d + 1)` (the relative bound
-at `α = 1/(d + 1)`): the SIC angle is the smallest common bound a family of `d²` unit vectors can have. -/
+at `α = 1/(d + 1)`): a SIC family is a largest family of unit vectors at or below the SIC angle (for `d ≥ 2`,
+`welch_card_bound` shows that `d²` unit vectors cannot all stay strictly below it). -/
 theorem card_le_of_overlapSq_le_sic {d N : ℕ} (Φ : Fin N → StateVector d) (hn : ∀ i, IsNormalized (Φ i))
     (ho : ∀ i j, i ≠ j → overlapSq (Φ i) (Φ j) ≤ sicOverlapSq d) : N ≤ d ^ 2 := sorry
 

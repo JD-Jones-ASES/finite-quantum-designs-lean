@@ -19,8 +19,9 @@ With a constant overlap `c` on the `N(N − 1)` pairs: `N²/d ≤ N + N(N − 1)
 `N ≥ 2` (`welch_bound_of_constantOverlap_internal`, Datta–Howard–Cochran's eq. (1) with `k = 1`;
 `c ≥ 0` is automatic, a squared norm). With every pairwise overlap at most `α` and `α d < 1`:
 `N²/d ≤ N + N(N − 1) α`, so `N (1 − α d) ≤ d (1 − α)` (`welch_card_bound_internal`; `N = 0` is immediate); at
-`α = 1/(d + 1)` this is `N ≤ d²` (`card_le_of_overlapSq_le_sic_internal`): the SIC angle is the smallest common
-bound a family of `d²` unit vectors can have, and a family at or below it has at most `d²` members.
+`α = 1/(d + 1)` this is `N ≤ d²` (`card_le_of_overlapSq_le_sic_internal`): a SIC family is a largest family of
+unit vectors at or below the SIC angle (for `d ≥ 2`, the relative bound also shows that `d²` unit vectors cannot all
+stay strictly below it).
 -/
 
 @[expose] public section
