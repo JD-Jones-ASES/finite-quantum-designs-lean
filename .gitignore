@@ -5,3 +5,7 @@
 *.trace
 *.hash
 __pycache__/
+.last-build.out
+.skeleton-build.log
+.cache-fetch.log
+.lanes-lock/
