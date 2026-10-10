@@ -9,3 +9,7 @@ __pycache__/
 .skeleton-build.log
 .cache-fetch.log
 .lanes-lock/
+.full-build.log
+.verify.log
+.audit.log
+.audit-names.txt
