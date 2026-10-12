@@ -1,4 +1,4 @@
-# Finite quantum designs: mutually unbiased bases in every prime-power dimension, Weiner's gap, reconstruction and second moments of complete sets and SIC families, the Welch and Gerzon bounds with their equality cases, and SIC-POVMs in dimensions 2, 3, 4 and 8
+# Finite quantum designs: mutually unbiased bases, SIC-POVMs, and the Welch and Gerzon bounds
 
 Two structures of finite-dimensional quantum information, in the vocabulary of the formal-conjectures repository
 (google-deepmind/formal-conjectures, Open Quantum Problems 13 and 23; Apache-2.0, restated character for character,

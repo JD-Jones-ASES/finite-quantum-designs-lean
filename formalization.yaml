@@ -2,7 +2,7 @@
 version: "v0.4"
 
 project:
-  name: "Finite quantum designs: at most d + 1 mutually unbiased bases for d >= 2, exactly q + 1 for prime powers q, Weiner's gap, reconstruction and second moments of complete sets and SIC families, the Welch and Gerzon bounds with their equality cases, and SIC-POVMs in dimensions 2, 3, 4 and 8"
+  name: "Finite quantum designs: mutually unbiased bases, SIC-POVMs, and the Welch and Gerzon bounds"
   description: >-
     A Lean 4 development of two structures of finite-dimensional quantum information, in the vocabulary of
     google-deepmind/formal-conjectures (Open Quantum Problems 13 and 23; the fourteen definitions restated
@@ -185,7 +185,7 @@ sources:
     authors: ["A. J. Scott"]
     id: "doi:10.1088/0305-4470/39/43/009"
     type: "paper"
-    location: "Journal of Physics A: Mathematical and General 39 (2006), no. 43, 13507-13530; the text read is arXiv:quant-ph/0604049v6: p. 2 (Definition 3, weighted t-designs), p. 3 (Theorem 4 and its proof: eq. (8), the 2-design condition traced over one factor, sum_x w(x) Tr(pi(x) A) pi(x) = (Tr(A) 1 + A)/(d(d + 1)); eq. (9), the expansion of every operator over the projectors of a weighted 2-design), p. 4 (its lower bound as a generalization of the Welch bound), p. 7 (eqs. (32) and (36), the POVM superoperator evaluated on an operator and on a difference of states), p. 9 (Proposition 12, eq. (55): a tight rank-one IC-POVM has POVM superoperator (identity + |1)(1|)/(d + 1)), p. 10 (eq. (56), the state-reconstruction formula of a tight rank-one IC-POVM; a SIC-POVM has trace measure 1/d), p. 11 (eq. (65): the d(d + 1) vectors of a complete set of mutually unbiased bases, citing Ivanović and Wootters-Fields, form a 2-design with uniform weight 1/(d(d + 1)), credited to Klappenecker-Rötteler 2005 among others, with eq. (56) as its reconstruction formula)"
+    location: "Journal of Physics A: Mathematical and General 39 (2006), no. 43, 13507-13530; the text read is arXiv:quant-ph/0604049v6, pp. 2-4, 7 and 9-11 (the pages are listed in the note)"
     relationship: "formalizes"
     author_endorsement: "not-contacted"
     note: >-
@@ -200,6 +200,16 @@ sources:
       measure 1/(d + 1) (p. 11) or 1/d (p. 10), give mub_hilbert_schmidt and sic_hilbert_schmidt, eq. (36)
       their distance forms, and X = rho the purity forms; the SIC data here are Tr(rho P_i)/d, the paper's
       trace measure times Tr(rho pi(x)).
+      Pages read: p. 2 (Definition 3, weighted t-designs), p. 3 (Theorem 4 and its proof: eq. (8), the
+      2-design condition traced over one factor, sum_x w(x) Tr(pi(x) A) pi(x) = (Tr(A) 1 + A)/(d(d + 1)); eq.
+      (9), the expansion of every operator over the projectors of a weighted 2-design), p. 4 (its lower bound
+      as a generalization of the Welch bound), p. 7 (eqs. (32) and (36), the POVM superoperator evaluated on
+      an operator and on a difference of states), p. 9 (Proposition 12, eq. (55): a tight rank-one IC-POVM has
+      POVM superoperator (identity + |1)(1|)/(d + 1)), p. 10 (eq. (56), the state-reconstruction formula of a
+      tight rank-one IC-POVM; a SIC-POVM has trace measure 1/d), p. 11 (eq. (65): the d(d + 1) vectors of a
+      complete set of mutually unbiased bases, citing Ivanović and Wootters-Fields, form a 2-design with
+      uniform weight 1/(d(d + 1)), credited to Klappenecker-Rötteler 2005 among others, with eq. (56) as its
+      reconstruction formula).
   - title: "Mutually Unbiased Bases are Complex Projective 2-Designs"
     authors: ["Andreas Klappenecker", "Martin Rötteler"]
     id: "doi:10.1109/ISIT.2005.1523643"
@@ -453,7 +463,7 @@ sources:
     authors: ["The Omega Institute"]
     id: "https://github.com/the-omega-institute/trureturing/tree/1588d05416142e0600a00baa2265d61a72fb5d97/D5/S3"
     type: "other"
-    location: "D5/S3/Quantum/Measurement/HoggarSicSumNegativity.lean (commit 798420dc, 2026-10-01: the same 64 vectors, norms and overlaps by decide +kernel); D5/S3/QuantumContext/HesseSicCertificate.lean (1588d054, 2026-10-09); D5/S3/Quantum/Tomography/CompleteContextTomography.lean (aaf03b1c, 2026-08-20: complete_context_tomography); D5/S3/QuantumContext/CompleteBasisReconstruction.lean (8894e144, 2026-08-17: complete_basis_reconstruction); D5/S3/Quantum/Tomography/MutuallyUnbiasedDiagonalPlanes.lean (c179239e, 2026-08-23); D5/S3/QuantumBounds/Designs/CrossFrameWelchBoundRefutation.lean (4066dcca, 2026-10-03); D5/S3/Quantum/Tomography/MUB/UnitaryThreeFramePotential.lean (6b00c364, 2026-09-11); D5/S3/Quantum/Magic/ErewGoldsteinSICStabilizerRefutation.lean (22bd3425, 2026-10-07); D5/S3/Quantum/Measurements/CompleteContextCollisionConservation.lean (625b1879, 2026-08-28: complete_context_collision_conservation), D5/S3/Quantum/Measurements/CompleteContextPurityIdentities.lean (643b5b6c, 2026-08-27), D5/S3/QuantumBounds/Designs/CollisionConservation.lean (326e6477, 2026-08-16); Apache-2.0"
+    location: "D5/S3, eleven files at the commits listed in the note; Apache-2.0"
     relationship: "other"
     author_endorsement: "not-contacted"
     note: >-
@@ -463,6 +473,18 @@ sources:
       located (neither states it); a SIC-fiducial predicate for every d with no dimension-4 instance; the second
       moment of a complete set in operator form (the sum of P tensor P is 1 + SWAP) with the purity identity for
       density matrices. All outside formal-conjectures' vocabulary. No code is shared.
+      Files read: D5/S3/Quantum/Measurement/HoggarSicSumNegativity.lean (commit 798420dc, 2026-10-01: the same
+      64 vectors, norms and overlaps by decide +kernel); D5/S3/QuantumContext/HesseSicCertificate.lean
+      (1588d054, 2026-10-09); D5/S3/Quantum/Tomography/CompleteContextTomography.lean (aaf03b1c, 2026-08-20:
+      complete_context_tomography); D5/S3/QuantumContext/CompleteBasisReconstruction.lean (8894e144,
+      2026-08-17: complete_basis_reconstruction); D5/S3/Quantum/Tomography/MutuallyUnbiasedDiagonalPlanes.lean
+      (c179239e, 2026-08-23); D5/S3/QuantumBounds/Designs/CrossFrameWelchBoundRefutation.lean (4066dcca,
+      2026-10-03); D5/S3/Quantum/Tomography/MUB/UnitaryThreeFramePotential.lean (6b00c364, 2026-09-11);
+      D5/S3/Quantum/Magic/ErewGoldsteinSICStabilizerRefutation.lean (22bd3425, 2026-10-07);
+      D5/S3/Quantum/Measurements/CompleteContextCollisionConservation.lean (625b1879, 2026-08-28:
+      complete_context_collision_conservation),
+      D5/S3/Quantum/Measurements/CompleteContextPurityIdentities.lean (643b5b6c, 2026-08-27),
+      D5/S3/QuantumBounds/Designs/CollisionConservation.lean (326e6477, 2026-08-16).
   - title: "zblore/csd-lean4: Empirical/CSD SICVolume, SIC3Volume, MUB3Volume"
     authors: ["Zayn Blore"]
     id: "https://github.com/zblore/csd-lean4/tree/27e97330c524366e78d8f32fde0b67bd58135ac6/CsdLean4/Empirical/CSD"
