@@ -79,7 +79,11 @@ project:
     Rocq package index or arXiv; none of the second moment of a SIC family with its norm, distance and purity forms,
     of Welch's deficit with its equality case, of the equality case of the relative bound, of the SIC family from
     d^2 vectors at or below the SIC angle or of the frame-defect bound was located in the Palomar registry, Mathlib,
-    formal-conjectures, openai/math, physlib or the-omega-institute/trureturing. The neighbours: the dimension-2 MUB case is formal-conjectures'
+    formal-conjectures, openai/math, physlib or the-omega-institute/trureturing. Read 2026-10-14, after that search:
+    marozols/SIC-existence (public 2026-10-09, Lean v4.34.1, self-assessed, unregistered) states SICs in every dimension
+    and, in RSIC.lean, the N = d^2 equality case, in its own vocabulary, so a dimension-4 SIC and that equality case
+    exist elsewhere in Lean; the statements here are over formal-conjectures' definitions and were proved independently.
+    The neighbours: the dimension-2 MUB case is formal-conjectures'
     mutuallyUnbiasedBases_dim2; the dimension-6 projector bound and the Kronecker lemma are in the XC0R fork of
     formal-conjectures (adapted here, see NOTICE); the dimension-2 and 3 SIC overlaps are in zblore/csd-lean4;
     the-omega-institute/trureturing kernel-checks the same 64 Hoggar vectors and the Hesse SIC in its own
@@ -459,6 +463,20 @@ sources:
       The lemmas adapted are listed in NOTICE: the projector machinery of QuantumDesigns/Bound.lean (with the
       sixth root of unity replaced by a primitive d-th root and the identity added, which the dimension-6 bound
       there omits) and the Kronecker lemmas of QuantumDesigns/Tensor.lean.
+  - title: "marozols/SIC-existence: SIC-POVMs in every dimension, in Lean"
+    authors: ["Maris Ozols"]
+    id: "https://github.com/marozols/SIC-existence/tree/91e3a438be"
+    type: "other"
+    location: "MainResults.lean (SIC.exists_SIC, SIC.exists_RSIC) and SICs/Quantum/RSIC.lean; Apache-2.0; Lean v4.34.1"
+    relationship: "other"
+    author_endorsement: "not-contacted"
+    note: >-
+      Public 2026-10-09, read 2026-10-14, after this entry's 2026-10-10 search: a self-assessed, unregistered Lean
+      development claiming d^2 rank-one projectors with pairwise trace 1/(d + 1) for every d >= 1 (Weyl-Heisenberg
+      orbits, assembled from Appleby-Flammia-Kopp, Kopp and Radchenko-Wheeler), and in RSIC.lean the N = d^2
+      equality case with the frame identity for any equiangular family. In its own matrix vocabulary, not
+      formal-conjectures'; a dimension-4 SIC and that equality case therefore exist elsewhere in Lean. Not replayed
+      here; no code is shared.
   - title: "the-omega-institute/trureturing: SIC certificates, complete-context tomography and frame-potential files"
     authors: ["The Omega Institute"]
     id: "https://github.com/the-omega-institute/trureturing/tree/1588d05416142e0600a00baa2265d61a72fb5d97/D5/S3"
